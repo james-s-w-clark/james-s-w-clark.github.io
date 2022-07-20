@@ -12,24 +12,25 @@ copyright = "Nigalya Ponya ©"
   initials = "NP"
   googleAnalytics = ""
 
-  [[params.social]]
-    name = "Twitter"
-    link = "#"
-    icon = "fab fa-twitter"
+ 
+# [[params.social]]
+#    name = "Twitter"
+#    link = "#"
+#    icon = "fab fa-twitter"
 
   [[params.social]]
     name = "Github"
-    link = "#"
+    link = "https://github.com/IdiosApps"
     icon = "fab fa-github"
 
   [[params.social]]
     name = "Medium" 
-    link = "#"
+    link = "https://medium.com/@james.sw.clark"
     icon = "fab fa-medium-m"
 
   [[params.social]]
     name = "LinkedIn"
-    link = "#"
+    link = "https://www.linkedin.com/in/james-sw-clark/"
     icon = "fab fa-linkedin-in"
 
 
