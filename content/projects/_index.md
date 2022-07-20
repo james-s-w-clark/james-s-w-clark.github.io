@@ -1,6 +1,6 @@
 ---
 title: "Projects"
-date: 2021-07-31
-draft: false
+date: 2022-07-15
+draft: true
 summary: "Discover what I do in my spare time"
 ---

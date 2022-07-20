@@ -1,5 +1,5 @@
 ---
 title: "Digital Garden"
-date: 2021-01-01
-summary: "A collection of thoughts and articles at different development stages"
+date: 2022-07-01
+summary: "[A collection of thoughts and articles at different development stages](https://idiosapps.github.io/garden)"
 ---
