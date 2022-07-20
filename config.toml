@@ -1,4 +1,4 @@
-baseURL = "/"
+baseURL = "https://idiosapps.github.io"
 languageCode = "en-gb"
 title = "James' Digital Garden"
 theme = "digital-garden"
