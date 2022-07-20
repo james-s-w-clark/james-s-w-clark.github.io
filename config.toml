@@ -37,19 +37,19 @@ copyright = "Nigalya Ponya ©"
 [menu]
   [[menu.main]]
     name = "Digital Garden"
-    url = "/garden/"
+    url = "/content/garden/"
     weight = 1
-  [[menu.main]]
-    name = "Projects"
-    url = "/projects/"
-    weight = 2
-  [[menu.main]]
-    name = "Library"
-    url = "/library/"
-    weight = 3
+#  [[menu.main]]
+#    name = "Projects"
+#    url = "/content/projects/"
+#    weight = 2
+#  [[menu.main]]
+#    name = "Library"
+#    url = "/content/library/"
+#    weight = 3
   [[menu.main]]
     name = "About"
-    url = "/about/"
+    url = "/content/about/"
     weight = 4
 
 
