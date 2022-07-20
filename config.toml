@@ -1,15 +1,15 @@
 baseURL = "/"
-languageCode = "en-us"
-title = "My Digital Garden"
+languageCode = "en-gb"
+title = "James' Digital Garden"
 theme = "digital-garden"
 themesdir = "./themes"
-copyright = "Nigalya Ponya ©"
+copyright = "James Clark ©"
 
 
 [params]
-  name = "Nigalya Ponya"
+  name = "James Clark"
   description = "Red panda living in the eastern Himalayas."
-  initials = "NP"
+  initials = "JC"
   googleAnalytics = ""
 
  
