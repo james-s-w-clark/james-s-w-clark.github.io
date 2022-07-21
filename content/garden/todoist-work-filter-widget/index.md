@@ -4,31 +4,29 @@ date: 2019-01-01
 lastmod: 2019-03-17
 draft: false
 garden_tags: ["productivity"]
-summary: "… Increasing my productivity, autonomy, and enjoyment at work"
+summary: "… Increasing your productivity, autonomy, and enjoyment at work"
 status: "evergreen"
 ---
 
+Do you ever have an amazing idea for work whilst away from your work PC, but hate mingling work tasks/ideas into your personal to-do? Do you forget some of these great ideas, or can't conveniently access them at work?
 
-TODO figure out why this doesn't show
-{{< figure src="add_filter.jpg" title="Add a filter" width="100%" >}}
-
-# The problem
-Do you ever have an amazing idea for work whilst away from your work PC, but hate mingling work tasks/ideas into your personal to-do ?
-Do you forget some of these great ideas, or can't conveniently access them at work?
 This guide shows how you can fix these problems with the free app Todoist. The following setup has worked incredibly well for me, and I hope you can benefit from it too!
 
-# The goal
+# Our goals
 1. Our two widgets will look like this:
 
-TODO WIDGETS PICTURE (WORK FILTER)
+{{< figure src="widget_view.jpg" width="50%" >}}
 
-2. I want to use a work widget to send tasks from phone to work project like this: 
 
-TODO ADD TASK PICTURE (WORK FILTER)
+2. We can send tasks from a phone to a work project like this: 
 
-3. I want this work widget to include only 1. work project tasks, and 2. tasks for today or overdue. I don't want to see tasks I scheduled for next year!
+{{< figure src="add_task.jpg" width="50%" >}}
 
-4. I want my personal widget to EXCLUDE only work tasks.
+3. I want this *work widget* to include only:
+    - **work project** tasks, and 
+    - tasks for **today or overdue**. I don't want to see tasks I scheduled for next year!
+
+4. I want my personal widget to EXCLUDE these work tasks.
 
 # The setup
 
@@ -39,11 +37,11 @@ For the filter the [Todoist guide](https://medium.com/r/?url=https%3A%2F%2Ftodoi
 > (today | overdue) & #Work
 
 
-Todoist comes with many *filters* already, but a limit of three means that we need to either delete existing filters, or subscribe. I deleted the existing filters - I don't need them. Next, create your "work filter":
+Todoist comes with many *filters* already, but a limit of three means that we need to either delete existing filters, or subscribe. I deleted the existing filters - I don't need them. So, create a "work filter":
 
-TODO ADD WORK FILTER PICTURE (WORK FILTER)
+{{< figure src="add_filter.jpg" width="50%" >}}
 
-Create a "personal filter" too. As you may have guessed we'll be using this query: 
+Then, create a "personal filter" too. As you may have guessed we'll be using this query: 
 
 > (today | overdue) & !#Work
 
@@ -51,11 +49,11 @@ Now, create your Todoist *widget* and place it somewhere in your launcher. I rec
 
 Enter the widget's settings, and under "Choose view" select our new "Work filter":
 
-TODO ADD WIDGET SETTINGS FOR WORK PICTURE
+{{< figure src="widget_settings.jpg" width="50%" >}}
 
 For our personal Todoist widget, we need create another widget but this time we choose our "Personal filter". I recommend having this on a launcher page with other organisational tools, such as a widget of your Calendar in Week/Month view.
 
-Wherever you are, you can now hit the ➕ icon on the "Work" Todoist widget to create a task you can interact with on your work machine!
+Wherever you are, you can now hit the ➕ icon on a Todoist widget to create a **#work** task - which you can interact with on your work machine!
 
 # Closing notes
 
