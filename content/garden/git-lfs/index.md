@@ -8,9 +8,6 @@ summary: "what problems does it solve, and what does it cost?"
 status: "growing"
 ---
 
-# tl;dr
-Git LFS gives you versioning of large files, at an ever-growing cost.
-
 # Introduction - what is Git LFS?
 
 Version control systems are great. Having a history which you can timetravel with is incredibly powerful.
@@ -19,14 +16,7 @@ Usually with VCS like Git or Mercurial, we when we write code we are making fair
 
 It's not wise to store large files like this in Git, as Git repositories store the full history: cloning a repo with 10 of our 1GB maps will be slow, as 10GB needs to download. But you only want one of them, and you might not need them yet...
 
-... Enter Git Large File System (LFS). It allows you to save full files in remote storage, and only keep lightweight pointers to those files in your repository. Cloning the repository is fast, and you can download the large files when you need them.
-
-```
-version https://git-lfs.github.com/spec/v1
-oid sha256:c37fecb501e8ce025581e77fbe5a0e7277fa9a745d29ce7a9cad6034778892ac
-size 173
-lfs-test.tar.gz (END)
-```
+... Enter Git Large File System (LFS). It allows you to save full files in remote storage, and only keep lightweight pointers to those files in your repository. Cloning the repository is fast, and you can download the large files when you need them. 
 
 # For more general software engineers, what value could it add?
 
@@ -36,7 +26,7 @@ Okay, here's the scenario I had in mind when exploring Git LFS: build systems li
 
 GitHub Actions seems to be becoming very popular now, and in theory it should integrate nicely with Git LFS. Whilst some Actions can use a cache, cache is not supported for Github Enterprise >3.5. I'm also lazy, and would prefer work smarter not harder - why make infrastructure for an S3 bucket if I can use easier tools? So, I wondered:
 
-> "Can I store build compilation output in Git LFS, i.e. a simple remote build cache"
+> "Can I store build compilation output in Git LFS, i.e. as simple remote build cache"
 
 # What does interacting with Git LFS look like?
 
@@ -69,6 +59,15 @@ git checkout origin/build-cache output.tar.gz
 
 // check we have the actual archive, not just a pointer
 file output.tar.gz
+```
+
+For your curiosity, here's how the pointer looks:
+
+```
+version https://git-lfs.github.com/spec/v1
+oid sha256:c37fecb501e8ce....
+size 173
+lfs-test.tar.gz (END)
 ```
 
 Fortunately, I tested this with a *tiny* archive. More on that soon.
