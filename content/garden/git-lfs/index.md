@@ -32,7 +32,7 @@ GitHub Actions seems to be becoming very popular now, and in theory it should in
 
 Let's say we want to push a compilation output archive (.tar.gz) on a branch `build-cache`, to hide it from `main` branch. I borrowed this idea from Github Pages being able to find static website compilations (such as from Hugo) in the `gh-pages` branch.
 
-```
+```bash
 // https://git-lfs.github.com/
 brew install git-lfs
 // install various git hooks for nice git lfs syncing
@@ -50,7 +50,7 @@ git lfs push -u origin build-cache --all
 
 Now we have our archive 1. in git history, 2. in a remote object store. Let's go to another branch
 
-```
+```bash
 git checkout -b aNewBranch
 
 git lfs fetch origin build-cache
@@ -63,7 +63,7 @@ file output.tar.gz
 
 For your curiosity, here's how the pointer looks:
 
-```
+```bash
 version https://git-lfs.github.com/spec/v1
 oid sha256:c37fecb501e8ce....
 size 173
