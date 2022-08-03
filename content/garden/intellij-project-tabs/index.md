@@ -37,4 +37,7 @@ According to JetBrains, [this is a Big Sur only IntelliJ feature](https://intell
 
 {{< figure src="macos_general_settings.jpg" width="100%" >}}
 
-- (Don't question why my default browser is Microsoft Edge)
+# Closing notes
+
+- Thanks to a few Stack Overflow posts/answers/comments [1](https://stackoverflow.com/a/65451682/4261132), [2](https://stackoverflow.com/a/69350085/4261132), [3](https://stackoverflow.com/a/71495096/4261132). They helped clarify how the confusing setup should be done.
+- Don't question why my default browser is Microsoft Edge
