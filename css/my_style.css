@@ -24,3 +24,21 @@
          url('../fonts/comic-neue-v8-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
          url('../fonts/comic-neue-v8-latin-regular.svg#ComicNeue') format('svg'); /* Legacy iOS */
   }
+
+tr {
+    border-bottom: thin solid #f3f3f3;
+}
+
+tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+thead tr {
+    background-color: #90C8AC;
+    color: #ffffff;
+    text-align: left;
+}
+
+th, td {
+    padding: 4px 5px;
+}
