@@ -1,7 +1,7 @@
 ---
 title: "Games for work socials"
-date: 2019-01-01
-lastmod: 2019-03-17
+date: 2022-08-01
+lastmod: 2022-08-01
 draft: false
 garden_tags: ["team"]
 summary: "... let's play! (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧"
