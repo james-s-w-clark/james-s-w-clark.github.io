@@ -134,7 +134,7 @@ For now it's basic but it's a useful gauge/reminder. It can definitely be more u
 
 Also note it was written for Github Enterprise, so might need a few small tweaks to work for public repos (mostly around the URLs used). Be respectful your scripts' frequency (remember, it's in the filename, e.g. `github-pr-checker.1h.sc`)
 
-Writing scripts with Scala-cli was generally pleasant, and I will likely reach for it again when solving similar problems - however I couldn't figure out how to have a great user experience. There are [IDE setup docs for scala-cli](https://scala-cli.virtuslab.org/docs/commands/setup-ide/), which could have helped improve highlighting or autocompletion.
+Writing scripts with Scala-cli was generally pleasant, and I will likely reach for it again when solving similar problems - however I couldn't figure out how to have a great user experience. There are [IDE setup docs for scala-cli](https://scala-cli.virtuslab.org/docs/commands/setup-ide/), which could have helped improve highlighting or autocompletion. They do acknowledge [IDE user experience could be better](https://scala-cli.virtuslab.org/docs/guides/ide/).
 
 # But I'm on Windows / Linux
 
