@@ -4,6 +4,7 @@ title = "James' Digital Garden"
 theme = "digital-garden"
 themesdir = "./themes"
 copyright = "James Clark ©"
+rssLimit = 2
 
 
 [params]
