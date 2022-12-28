@@ -13,11 +13,11 @@ rssLimit = 5
   initials = "JC"
   googleAnalytics = ""
 
- 
-# [[params.social]]
-#    name = "Twitter"
-#    link = "#"
-#    icon = "fab fa-twitter"
+
+  [[params.social]]
+    name = "RSS"
+    link = "https://raw.githubusercontent.com/IdiosApps/IdiosApps.github.io/gh-pages/garden/index.xml"
+    icon = "fas fa-rss"
 
   [[params.social]]
     name = "Github"
