@@ -12,49 +12,116 @@
 &lt;li>terminal&lt;/li>
 &lt;/ol>
 &lt;p>// Reference back to clickbait summary&lt;/p>
-&lt;p>// CTA - try out some new fonts in new places&lt;/p></description></item><item><title>James Clark</title><link>https://idiosapps.github.io/about/</link><pubDate>Fri, 16 Sep 2022 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/about/</guid><description>&lt;p>&lt;del>I have a reddish-brown fur, a long, shaggy tail, and a waddling gait due to my shorter front legs; I&amp;rsquo;m roughly the size of a domestic cat, though with a longer body.&lt;/del>&lt;/p>
-&lt;h1 id="things-i-like">Things I like&lt;/h1>
+&lt;p>// CTA - try out some new fonts in new places&lt;/p></description></item><item><title>How to always know when there are PRs to check out 🔮</title><link>https://idiosapps.github.io/garden/github-pr-watcher/</link><pubDate>Fri, 05 Aug 2022 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/github-pr-watcher/</guid><description>&lt;p>A few weeks ago I heard of SwiftBar, and &lt;a href="https://xbarapp.com/">Xbar&lt;/a>:&lt;/p>
+&lt;p>| Put the output from any script or program into your macOS Menu Bar&lt;/p>
+&lt;p>There&amp;rsquo;s a great library of plugins on the hub, covering all sorts of topics. Want to show the weather? Show upcoming info about your favourite sports team? Check if graphics cards are in stock? It can do all of this.&lt;/p>
+&lt;p>What&amp;rsquo;s also great is the fact that you can see the source code of all the plugins. You can tweak those plugins and make them your own - and it&amp;rsquo;s interesting to understand how people solved these kinds of problems.&lt;/p>
+&lt;h1 id="playing-with-plugins-">Playing with plugins 😳&lt;/h1>
+&lt;p>I installed a few plugins, said &amp;ldquo;wow&amp;rdquo;, and quickly realised that the Mac Pro&amp;rsquo;s camera notch is a bit annoying - you lose a fair bit of real estate for tools like this! I used &lt;a href="https://github.com/Mortennn/Dozer">Dozer&lt;/a> / &lt;a href="https://github.com/dwarvesf/hidden">Hidden&lt;/a> to get rid of a few non-essential plugins, but they take a couple icons themselves so it didn&amp;rsquo;t help much.&lt;/p>
+&lt;p>This taught me that I should be as lean as possible with how many characters I display with any plugin I write. Lots of plugins stick to emojis and numbers - I agree 💯%&lt;/p>
+&lt;h1 id="how-an-xbar-plugin-works">How an xbar plugin works&lt;/h1>
+&lt;p>The &lt;a href="https://github.com/matryer/xbar-plugins/blob/main/CONTRIBUTING.md">docs&lt;/a> for xbar are pretty good. There&amp;rsquo;s really two parts to a plugin: getting your data, and making xbar display it.&lt;/p>
+&lt;p>To show your data, you just echo/println it. How the display is structured (icon, click-on-icon-modal, etc.) is like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#!/usr/bin/env bash
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#75715e"># Cycle through &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;cycle-one&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;cycle-two&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;cycle-three&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;---&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Next lines only visible in dropdown for this plugin&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;dropdown-item1&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;dropdown-item2&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;--dropdown-item2-something&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;----dropdown-item2-something-yodawg&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;--dropdown-item2-somethingElse&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Next item is also in dropdown, separated by horizontal bar&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;---&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;dropdown-item3&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="xbar_tree.jpg" width="100%"/>
+&lt;/figure>
+&lt;p>I think that&amp;rsquo;s far more nesting that I&amp;rsquo;d ever want to use - but it&amp;rsquo;s nice that it&amp;rsquo;s there if you want it. I guess somebody did!&lt;/p>
+&lt;p>Anyway, you can put links/colours/shortcuts in there and make it clickable. You can do other stuff like have the user enter variables (&amp;lt;xbar.var&amp;gt;) for the program to access as environment variables (it can&amp;rsquo;t access your actual environment variables).&lt;/p>
+&lt;p>Another key feature is deciding how often your plugin updates. The plugin filenames should have a format of {name}.{time}.{ext}, e.g. check_weather.15m.sh.&lt;/p>
+&lt;h1 id="writing-an-xbar-plugin">Writing an xbar plugin&lt;/h1>
+&lt;p>Lots of teams use Github PRs. xbar seemed like the perfect tool for me to monitor PRs. I&amp;rsquo;ve tried a few systems for monitoring PRs, but I&amp;rsquo;m not a fan of any of them:&lt;/p>
 &lt;ul>
-&lt;li>🎮 Some of my favourite games were/are Overwatch, Guild Wars, anything by Supergiant Games, It Takes Two, Destiny 2, a few Mario games&amp;hellip; there&amp;rsquo;s a lot of great games! I&amp;rsquo;m looking forward to playing a bunch of stuff on Xbox Games Pass for PC&lt;/li>
-&lt;li>📖 &amp;ldquo;Graphic novels&amp;rdquo; (comics) are my go-to reading material. I recommend Saga, The Best we Could Do, and Asterios Polyp. Text and images can be very expressive and also let you digest at your own page. There&amp;rsquo;s major educational potential too: the &amp;ldquo;Peterloo&amp;rdquo; historical graphic novel is one to read if you like Manchester!&lt;/li>
-&lt;li>♨️ Cooking is tasty and interesting, and I like quality equipment (Vitamix, non-non-stick oven trays, etc.) - but it can be a chore at the end of a long day. Do let me know if you have any meal prep tips!&lt;/li>
-&lt;li>📊 Noting down information (such as comparisons on blenders, coffee machines, oven trays&amp;hellip; most stuff I need to buy that I&amp;rsquo;ll use a lot) to make sure I make a good decision&lt;/li>
-&lt;li>🍚 wagamama&amp;rsquo;s menu &amp;amp; website - it&amp;rsquo;s all in lower case; do you need captial letters when you use space well?&lt;/li>
+&lt;li>I don&amp;rsquo;t like &lt;em>email&lt;/em> spam (one more app/tab, multitasking)&lt;/li>
+&lt;li>&lt;em>Chatbots&lt;/em> are either slow (quickly oudated) or spammy&lt;/li>
+&lt;li>&lt;em>Manually checking the site&lt;/em> either needs a few page loads or a bookmark - either way, it&amp;rsquo;s not the smoothest experience&amp;hellip; but the problem for me is it doesn&amp;rsquo;t say in advance if there will be any information for you to act on&lt;/li>
 &lt;/ul>
-&lt;h1 id="things-i-dont-like">Things I don&amp;rsquo;t like&lt;/h1>
+&lt;h2 id="goals">Goals&lt;/h2>
+&lt;p>I figured an xbar plugin would let me:&lt;/p>
 &lt;ul>
-&lt;li>💥 Sudden, loud noises - dogs/fireworks/balloons&lt;/li>
-&lt;li>☀️ Being woken up too early by the sun, or birdsong&lt;/li>
-&lt;li>🏟️ Crowded, busy places - home &amp;amp; lonely nature is preferable&lt;/li>
+&lt;li>know if I can to merge (required approval count is met, CI checks pass)&lt;/li>
+&lt;li>know if I have any comments/suggestions to address&lt;/li>
+&lt;li>get a count of how many PRs other people have open&lt;/li>
+&lt;li>get a count of how many PRs other people need reviews on&lt;/li>
+&lt;li>see if PR checks pass/fail&lt;/li>
+&lt;li>do this over multiple repositories&lt;/li>
 &lt;/ul>
-&lt;h1 id="interesting-facts">Interesting facts&lt;/h1>
+&lt;p>Your ideology on PRs probably makes you question these goals&amp;hellip; but you can tweak plugins, and you can tweak them to match your ideologies.&lt;/p>
+&lt;h1 id="writing-this-plugin-with-bash">Writing this plugin with bash&lt;/h1>
+&lt;p>The Github CLI is quite powerful - it can handle a lot of complexity with a clean API:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#!/bin/bash
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#111">username&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#d88200">$&amp;#34;james&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">repo&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#d88200">$&amp;#34;ourOrg/ourBigRepo&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">all_prs&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#00a8c8">$(&lt;/span>gh pr list --repo &lt;span style="color:#111">$repo&lt;/span>&lt;span style="color:#00a8c8">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;&lt;/span>&lt;span style="color:#111">$all_prs&lt;/span>&lt;span style="color:#d88200">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">my_prs&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#00a8c8">$(&lt;/span>gh pr list --repo WeaponX/ourBigRepo --author &lt;span style="color:#111">$username&lt;/span>&lt;span style="color:#00a8c8">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;&lt;/span>&lt;span style="color:#111">$my_prs&lt;/span>&lt;span style="color:#d88200">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># TODO take to browser with --web&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>There&amp;rsquo;s a lot of &lt;a href="https://cli.github.com/manual/gh_pr_list">options/args&lt;/a> you can use, and other handy commands like &lt;a href="https://cli.github.com/manual/gh_pr_status">gh pr status&lt;/a>. The CLI can natively output to json or use jq filters.&lt;/p>
+&lt;p>I had a think about how I&amp;rsquo;d use this to tick off those goals, but for me it seemed easier to use a language I&amp;rsquo;m more familar with.&lt;/p>
 &lt;ul>
-&lt;li>⛩️ After graduating I taught in Shanghai, China for one year; I then spent all my money travelling China, South Korea, and Japan&lt;/li>
-&lt;li>💬 When learning Mandarin as an adult, I got more interested in second language acquisition / &lt;em>how&lt;/em> to learn languages. This led to me making my first original piece of code (a &amp;ldquo;graded reader&amp;rdquo; book builder), and now I&amp;rsquo;m a software engineer&lt;/li>
-&lt;li>✏️ This website uses the font called &amp;ldquo;Comic Neue&amp;rdquo; - and so does my phone. My IDE has &amp;ldquo;Comic Mono&amp;rdquo;, a monospaced variant. It might get some hate being based on &amp;ldquo;Comic Sans&amp;rdquo; - but it&amp;rsquo;s meant to be easier to read (especially for people with dyslexia), and I like it&lt;/li>
-&lt;li>🎹 I recently taught myself how to solve a Rubik&amp;rsquo;s Cube, and now I&amp;rsquo;m playing some (basic) piano again&lt;/li>
-&lt;/ul>
-&lt;h1 id="how-i-work--how-to-communicate-with-me">How I work / how to communicate with me&lt;/h1>
+&lt;li>node.js
 &lt;ul>
-&lt;li>📝 I like to have information written down - it can be revisited, shared, and quoted/referenced. I&amp;rsquo;m probably writing my own notes in meetings when I feel there&amp;rsquo;s something important to capture!
+&lt;li>
 &lt;ul>
-&lt;li>&lt;a href="https://www.notion.so/">Notion&lt;/a> is my main tool to capture information.&lt;/li>
-&lt;li>I prefer bullet-points over paragraphs, to keep ideas focused&lt;/li>
+&lt;li>I get higher order functions (map, filter, reduce, etc.) which can help me focus on what I want, not how to do it&lt;/li>
 &lt;/ul>
 &lt;/li>
-&lt;li>🗺 Even better than having text written down, I like to see visuals. Pictures speak a thousand words. Multiple pictures give an intuitive demonstrate of change over time. As I said: I like comics. I appreciate the irony that there are not many pictures here.
+&lt;li>
 &lt;ul>
-&lt;li>&lt;a href="https://www.tldraw.com/">tldraw&lt;/a> helps me sketch out ideas. It has a collaborative mode. Miro and Lucid are good too.&lt;/li>
-&lt;li>&lt;a href="https://mermaid-js.github.io/">mermaid&lt;/a> is a tool I want to use more - &lt;a href="https://aws.amazon.com/blogs/architecture/sequence-diagrams-enrich-your-understanding-of-distributed-architectures/">Diagrams as Code&lt;/a> sound amazing&lt;/li>
+&lt;li>might need a global npm install of axios for making requests&lt;/li>
 &lt;/ul>
 &lt;/li>
-&lt;li>🤫 Quiet environments with minimal distractions are ideal&lt;/li>
-&lt;li>👥 Pair programming/mobbing is my preferred way of working. Social knowledge share and discussion in the comfort of your own home is a great combination&lt;/li>
-&lt;/ul>
-&lt;h1 id="other-topicsquestions-to-expand-on">Other topics/questions to expand on&lt;/h1>
+&lt;li>&lt;del>- need to figure out how to run a node file as a bash-like file ()&lt;/del>
 &lt;ul>
-&lt;li>What motivates me?&lt;/li>
-&lt;li>What qualities do I value in people?&lt;/li>
-&lt;li>How would I like to give &amp;amp; receive feedback?&lt;/li>
-&lt;li>What makes me laugh?&lt;/li>
-&lt;/ul></description></item></channel></rss>
+&lt;li>that only took a second to find out and verify - &lt;a href="https://stackoverflow.com/a/24183402/4261132">it&amp;rsquo;s pretty much what you&amp;rsquo;d expect&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>scala
+&lt;ul>
+&lt;li>it&amp;rsquo;s the language I work with, so it&amp;rsquo;d be good to practice more&lt;/li>
+&lt;li>&lt;a href="https://scala-cli.virtuslab.org/docs/guides/scripts#self-executable-scala-script">scala-cli&lt;/a> can let you write self-executable scala scripts
+&lt;ul>
+&lt;li>I was curious how the experience would be, so I went with this&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>Of course, sticking with bash would be nice. The Github CLI could be used for simplicity, which some users may already have - or curl could be used for even fewer dependencies. I encourage anyone who finds that challenge interesting to give it a try!&lt;/p>
+&lt;h1 id="writing-this-plugin-with-bash-scala">Writing this plugin with &lt;del>bash&lt;/del> Scala&lt;/h1>
+&lt;p>The first question is: Node has Axios, Python has Requests&amp;hellip; but what&amp;rsquo;s nice and simple for Scala? Enter Li Haoyi&amp;rsquo;s &lt;a href="https://github.com/com-lihaoyi/requests-scala">requests-scala&lt;/a>. Let&amp;rsquo;s install &lt;a href="https://scala-cli.virtuslab.org/install">scala-cli&lt;/a> and have a try:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#!/usr/bin/env -S scala-cli shebang
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>import &lt;span style="color:#111">$ivy&lt;/span>.&lt;span style="color:#d88200">`&lt;/span>com.lihaoyi::requests:0.7.1&lt;span style="color:#d88200">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>import &lt;span style="color:#111">$ivy&lt;/span>.&lt;span style="color:#d88200">`&lt;/span>com.lihaoyi::ujson:2.0.0&lt;span style="color:#d88200">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>val &lt;span style="color:#111">resp&lt;/span> &lt;span style="color:#f92672">=&lt;/span> requests.get&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#d88200">&amp;#34;https://api.github.com/users/lihaoyi&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>val &lt;span style="color:#111">data&lt;/span> &lt;span style="color:#f92672">=&lt;/span> ujson.read&lt;span style="color:#f92672">(&lt;/span>resp.text&lt;span style="color:#f92672">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>println&lt;span style="color:#f92672">(&lt;/span>data&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#d88200">&amp;#34;login&amp;#34;&lt;/span>&lt;span style="color:#f92672">))&lt;/span> &lt;span style="color:#75715e"># username&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>It&amp;rsquo;s close, it just needs a little tweak to the suggested shebang: for my MacOs brew install, &lt;code>#!/usr/bin/env /opt/homebrew/bin/scala-cli&lt;/code> works. Scala-cli is pulling in those Ivy dependencies and using them, very nice.&lt;/p>
+&lt;p>To keep the blog short, you can what I&amp;rsquo;ve got so far here: &lt;a href="https://github.com/IdiosApps/xbar-github-pr">xbar-github-pr&lt;/a>. At this time it just shows PR counts summed over multiple repositories for your PRs and others'.&lt;/p>
+&lt;p>TODO - add a screenshot&amp;hellip; or maybe in the goals section to get interest earlier?&lt;/p>
+&lt;p>For now it&amp;rsquo;s basic but it&amp;rsquo;s a useful gauge/reminder. It can definitely be more useful, and meet more of the &lt;a href="#goals">goals&lt;/a> we set up. At some point I&amp;rsquo;ll extend on it, make it more idiomatic, and clean it up. It&amp;rsquo;s pretty much a dirty POC at the time of writing, but nevertheless I wanted to share it.&lt;/p>
+&lt;p>Also note it was written for Github Enterprise, so might need a few small tweaks to work for public repos (mostly around the URLs used). Be respectful your scripts&amp;rsquo; frequency (remember, it&amp;rsquo;s in the filename, e.g. &lt;code>github-pr-checker.1h.sc&lt;/code>)&lt;/p>
+&lt;p>Writing scripts with Scala-cli was generally pleasant, and I will likely reach for it again when solving similar problems - however I couldn&amp;rsquo;t figure out how to have a great user experience. There are &lt;a href="https://scala-cli.virtuslab.org/docs/commands/setup-ide/">IDE setup docs for scala-cli&lt;/a>, which could have helped improve highlighting or autocompletion. They do acknowledge &lt;a href="https://scala-cli.virtuslab.org/docs/guides/ide/">IDE user experience could be better&lt;/a>.&lt;/p>
+&lt;h1 id="but-im-on-windows--linux">But I&amp;rsquo;m on Windows / Linux&lt;/h1>
+&lt;p>todo: have a look for alternatives that use plugins and thus could use this stuff too&lt;/p></description></item></channel></rss>
