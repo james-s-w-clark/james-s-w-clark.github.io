@@ -1,9 +1,15 @@
 `hugo server` to start
 
-To update https://github.com/paulmartins/hugo-digital-garden-theme:
+To update the hugo-digital-garden-theme:
 ```shell
 git submodule update --remote --rebase
 ``` 
+
+[A hidden git submodule config points to a remote](.git/modules/themes/digital-garden/config). 
+I pointed it to [my digital garden fork](https://github.com/IdiosApps/hugo-digital-garden-theme).
+```shell
+git submodule sync --recursive
+```
 The `digital-garden` folder will change hash - can see changelog by comparing hashes against https://github.com/paulmartins/hugo-digital-garden-theme/commits/main.
 
 --- 
