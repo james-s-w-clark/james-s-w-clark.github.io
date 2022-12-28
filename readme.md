@@ -1,4 +1,12 @@
-`hugo server` to start
+To run a server:
+```shell
+hugo server
+```
+
+To build locally to [./public](./public):
+```shell
+hugo
+```
 
 To update the hugo-digital-garden-theme:
 ```shell
