@@ -1,1 +1,47 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>productivity on James' Digital Garden</title><link>https://idiosapps.github.io/garden_tags/productivity/</link><description>Recent content in productivity on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Tue, 01 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/garden_tags/productivity/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>productivity on James' Digital Garden</title><link>https://idiosapps.github.io/garden_tags/productivity/</link><description>Recent content in productivity on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Tue, 01 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/garden_tags/productivity/index.xml" rel="self" type="application/rss+xml"/><item><title>Send tasks &amp; ideas to your work computer from anywhere, any time</title><status>evergreen</status><link>https://idiosapps.github.io/garden/todoist-work-filter-widget/</link><pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/todoist-work-filter-widget/</guid><description>&lt;p>Do you ever have an amazing idea for work whilst away from your work PC, but hate mingling work tasks/ideas into your personal to-do? Do you forget some of these great ideas, or can&amp;rsquo;t conveniently access them at work?&lt;/p>
+&lt;p>This guide shows how you can fix these problems with the free app Todoist. The following setup has worked incredibly well for me, and I hope you can benefit from it too!&lt;/p>
+&lt;h1 id="our-goals">Our goals&lt;/h1>
+&lt;ol>
+&lt;li>Our two widgets will look like this:&lt;/li>
+&lt;/ol>
+&lt;figure>&lt;img src="widget_view.jpg" width="50%"/>
+&lt;/figure>
+&lt;ol start="2">
+&lt;li>We can send tasks from a phone to a work project like this:&lt;/li>
+&lt;/ol>
+&lt;figure>&lt;img src="add_task.jpg" width="50%"/>
+&lt;/figure>
+&lt;ol start="3">
+&lt;li>
+&lt;p>I want this &lt;em>work widget&lt;/em> to include only:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>work project&lt;/strong> tasks, and&lt;/li>
+&lt;li>tasks for &lt;strong>today or overdue&lt;/strong>. I don&amp;rsquo;t want to see tasks I scheduled for next year!&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>I want my personal widget to EXCLUDE these work tasks.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h1 id="the-setup">The setup&lt;/h1>
+&lt;p>First create a &amp;ldquo;Work&amp;rdquo; project on your personal account. Invite your work email address to this project. You can use the &lt;a href="https://medium.com/r/?url=https%3A%2F%2Ftodoist.com%2Fdownloads">Todoist app&lt;/a> for Desktop, Mobile, Browser, or Wearables.&lt;/p>
+&lt;p>For the filter the &lt;a href="https://medium.com/r/?url=https%3A%2F%2Ftodoist.com%2Fhelp%2Farticles%2Fintroduction-to-filters">Todoist guide&lt;/a> actually lists the filter query we&amp;rsquo;ll need as their first example:&lt;/p>
+&lt;blockquote>
+&lt;p>(today | overdue) &amp;amp; #Work&lt;/p>
+&lt;/blockquote>
+&lt;p>Todoist comes with many &lt;em>filters&lt;/em> already, but a limit of three means that we need to either delete existing filters, or subscribe. I deleted the existing filters - I don&amp;rsquo;t need them. So, create a &amp;ldquo;work filter&amp;rdquo;:&lt;/p>
+&lt;figure>&lt;img src="add_filter.jpg" width="50%"/>
+&lt;/figure>
+&lt;p>Then, create a &amp;ldquo;personal filter&amp;rdquo; too. As you may have guessed we&amp;rsquo;ll be using this query:&lt;/p>
+&lt;blockquote>
+&lt;p>(today | overdue) &amp;amp; !#Work&lt;/p>
+&lt;/blockquote>
+&lt;p>Now, create your Todoist &lt;em>widget&lt;/em> and place it somewhere in your launcher. I recommend making a launcher page specific for work, which only has apps you need to use for work - e.g. 2FA apps, and this widget. This will help separate work and private life.&lt;/p>
+&lt;p>Enter the widget&amp;rsquo;s settings, and under &amp;ldquo;Choose view&amp;rdquo; select our new &amp;ldquo;Work filter&amp;rdquo;:&lt;/p>
+&lt;figure>&lt;img src="widget_settings.jpg" width="50%"/>
+&lt;/figure>
+&lt;p>For our personal Todoist widget, we need create another widget but this time we choose our &amp;ldquo;Personal filter&amp;rdquo;. I recommend having this on a launcher page with other organisational tools, such as a widget of your Calendar in Week/Month view.&lt;/p>
+&lt;p>Wherever you are, you can now hit the ➕ icon on a Todoist widget to create a &lt;strong>#work&lt;/strong> task - which you can interact with on your work machine!&lt;/p>
+&lt;h1 id="closing-notes">Closing notes&lt;/h1>
+&lt;p>One last piece of advice to make this flow even better: Todoist is pretty smart, so to make a weekly reminder every 4pm on Friday you write a task like shown at the start of the article. You can read more about Todoist&amp;rsquo;s quick add ability &lt;a href="https://medium.com/r/?url=https%3A%2F%2Ftodoist.com%2Fhelp%2Farticles%2Ftask-quick-add">here&lt;/a>.&lt;/p>
+&lt;p>Here&amp;rsquo;s to working with lots of interesting ideas at work in 2022 - wherever and whenever you get those ideas!&lt;/p></description></item></channel></rss>
