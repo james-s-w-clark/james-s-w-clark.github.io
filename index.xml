@@ -375,11 +375,11 @@ The heuristic for figuring out whether to do that is fairly simple (but expensiv
 &lt;figure>&lt;img src="pdf_lines_curves.png" width="100%"/>
 &lt;/figure>
 &lt;p>If you want to read more about PDFs, &lt;a href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf">this 2008 PDF .7 spec by Adobe&lt;/a> was the top Google result. It&amp;rsquo;s more than 750 pages long. I spent a lot of time reading that thing in my first Software job 😬&lt;/p>
-&lt;section class="footnotes" role="doc-endnotes">
+&lt;div class="footnotes" role="doc-endnotes">
 &lt;hr>
 &lt;ol>
-&lt;li id="fn:1" role="doc-endnote">
+&lt;li id="fn:1">
 &lt;p>The usage/installation guide at &lt;a href="https://github.com/jaakkopasanen/AutoEq#usage">AutoEq&lt;/a> is pretty good. The Peace GUI makes it super easy to download and use the AutoEq settings.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;/section></description><status>growing</status></item></channel></rss>
+&lt;/div></description><status>growing</status></item></channel></rss>
