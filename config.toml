@@ -16,7 +16,7 @@ rssLimit = 5
 
   [[params.social]]
     name = "RSS"
-    link = "https://raw.githubusercontent.com/IdiosApps/IdiosApps.github.io/gh-pages/garden/index.xml"
+    link = "https://raw.githubusercontent.com/IdiosApps/IdiosApps.github.io/gh-pages/index.xml"
     icon = "fas fa-rss"
 
   [[params.social]]
