@@ -5,7 +5,7 @@ lastmod: 2022-08-07
 draft: false
 garden_tags: ["audio, random"]
 summary: "An intro to equalisers, and two ways EQ configuration can be extracted from PDFs"
-status: "growing"
+status: "evergreen"
 ---
 
 This blog post will be a mishmash of audio equalisers and PDF text extraction.
