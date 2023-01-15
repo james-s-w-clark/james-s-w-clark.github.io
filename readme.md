@@ -24,4 +24,6 @@ The `digital-garden` folder will change hash - can see changelog by comparing ha
 
 # How utteranc.es was added
 
-Pretty much follow https://mscipio.github.io/post/utterances-comment-engine/, with some butchering of a hugo theme. May make submodule updates later on tricky, but utteranc.es seems to work locally now!
+Pretty much follow https://mscipio.github.io/post/utterances-comment-engine/, with some butchering of a hugo theme.
+May make submodule updates later on tricky, but utteranc.es works locally and live now!
+Giscus is an option similar to utteranc.es. It uses Discussions instead of Issues - either are fine with me, for this blog. I won't bother switching.
