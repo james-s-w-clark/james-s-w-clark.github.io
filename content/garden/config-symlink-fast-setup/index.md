@@ -50,8 +50,8 @@ Install espanso with default settings
 Espanso startup logs show our symlink folder being loaded in. It does this anyway (nothing special is happening to the file loading... other than it actually loading from our cloud sync'd folder!):
 
 ```scala
-... reading configs from: "C:\\Users\\middo\\AppData\\Roaming\\espanso"
-... reading packages from: "C:\\Users\\middo\\AppData\\Roaming\\espanso\\match\\packages"
+... reading configs from: "C:\\Users\\james\\AppData\\Roaming\\espanso"
+... reading packages from: "C:\\Users\\james\\AppData\\Roaming\\espanso\\match\\packages"
 ```
 
 So if we enter our special phrase, `:synctest`, we should see it expanded to:
