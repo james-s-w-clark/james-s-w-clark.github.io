@@ -1,4 +1,48 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>James' Digital Garden</title><link>https://idiosapps.github.io/</link><description>Recent content on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Fri, 05 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>How to always know when there are PRs to check out 🔮</title><status>seeding</status><link>https://idiosapps.github.io/garden/github-pr-watcher/</link><pubDate>Fri, 05 Aug 2022 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/github-pr-watcher/</guid><description>&lt;p>A few weeks ago I heard of SwiftBar, and &lt;a href="https://xbarapp.com/">Xbar&lt;/a>:&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>James' Digital Garden</title><link>https://idiosapps.github.io/</link><description>Recent content on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Wed, 18 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Symlinks, syncs, and app configuration</title><status>growing</status><link>https://idiosapps.github.io/garden/config-symlink-fast-setup/</link><pubDate>Wed, 18 Jan 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/config-symlink-fast-setup/</guid><description>&lt;p>When setting up a new Windows device, there are some tools that can help you to install your apps quickly and easily from the command line (WinGet, chocolatey). Whilst these are great (and can actually install most of your apps), one thing they can’t do is transfer your configuration between devices.&lt;/p>
+&lt;p>In this short blog, we’ll be using:&lt;/p>
+&lt;ul>
+&lt;li>A cloud sync of choice (Google Drive / OneDrive / DropBox etc.)
+&lt;ul>
+&lt;li>So I have my configuration files on any device&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Symbolic links, in a tiny script file
+&lt;ul>
+&lt;li>So apps can easily access the backed-up configuration, and sync changes&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>An application we love, which uses simple configuration files&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;p>For this worked example, we&amp;rsquo;ll use Espanso, and a folder &amp;ldquo;Junction&amp;rdquo; symlink.&lt;/p>
+&lt;p>The folder linking must be done before the source folder (Espanso&amp;rsquo;s config) is created. Either do this before installing the app, or do some file/folder shuffling.
+It doesn&amp;rsquo;t matter if the target exists or not.&lt;/p>
+&lt;p>In your cloud-sync&amp;rsquo;d folder (&lt;code>%HomePath%\OneDrive\Apps\espanso&lt;/code>), create a file &lt;code>symlink.bat&lt;/code> and add:&lt;/p>
+&lt;pre tabindex="0">&lt;code>mklink /J %APPDATA%\espanso %HomePath%\OneDrive\Apps\espanso
+&lt;/code>&lt;/pre>&lt;p>In Windows, the &lt;code>%APPDATA%&lt;/code> folder will look like this if the command succeed; note the little arrow on our symlinked folder:&lt;/p>
+&lt;p>&lt;img src="symlink_folder_icon.png" alt="Untitled">&lt;/p>
+&lt;p>In &lt;code>......./OneDrive/apps/espanso/match/base.yml&lt;/code>, add this to the main &lt;code>matches&lt;/code> body:&lt;/p>
+&lt;pre tabindex="0">&lt;code>- trigger: &amp;#34;:synctest&amp;#34;
+replace: &amp;#34;your espanso config was sync&amp;#39;d sucessfully!&amp;#34;
+&lt;/code>&lt;/pre>&lt;p>Install espanso with default settings&lt;/p>
+&lt;p>Espanso startup logs show our symlink folder being loaded in. It does this anyway (nothing special is happening to the file loading&amp;hellip; other than it actually loading from our cloud sync&amp;rsquo;d folder!):&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-scala" data-lang="scala">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">...&lt;/span> &lt;span style="color:#111">reading&lt;/span> &lt;span style="color:#111">configs&lt;/span> &lt;span style="color:#111">from&lt;/span>&lt;span style="color:#00a8c8">:&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">&amp;#34;&lt;/span>&lt;span style="color:#00a8c8">C:\\Users\\middo\\AppData\\Roaming\\espanso&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#00a8c8">...&lt;/span> &lt;span style="color:#00a8c8">reading&lt;/span> &lt;span style="color:#00a8c8">packages&lt;/span> &lt;span style="color:#00a8c8">from:&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">&amp;#34;&lt;/span>&lt;span style="color:#00a8c8">C:\\Users\\middo\\AppData\\Roaming\\espanso\\match\\packages&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>So if we enter our special phrase, &lt;code>:synctest&lt;/code>, we should see it expanded to:&lt;/p>
+&lt;p>&lt;code>your espanso config was sync’d sucessfully!&lt;/code>&lt;/p>
+&lt;p>On another computer (or a fresh installation of Windows), all you have to do is double-click the .bat file.
+In just a few minutes, we&amp;rsquo;ve made a system that will always take care of our favourite Espanso packages &amp;amp; personalised keywords.
+Also note that any changes we make will be backed up to the cloud too!&lt;/p>
+&lt;hr>
+&lt;p>What we’ve done here can be applied to more applications which have simple configuration.
+The scripts to create junctions/symbolic links could be per-app, or you could put them all in one script (to be run before a big WinGet/Brew install).&lt;/p>
+&lt;p>Here’s a few configurations ones I may set up this synchronisation for:&lt;/p>
+&lt;ul>
+&lt;li>Headphone EQ - Peace/EqualizerAPO - .txt files represent frequencies/decibels etc.&lt;/li>
+&lt;li>GPU Overclock/Undervolt - MSI Afterburner - Custom curve is a bit tricky to make (I have to search for my notes on instructions every time I set up)&lt;/li>
+&lt;li>&amp;hellip; I can&amp;rsquo;t think of more, but I&amp;rsquo;m happy even with just Espanso having this :-)&lt;/li>
+&lt;/ul>
+&lt;p>The same principles apply to Ubuntu and MacOS - but implementation of your symlink script files might look more like &lt;a href="https://apple.stackexchange.com/a/115647">this StackExchange answer&lt;/a>.&lt;/p></description></item><item><title>How to always know when there are PRs to check out 🔮</title><status>seeding</status><link>https://idiosapps.github.io/garden/github-pr-watcher/</link><pubDate>Fri, 05 Aug 2022 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/github-pr-watcher/</guid><description>&lt;p>A few weeks ago I heard of SwiftBar, and &lt;a href="https://xbarapp.com/">Xbar&lt;/a>:&lt;/p>
 &lt;p>| Put the output from any script or program into your macOS Menu Bar&lt;/p>
 &lt;p>There&amp;rsquo;s a great library of plugins on the hub, covering all sorts of topics. Want to show the weather? Show upcoming info about your favourite sports team? Check if graphics cards are in stock? It can do all of this.&lt;/p>
 &lt;p>What&amp;rsquo;s also great is the fact that you can see the source code of all the plugins. You can tweak those plugins and make them your own - and it&amp;rsquo;s interesting to understand how people solved these kinds of problems.&lt;/p>
@@ -376,105 +420,6 @@ The heuristic for figuring out whether to do that is fairly simple (but expensiv
 &lt;ol>
 &lt;li id="fn:1">
 &lt;p>The usage/installation guide at &lt;a href="https://github.com/jaakkopasanen/AutoEq#usage">AutoEq&lt;/a> is pretty good. The Peace GUI makes it super easy to download and use the AutoEq settings.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;/div></description></item><item><title>Git LFS</title><status>growing</status><link>https://idiosapps.github.io/garden/git-lfs/</link><pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/git-lfs/</guid><description>&lt;h1 id="introduction---what-is-git-lfs">Introduction - what is Git LFS?&lt;/h1>
-&lt;p>Version control systems are great. Having a history which you can timetravel with is incredibly powerful.&lt;/p>
-&lt;p>Usually with VCS like Git or Mercurial, we when we write code we are making fairly lightweight text files. What if we want to use version history with much larger files - perhaps design assets like complex 3D videogame maps, or hi-res Photoshop drawings?&lt;/p>
-&lt;p>It&amp;rsquo;s not wise to store large files like this in Git, as Git repositories store the full history: cloning a repo with 10 of our 1GB maps will be slow, as 10GB needs to download. And maybe you only need one (or even none!) of them straightaway.&lt;/p>
-&lt;p>&amp;hellip; Enter Git Large File System (LFS). It allows you to save full files in remote storage, and only keep lightweight pointers to those files in your repository. Cloning the repository is fast, and you can download the large files when you need them.&lt;/p>
-&lt;h1 id="for-more-general-software-engineers-what-value-could-it-add">For more general software engineers, what value could it add?&lt;/h1>
-&lt;blockquote>
-&lt;p>&amp;ldquo;But I&amp;rsquo;m not a game developer, how can this be useful to me?&amp;rdquo;&lt;/p>
-&lt;/blockquote>
-&lt;p>Okay, here&amp;rsquo;s the scenario I had in mind when exploring Git LFS: build systems like &lt;a href="https://blog.gradle.org/introducing-incremental-build-support">Gradle&lt;/a>, Bazel, and mill can become much more efficient by only performing tasks when there&amp;rsquo;s a change. If your source code hasn&amp;rsquo;t changed, the compilation output won&amp;rsquo;t change - so why compile anything? This avoids pointless work, saving time and money.&lt;/p>
-&lt;p>GitHub Actions seems to be becoming very popular now, and in theory it should integrate nicely with Git LFS &lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>. Whilst some Actions can use a cache, cache is not supported for Github Enterprise &amp;gt;3.5. If you prefer to work smarter not harder - why make infrastructure for an S3 bucket/policies/networking if you can use easier tools? So, I wondered:&lt;/p>
-&lt;blockquote>
-&lt;p>&amp;ldquo;Can I store build compilation output in Git LFS, i.e. as simple remote build cache&amp;rdquo;&lt;/p>
-&lt;/blockquote>
-&lt;h1 id="what-does-interacting-with-git-lfs-look-like">What does interacting with Git LFS look like?&lt;/h1>
-&lt;p>Let&amp;rsquo;s say we want to push a compilation output archive (.tar.gz) on a branch &lt;code>build-cache&lt;/code>, to hide it from &lt;code>main&lt;/code> branch. I borrowed this idea from Github Pages being able to find static website compilations (such as from Hugo) in the &lt;code>gh-pages&lt;/code> branch.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>// https://git-lfs.github.com/
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>brew install git-lfs
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>// install various git hooks &lt;span style="color:#00a8c8">for&lt;/span> nice git lfs syncing
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git lfs install
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>// in a repo
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git lfs track &lt;span style="color:#d88200">&amp;#34;*.tar.gz&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>// git attributes is now tracking this filetype with git lfs
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git add .gitattributes
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git add output.tar.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git lfs push -u origin build-cache --all
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we have our archive 1. in git history, 2. in a remote object store. Let&amp;rsquo;s go to another branch&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git checkout -b aNewBranch
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git lfs fetch origin build-cache
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git checkout origin/build-cache output.tar.gz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>// check we have the actual archive, not just a pointer
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>file output.tar.gz
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>For your curiosity, here&amp;rsquo;s how the pointer looks:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>version https://git-lfs.github.com/spec/v1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>oid sha256:c37fecb501e8ce....
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>size &lt;span style="color:#ae81ff">173&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lfs-test.tar.gz &lt;span style="color:#f92672">(&lt;/span>END&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Fortunately, I tested this with a &lt;em>tiny&lt;/em> archive. More on that soon.&lt;/p>
-&lt;h1 id="sounds-pretty-nice---what-are-the-downsides-of-build-cache-with-git-lfs">Sounds pretty nice - what are the downsides of build cache with Git LFS?&lt;/h1>
-&lt;p>This is where the bad news comes&amp;hellip;&lt;/p>
-&lt;p>It&amp;rsquo;s not easy to keep costs/remote storage lean with Git LFS.&lt;/p>
-&lt;blockquote>
-&lt;p>To remove Git LFS objects from a repository, delete and recreate the repository. &lt;a href="https://docs.github.com/en/repositories/working-with-files/managing-large-files/removing-files-from-git-large-file-storage#git-lfs-objects-in-your-repository">~ Github&lt;/a>&lt;/p>
-&lt;/blockquote>
-&lt;p>GitHub argues they are all about keeping history, not deleting it.
-Git LFS says similar. On the other hand, to clear LFS remote on GitHub you have to delete all history, so it&amp;rsquo;s up for debate really.&lt;/p>
-&lt;p>Depsite a lot of &lt;a href="https://github.com/git-lfs/git-lfs/issues/1101">desire for a smarter Git LFS for about 6 years&lt;/a>, it doesn&amp;rsquo;t look like it&amp;rsquo;ll be coming around any time soon. There&amp;rsquo;s lots of great suggestions/requests, like &amp;ldquo;last-only&amp;rdquo; backup, and rolling backup. I wonder who is using Git LFS, and how much it costs them&amp;hellip;&lt;/p>
-&lt;h2 id="what-is-the-pricing-models">What is the pricing models?&lt;/h2>
-&lt;h3 id="github">GitHub:&lt;/h3>
-&lt;ul>
-&lt;li>&lt;a href="https://docs.github.com/en/billing/managing-billing-for-git-large-file-storage/about-billing-for-git-large-file-storage#about-billing-for-git-large-file-storage">Free tier&lt;/a>: 1GB storage + 1GB bandwidth free per month&lt;/li>
-&lt;li>&lt;a href="https://docs.github.com/en/billing/managing-billing-for-git-large-file-storage/about-billing-for-git-large-file-storage#purchasing-additional-storage-and-bandwidth">Paid tiers&lt;/a>: $5 per month per 50GB storage + bandwidth&lt;/li>
-&lt;li>&lt;strong>Example&lt;/strong>: 1GB upload per day, 0.5GB download. First month cost: $5. Cost at 12 months: $35 per month.&lt;/li>
-&lt;/ul>
-&lt;p>That&amp;rsquo;s actually not too bad.
-Using good compression to save space and bandwidth is sound advice. Bear in mind there&amp;rsquo;s a tradeoff between using the best compression formats and algorithms VS using what people will already have (e.g. .tar.gz is decent for macos/ubuntu)
-The problem comes with paying for stuff you don&amp;rsquo;t need.&lt;/p>
-&lt;p>Also, be careful with bandwidth - if your quota runs out, &lt;a href="https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-storage-and-bandwidth-usage#tracking-storage-and-bandwidth-use">&amp;ldquo;Git LFS suport is disabled&amp;hellip;. until the next month&amp;rdquo;&lt;/a>. I guess if you do a pull/push mechanism for build cache, you&amp;rsquo;ll use 26GB storage but 52GB bandwidth. To reduce toil, I can foresee companies buying &amp;ldquo;a few&amp;rdquo; extra data packs.&lt;/p>
-&lt;p>It doesn&amp;rsquo;t look like you can use a custom remote. GitHub manages it all for you, which could be a pro or a con.&lt;/p>
-&lt;h3 id="bitbucket">BitBucket:&lt;/h3>
-&lt;ul>
-&lt;li>&lt;a href="https://support.atlassian.com/bitbucket-cloud/docs/storage-policy-for-git-lfs-with-bitbucket/#How-much-storage-do-I-get-with-my-pricing-plan">Various free tiers&lt;/a>, 1 or 5 GB depending on use-case&lt;/li>
-&lt;li>&lt;a href="https://support.atlassian.com/bitbucket-cloud/docs/storage-policy-for-git-lfs-with-bitbucket/#How-much-does-additional-storage-for-Git-LFS-cost">Paid tier&lt;/a>: $10 per 100GB file storage, no mention of bandwidth&lt;/li>
-&lt;li>&lt;a href="https://support.atlassian.com/bitbucket-cloud/docs/manage-large-files-with-git-large-file-storage-lfs/">10GB file size limit&lt;/a> - probably plenty, but worth calling out (seen as they do!)&lt;/li>
-&lt;/ul>
-&lt;p>Unlike GitHub, BitBucket has a &lt;em>Git LFS&lt;/em> view in a settings page where &lt;a href="https://support.atlassian.com/bitbucket-cloud/docs/use-git-lfs-with-existing-bitbucket-repositories/#Delete-Git-LFS-files-from-a-repository">LFS remote objects can be deleted&lt;/a>. Better than nothing, but there&amp;rsquo;s toil to save these costs (and probably not worth the time for a human to do it!). As you may have guessed, &lt;a href="https://gist.github.com/danielgindi/db0e0a897d8d920f23e155bb5d59e9c6">someone has kindly automated this&lt;/a> by running JS in Chrome&amp;rsquo;s console.&lt;/p>
-&lt;h3 id="gitlab">GitLab:&lt;/h3>
-&lt;ul>
-&lt;li>You can setup custom object storage &lt;a href="https://docs.gitlab.com/ee/administration/lfs/#storing-lfs-objects-in-remote-object-storage">via Fog&lt;/a>, e.g. on a private local network, or on aws&lt;/li>
-&lt;li>For deleting remote files within Gitlab&amp;rsquo;s set of tooling/services, it doesn&amp;rsquo;t look like it&amp;rsquo;s an option. GitLab seem to give incorrect advice that clearing the repo should also clear the remote (&lt;a href="https://stackoverflow.com/a/34582910/4261132">1&lt;/a>, &lt;a href="https://gitlab.com/gitlab-org/gitlab-foss/-/issues/30639">2&lt;/a>). Someone wrote a &lt;a href="https://github.com/darshannnn/GitLabLFS-custom_hooks">custom Ruby hook&lt;/a> to do this.&lt;/li>
-&lt;/ul>
-&lt;p>If you&amp;rsquo;re already set up with AWS, you might be interested in estimating pricing. AWS provide a &lt;a href="https://calculator.s3.amazonaws.com/index.html">calculator&lt;/a> for that.&lt;/p>
-&lt;h1 id="conclusion">Conclusion&lt;/h1>
-&lt;p>If you &lt;em>must&lt;/em> keep your large files versioned with Git, you can keep your repository lean with Git LFS. You just need to be aware of how costs will scale with time, and that with some Git providers you don&amp;rsquo;t have much control over this.&lt;/p>
-&lt;h1 id="extra-notes">Extra notes&lt;/h1>
-&lt;ul>
-&lt;li>GitLab - &lt;a href="https://about.gitlab.com/blog/2017/01/30/getting-started-with-git-lfs-tutorial/">getting started with Git LFS&lt;/a>. There&amp;rsquo;s a nice little advert for Tower showing integration with Git LFS in your usual Windows/Mac file browser. That could be nice for digital artists.&lt;/li>
-&lt;/ul>
-&lt;div class="footnotes" role="doc-endnotes">
-&lt;hr>
-&lt;ol>
-&lt;li id="fn:1">
-&lt;p>Here&amp;rsquo;s a &lt;a href="https://stackoverflow.com/a/61466160/4261132">StackOverflow&lt;/a> post with example usage:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>steps:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - name: Checkout github repo &lt;span style="color:#f92672">(&lt;/span>+ download lfs dependencies&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> uses: actions/checkout@v3
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> with:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> lfs: &lt;span style="color:#111">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - name: Checkout LFS objects
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> run: git lfs checkout
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>For checking out the latest version of a file on a branch, it would be like &lt;code>git checkout origin/build-cache out.tar.gz&lt;/code>&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;/div></description></item></channel></rss>
