@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>applications on James' Digital Garden</title><link>https://idiosapps.github.io/garden_tags/applications/</link><description>Recent content in applications on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Tue, 01 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/garden_tags/applications/index.xml" rel="self" type="application/rss+xml"/><item><title>Symlinks, syncs, and app configuration</title><status>growing</status><link>https://idiosapps.github.io/garden/config-symlink-fast-setup/</link><pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/config-symlink-fast-setup/</guid><description>&lt;p>When setting up a new Windows device, there are some tools that can help you to install your apps quickly and easily from the command line (WinGet, chocolatey). Whilst these are great (and can actually install most of your apps), one thing they can’t do is transfer your configuration between devices.&lt;/p>
+&lt;p>In this short blog, we’ll be using:&lt;/p>
+&lt;ul>
+&lt;li>A cloud sync of choice (Google Drive / OneDrive / DropBox etc.)
+&lt;ul>
+&lt;li>So I have my configuration files on any device&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Symbolic links, in a tiny script file
+&lt;ul>
+&lt;li>So apps can easily access the backed-up configuration, and sync changes&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>An application we love, which uses simple configuration files&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;p>For this worked example, we&amp;rsquo;ll use Espanso, and a folder &amp;ldquo;Junction&amp;rdquo; symlink.&lt;/p>
+&lt;p>The folder linking must be done before the source folder (Espanso&amp;rsquo;s config) is created. Either do this before installing the app, or do some file/folder shuffling.
+It doesn&amp;rsquo;t matter if the target exists or not.&lt;/p>
+&lt;p>In your cloud-sync&amp;rsquo;d folder (&lt;code>%HomePath%\OneDrive\Apps\espanso&lt;/code>), create a file &lt;code>symlink.bat&lt;/code> and add:&lt;/p>
+&lt;pre tabindex="0">&lt;code>mklink /J %APPDATA%\espanso %HomePath%\OneDrive\Apps\espanso
+&lt;/code>&lt;/pre>&lt;p>In Windows, the &lt;code>%APPDATA%&lt;/code> folder will look like this if the command succeed; note the little arrow on our symlinked folder:&lt;/p>
+&lt;p>&lt;img src="symlink_folder_icon.png" alt="Untitled">&lt;/p>
+&lt;p>In &lt;code>......./OneDrive/apps/espanso/match/base.yml&lt;/code>, add this to the main &lt;code>matches&lt;/code> body:&lt;/p>
+&lt;pre tabindex="0">&lt;code>- trigger: &amp;#34;:synctest&amp;#34;
+replace: &amp;#34;your espanso config was sync&amp;#39;d sucessfully!&amp;#34;
+&lt;/code>&lt;/pre>&lt;p>Install espanso with default settings&lt;/p>
+&lt;p>Espanso startup logs show our symlink folder being loaded in. It does this anyway (nothing special is happening to the file loading&amp;hellip; other than it actually loading from our cloud sync&amp;rsquo;d folder!):&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-scala" data-lang="scala">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">...&lt;/span> &lt;span style="color:#111">reading&lt;/span> &lt;span style="color:#111">configs&lt;/span> &lt;span style="color:#111">from&lt;/span>&lt;span style="color:#00a8c8">:&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">&amp;#34;&lt;/span>&lt;span style="color:#00a8c8">C:\\Users\\middo\\AppData\\Roaming\\espanso&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#00a8c8">...&lt;/span> &lt;span style="color:#00a8c8">reading&lt;/span> &lt;span style="color:#00a8c8">packages&lt;/span> &lt;span style="color:#00a8c8">from:&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">&amp;#34;&lt;/span>&lt;span style="color:#00a8c8">C:\\Users\\middo\\AppData\\Roaming\\espanso\\match\\packages&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>So if we enter our special phrase, &lt;code>:synctest&lt;/code>, we should see it expanded to:&lt;/p>
+&lt;p>&lt;code>your espanso config was sync’d sucessfully!&lt;/code>&lt;/p>
+&lt;p>On another computer (or a fresh installation of Windows), all you have to do is double-click the .bat file.
+In just a few minutes, we&amp;rsquo;ve made a system that will always take care of our favourite Espanso packages &amp;amp; personalised keywords.
+Also note that any changes we make will be backed up to the cloud too!&lt;/p>
+&lt;hr>
+&lt;p>What we’ve done here can be applied to more applications which have simple configuration.
+The scripts to create junctions/symbolic links could be per-app, or you could put them all in one script (to be run before a big WinGet/Brew install).&lt;/p>
+&lt;p>Here’s a few configurations ones I may set up this synchronisation for:&lt;/p>
+&lt;ul>
+&lt;li>Headphone EQ - Peace/EqualizerAPO - .txt files represent frequencies/decibels etc.&lt;/li>
+&lt;li>GPU Overclock/Undervolt - MSI Afterburner - Custom curve is a bit tricky to make (I have to search for my notes on instructions every time I set up)&lt;/li>
+&lt;li>&amp;hellip; I can&amp;rsquo;t think of more, but I&amp;rsquo;m happy even with just Espanso having this :-)&lt;/li>
+&lt;/ul>
+&lt;p>The same principles apply to Ubuntu and MacOS - but implementation of your symlink script files might look more like &lt;a href="https://apple.stackexchange.com/a/115647">this StackExchange answer&lt;/a>.&lt;/p></description></item></channel></rss>
