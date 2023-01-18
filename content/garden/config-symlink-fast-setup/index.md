@@ -1,7 +1,7 @@
 ---
 title: "Symlinks, syncs, and app configuration"
-date: 2019-01-01
-lastmod: 2019-03-17
+date: 2023-01-18
+lastmod: 2023-01-18
 draft: false
 garden_tags: ["tech", "applications"]
 summary: "Save time when setting up your apps (again)"
