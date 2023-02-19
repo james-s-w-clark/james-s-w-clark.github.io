@@ -5,7 +5,7 @@ lastmod: 2023-01-18
 draft: false
 garden_tags: ["tech", "applications"]
 summary: "Save time when setting up your apps (again)"
-status: "growing"
+status: "evergreen"
 ---
 
 When setting up a new Windows device, there are some tools that can help you to install your apps quickly and easily from the command line (WinGet, chocolatey). Whilst these are great (and can actually install most of your apps), one thing they can’t do is transfer your configuration between devices.
@@ -72,6 +72,7 @@ Here’s a few configurations ones I may set up this synchronisation for:
 
 - Headphone EQ - Peace/EqualizerAPO - .txt files represent frequencies/decibels etc.
 - GPU Overclock/Undervolt - MSI Afterburner - Custom curve is a bit tricky to make (I have to search for my notes on instructions every time I set up)
+- Calibre, for digital book management
 - ... I can't think of more, but I'm happy even with just Espanso having this :-)
 
 The same principles apply to Ubuntu and MacOS - but implementation of your symlink script files might look more like [this StackExchange answer](https://apple.stackexchange.com/a/115647).
