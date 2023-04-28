@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ways of working on James' Digital Garden</title><link>https://idiosapps.github.io/garden_tags/ways-of-working/</link><description>Recent content in ways of working on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><atom:link href="https://idiosapps.github.io/garden_tags/ways-of-working/index.xml" rel="self" type="application/rss+xml"/><item><title>Rota Driven Development ⁉</title><status>seeding</status><link>https://idiosapps.github.io/garden/rota-driven-development/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/rota-driven-development/</guid><description>&lt;p>How can you take a bunch of T-shaped developers and upskill everyone to be a 🟩-shaped developer?&lt;/p>
+&lt;p>You might know a few ways you can do this already:&lt;/p>
+&lt;ul>
+&lt;li>Knowledge sharing sessions&lt;/li>
+&lt;li>Pairing/Mobbing&lt;/li>
+&lt;li>Giving regular, honest feedback&lt;/li>
+&lt;/ul>
+&lt;p>You might know why it could be a good idea:&lt;/p>
+&lt;ul>
+&lt;li>Employees want to be empowered&lt;/li>
+&lt;li>Learning, teaching, and broadening horizons can be rewarding &amp;amp; fun&lt;/li>
+&lt;li>Reduced &amp;ldquo;bus factor&amp;rdquo;&lt;/li>
+&lt;/ul>
+&lt;p>But what would something &lt;em>really extreme&lt;/em> look like?
+Enter: &amp;ldquo;Rota Driven Development&amp;rdquo;
+&lt;em>Note: You might even want to experiment with this setup if you already have pairing/mobbing as your main way of working. Otherwise, this might sound quite terrible! But let&amp;rsquo;s see how it might be valuable. This post isn&amp;rsquo;t about why pairing is good or bad - but what an extreme variant of it could look like&lt;/em>&lt;/p>
+&lt;h1 id="illustrative-example">Illustrative example&lt;/h1>
+&lt;p>Let&amp;rsquo;s say we have three developers:&lt;/p>
+&lt;ul>
+&lt;li>BackEnd expert (B), with a bit of Cyber (c) [Bc_]&lt;/li>
+&lt;li>Cyber expert (C), no other experience [&lt;em>C&lt;/em>]&lt;/li>
+&lt;li>FrontEnd expert (F), with a bit of BackEnd (b) [b_F]&lt;/li>
+&lt;/ul>
+&lt;p>When you pair these developers, they&amp;rsquo;ll level up by working on tasks together:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>[Bc_] + [b_F] -&amp;gt; [Bcf] + [B_F] (let&amp;rsquo;s say the BackEnd expert didn&amp;rsquo;t share much on Cyber this time)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>[B_F] + [&lt;em>C&lt;/em>] -&amp;gt; [BcF] + [bCf] (they worked across all three topics)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Already, the team is becoming much more well-rounded. Everyone has picked up at least the basics of every field.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>Of course, it&amp;rsquo;s an extreme example. More realistically, there could be many domains (framework, syntax, literally domain knowledge, etc.) within any of these three fields - so it can still make sense for e.g. BackEnd developers only.&lt;/p>
+&lt;p>In a real team, there would probably be a few more people as well - so everyone can Always Be Transferring Knowledge&lt;/p>
+&lt;h1 id="your-teams-skill-matrix">Your team&amp;rsquo;s &amp;ldquo;skill matrix&amp;rdquo;&lt;/h1>
+&lt;p>To find out what some quality pairings would be, you can make a shared table of people and how they feel their skills are out of 5.
+It should highlight gaps, and if you update it few weeks/months you use it to track progress.&lt;/p>
+&lt;h1 id="planning-work-for-maximal-learning">Planning work for maximal learning&lt;/h1>
+&lt;p>In &amp;ldquo;second language acquisition&amp;rdquo;, there is a theory called &amp;ldquo;i+1&amp;rdquo;:
+To have a smooth, low-stress learning environment, you feed someone content that is slightly more complex than their current level. In other words, don&amp;rsquo;t throw people in at the deep end.
+If you can estimate the complexity (via story points or some other metric), you could combine that with the skill matrix to optimise growth in your employees&amp;rsquo; skill set.&lt;/p>
+&lt;h1 id="but-tickets-and-rotations-dont-line-up-nicely">But tickets and rotations don&amp;rsquo;t line up nicely&lt;/h1>
+&lt;p>There&amp;rsquo;s a few approaches you could try:&lt;/p>
+&lt;ul>
+&lt;li>Set pairings for a whole sprint&lt;/li>
+&lt;li>Set pairings for only the first ticket in a sprint, and then let people self-organise&lt;/li>
+&lt;/ul>
+&lt;h1 id="how-can-my-team-see-if-this-works-for-us">How can my team see if this works for us?&lt;/h1>
+&lt;ol>
+&lt;li>Check if your team is even interested in such an idea&lt;/li>
+&lt;li>Make the up-front investment (skills matrix), and continued effort investment (changes to planning/ticket preparation)&lt;/li>
+&lt;li>Run a trial for a few weeks. Maybe run a retro on the rotation process, and iterate if you see value there. Scrap it and move on if not.&lt;/li>
+&lt;/ol>
+&lt;h1 id="conclusion">Conclusion&lt;/h1>
+&lt;p>For teams that have already bought into pairing and want to try a more focused approach to maximise their learning: &amp;ldquo;Rota Driven Development&amp;rdquo; could be an interesting experiment to try.&lt;/p></description></item></channel></rss>
