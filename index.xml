@@ -1,4 +1,61 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>James' Digital Garden</title><link>https://idiosapps.github.io/</link><description>Recent content on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Wed, 18 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Symlinks, syncs, and app configuration</title><status>evergreen</status><link>https://idiosapps.github.io/garden/config-symlink-fast-setup/</link><pubDate>Wed, 18 Jan 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/config-symlink-fast-setup/</guid><description>&lt;p>When setting up a new Windows device, there are some tools that can help you to install your apps quickly and easily from the command line (WinGet, chocolatey). Whilst these are great (and can actually install most of your apps), one thing they can’t do is transfer your configuration between devices.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>James' Digital Garden</title><link>https://idiosapps.github.io/</link><description>Recent content on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Fri, 28 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Rota Driven Development ⁉</title><status>evergreen</status><link>https://idiosapps.github.io/garden/rota-driven-development/</link><pubDate>Fri, 28 Apr 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/rota-driven-development/</guid><description>&lt;p>How can you take a bunch of T-shaped developers and upskill everyone to be a 🟩-shaped developer?&lt;/p>
+&lt;p>You might know a few ways you can do this already:&lt;/p>
+&lt;ul>
+&lt;li>Knowledge sharing sessions&lt;/li>
+&lt;li>Pairing/Mobbing&lt;/li>
+&lt;li>Giving regular, honest feedback&lt;/li>
+&lt;/ul>
+&lt;p>You might know why it could be a good idea:&lt;/p>
+&lt;ul>
+&lt;li>Employees want to be empowered&lt;/li>
+&lt;li>Learning, teaching, and broadening horizons can be rewarding &amp;amp; fun&lt;/li>
+&lt;li>Reduced &amp;ldquo;bus factor&amp;rdquo;&lt;/li>
+&lt;/ul>
+&lt;p>But what would something &lt;em>really extreme&lt;/em> look like?
+Enter: &amp;ldquo;Rota Driven Development&amp;rdquo;
+&lt;em>Note: You might even want to experiment with this setup if you already have pairing/mobbing as your main way of working. Otherwise, this might sound quite terrible! But let&amp;rsquo;s see how it might be valuable. This post isn&amp;rsquo;t about why pairing is good or bad - but what an extreme variant of it could look like&lt;/em>&lt;/p>
+&lt;h1 id="illustrative-example">Illustrative example&lt;/h1>
+&lt;p>Let&amp;rsquo;s say we have three developers:&lt;/p>
+&lt;ul>
+&lt;li>BackEnd expert (B), with a bit of Cyber (c) [Bc_]&lt;/li>
+&lt;li>Cyber expert (C), no other experience [&lt;em>C&lt;/em>]&lt;/li>
+&lt;li>FrontEnd expert (F), with a bit of BackEnd (b) [b_F]&lt;/li>
+&lt;/ul>
+&lt;p>When you pair these developers, they&amp;rsquo;ll level up by working on tasks together:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>[Bc_] + [b_F] -&amp;gt; [Bcf] + [B_F] (let&amp;rsquo;s say the BackEnd expert didn&amp;rsquo;t share much on Cyber this time)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>[B_F] + [&lt;em>C&lt;/em>] -&amp;gt; [BcF] + [bCf] (they worked across all three topics)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Already, the team is becoming much more well-rounded. Everyone has picked up at least the basics of every field.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>Of course, it&amp;rsquo;s an extreme example. More realistically, there could be many domains (framework, syntax, literally domain knowledge, etc.) within any of these three fields - so it can still make sense for e.g. BackEnd developers only.&lt;/p>
+&lt;p>In a real team, there would probably be a few more people as well - so everyone can Always Be Transferring Knowledge&lt;/p>
+&lt;h1 id="your-teams-skill-matrix">Your team&amp;rsquo;s &amp;ldquo;skill matrix&amp;rdquo;&lt;/h1>
+&lt;p>To find out what some quality pairings would be, you can make a shared table of people and how they feel their skills are out of 5.
+It should highlight gaps, and if you update it few weeks/months you use it to track progress.&lt;/p>
+&lt;h1 id="planning-work-for-maximal-learning">Planning work for maximal learning&lt;/h1>
+&lt;p>In &amp;ldquo;second language acquisition&amp;rdquo;, there is a theory called &amp;ldquo;i+1&amp;rdquo;:
+To have a smooth, low-stress learning environment, you feed someone content that is slightly more complex than their current level. In other words, don&amp;rsquo;t throw people in at the deep end.
+If you can estimate the complexity (via story points or some other metric), you could combine that with the skill matrix to optimise growth in your employees&amp;rsquo; skill set.&lt;/p>
+&lt;h1 id="but-tickets-and-rotations-dont-line-up-nicely">But tickets and rotations don&amp;rsquo;t line up nicely&lt;/h1>
+&lt;p>There&amp;rsquo;s a few approaches you could try:&lt;/p>
+&lt;ul>
+&lt;li>Set pairings for a whole sprint&lt;/li>
+&lt;li>Set pairings for only the first ticket in a sprint, and then let people self-organise&lt;/li>
+&lt;/ul>
+&lt;h1 id="how-can-my-team-see-if-this-works-for-us">How can my team see if this works for us?&lt;/h1>
+&lt;ol>
+&lt;li>Check if your team is even interested in such an idea&lt;/li>
+&lt;li>Make the up-front investment (skills matrix), and continued effort investment (changes to planning/ticket preparation)&lt;/li>
+&lt;li>Run a trial for a few weeks. Maybe run a retro on the rotation process, and iterate if you see value there. Scrap it and move on if not.&lt;/li>
+&lt;/ol>
+&lt;h1 id="conclusion">Conclusion&lt;/h1>
+&lt;p>For teams that have already bought into pairing and want to try a more focused approach to maximise their learning: &amp;ldquo;Rota Driven Development&amp;rdquo; could be an interesting experiment to try.&lt;/p></description></item><item><title>Symlinks, syncs, and app configuration</title><status>evergreen</status><link>https://idiosapps.github.io/garden/config-symlink-fast-setup/</link><pubDate>Wed, 18 Jan 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/config-symlink-fast-setup/</guid><description>&lt;p>When setting up a new Windows device, there are some tools that can help you to install your apps quickly and easily from the command line (WinGet, chocolatey). Whilst these are great (and can actually install most of your apps), one thing they can’t do is transfer your configuration between devices.&lt;/p>
 &lt;p>In this short blog, we’ll be using:&lt;/p>
 &lt;ul>
 &lt;li>A cloud sync of choice (Google Drive / OneDrive / DropBox etc.)
@@ -290,137 +347,4 @@ The scripts to create junctions/symbolic links could be per-app, or you could pu
 &lt;td>Play games like Catan, Azul, Wingspan, Ticket to Ride, Sushi Go - but one member needs a premium subscription (£27/year, or £5/month)&lt;/td>
 &lt;/tr>
 &lt;/tbody>
-&lt;/table></description></item><item><title>How PDFs make your headphones sound better 🎧</title><status>evergreen</status><link>https://idiosapps.github.io/garden/equalisers-and-pdfs/</link><pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/equalisers-and-pdfs/</guid><description>&lt;p>This blog post will be a mishmash of audio equalisers and PDF text extraction.&lt;/p>
-&lt;p>Equalisers (EQ) let you adjust your audio to your liking. They can help all headphones try to achieve a common sound, such as the Harman Curve. There&amp;rsquo;s loads you can read around the topic, but to keep things practical you could just give it a try and see if things &amp;ldquo;sound better&amp;rdquo;.&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>&lt;/p>
-&lt;p>The user &amp;ldquo;Oratory1990&amp;rdquo; has &lt;a href="https://www.reddit.com/r/oratory1990/wiki/index/list_of_presets/">measured a huge number of headphones&lt;/a> and has given equaliser settings you can try out. In the case of used Beyerdynamic DT 770 Pros, EQ will take their &amp;ldquo;preference rating&amp;rdquo; from 79% to 100% - basically, statistically speaking, people will like them more with EQ.&lt;/p>
-&lt;p>Recently the measurements and fine-tunings were adjusted for my headphones, so off I went to figure out how to use the new configuration&amp;hellip;&lt;/p>
-&lt;h1 id="creating-a-parametric-eq-for-peace--equaliser-apo">Creating a parametric EQ for Peace / Equaliser APO&lt;/h1>
-&lt;p>In my case, I want to use the new config for Sennheiser HD 660s - see &lt;a href="https://www.dropbox.com/s/s4isno09gt20ozf/Sennheiser%20HD660S.pdf?dl=0">this dropbox pdf&lt;/a>:&lt;/p>
-&lt;figure>&lt;img src="filter_settings.png" width="100%"/>
-&lt;/figure>
-&lt;p>To make this config simply and correctly, we can use an exisiting parametric EQ text file from &lt;a href="https://github.com/jaakkopasanen/AutoEq/blob/master/results/oratory1990/harman_over-ear_2018/Sennheiser%20HD%20660%20S/Sennheiser%20HD%20660%20S%20ParametricEQ.txt">AutoEq&lt;/a>. You can see the number of filters, where the peak of each filter is centred (30Hz), how loudness changes around that frequency (6.5 dB) and the strength of the curve (Q 0.37) - as well as the shape of the curve (PK):&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Preamp: -7.0 dB
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Filter 1: ON PK Fc &lt;span style="color:#ae81ff">30&lt;/span> Hz Gain 6.5 dB Q 0.37
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Filter 2: ON PK Fc &lt;span style="color:#ae81ff">181&lt;/span> Hz Gain -3.8 dB Q 0.54
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Filter 3: ON PK Fc &lt;span style="color:#ae81ff">1351&lt;/span> Hz Gain -3.3 dB Q 1.33
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>...
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>We can see that &amp;ldquo;PEAK&amp;rdquo; is abbreviated to &amp;ldquo;PK&amp;rdquo; - so we can guess that the low &amp;amp; high shelves from the diagram will be LS &amp;amp; HS respectively. Copying the preamp gain over and adjusting the numbers gets us:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>Preamp: -8.4 dB
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Filter 1: ON PK Fc &lt;span style="color:#ae81ff">34&lt;/span> Hz Gain 3.0 dB Q 1.5
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Filter 2: ON LS Fc &lt;span style="color:#ae81ff">100&lt;/span> Hz Gain 5.5 dB Q 0.71
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Filter 3: ON PK Fc &lt;span style="color:#ae81ff">200&lt;/span> Hz Gain -2.5 dB Q 0.8
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Filter 4: ON PK Fc &lt;span style="color:#ae81ff">1330&lt;/span> Hz Gain -2.5 dB Q 1.8
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Filter 5: ON HS Fc &lt;span style="color:#ae81ff">1700&lt;/span> Hz Gain 4.0 dB Q 0.71
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Filter 6: ON PK Fc &lt;span style="color:#ae81ff">3300&lt;/span> Hz Gain -2.1 dB Q 1.7
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Filter 7: ON PK Fc &lt;span style="color:#ae81ff">5520&lt;/span> Hz Gain -6.4 dB Q 3.8
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Filter 8: ON PK Fc &lt;span style="color:#ae81ff">8000&lt;/span> Hz Gain 3.0 dB Q 1.4
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Filter 9: ON HS Fc &lt;span style="color:#ae81ff">10000&lt;/span> Hz Gain -2.0 dB Q 0.71
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Filter 10: OFF
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>I use Peace for Windows, so I need to import the config this way:&lt;/p>
-&lt;figure>&lt;img src="peace_import.png" width="100%"/>
-&lt;/figure>
-&lt;p>&amp;hellip; and don&amp;rsquo;t forget to save the config (feel free to choose your favourite colour icon!):&lt;/p>
-&lt;figure>&lt;img src="peace_save.png" width="80%"/>
-&lt;/figure>
-&lt;p>we should see that the profile is active in Peace, and in the taskbar:&lt;/p>
-&lt;figure>&lt;img src="peace_taskbar.png" width="30%"/>
-&lt;/figure>
-&lt;h1 id="are-there-lazier-ways-to-get-good-eq-from-these-numbers">Are there lazier ways to get good EQ from these numbers?&lt;/h1>
-&lt;p>Yep, like mentioned above there’s &lt;a href="https://github.com/jaakkopasanen/AutoEq">AutoEQ&lt;/a>. The readme is good, so you can just follow that if you want more info on how to use it.&lt;/p>
-&lt;p>How does AutoEQ generate the EQ files?&lt;/p>
-&lt;p>There is a crawler python script, which:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://github.com/jaakkopasanen/AutoEq/blob/master/measurements/oratory1990/oratory1990_crawler.py#L47">scans a reddit wiki&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/jaakkopasanen/AutoEq/blob/master/measurements/oratory1990/oratory1990_crawler.py#L156">renders PDFs into images&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/jaakkopasanen/AutoEq/blob/master/measurements/oratory1990/oratory1990_crawler.py#L81">parses the frequency graph into response curve data&lt;/a> by &lt;a href="https://github.com/jaakkopasanen/AutoEq/blob/master/measurements/oratory1990/oratory1990_crawler.py#L128">reading the coloured data points&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>As you might guess, it uses some PDF libraries, and even checks the text in the image. Instead of getting the table of data, it uses the graph to generate data. The nice thing about this is that you can independently work out graphical/parametric EQs to reach different target audio curves.&lt;/p>
-&lt;h1 id="how-about-automatically-reading-the-text-from-the-tables">How about automatically reading the text from the tables?&lt;/h1>
-&lt;p>I’m going to tell you a bit about how data is expressed in PDFs, and how we can explore PDFs to find out how we can extract useful data. You can follow along on your own PC and see what&amp;rsquo;s going on with PDFs if you like.&lt;/p>
-&lt;p>Let’s see how information is expressed in PDFs:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://www.reddit.com/r/oratory1990/wiki/index/list_of_presets/">Get a PDF to examine&lt;/a>
-&lt;ul>
-&lt;li>e.g. &lt;a href="https://www.dropbox.com/s/90dggt4jel4jjgc/1More%201M301%20Single%20Driver.pdf?dl=0">1More earphones&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;a href="https://pdfbox.apache.org/download.html">get the latest PDFBox debugger&lt;/a>
-&lt;ul>
-&lt;li>install Java if you don&amp;rsquo;t have it&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>run &lt;code>java -jar debugger.jar&lt;/code>&lt;/li>
-&lt;li>Open the PDF file in the debugger that pops up. It will look like:&lt;/li>
-&lt;/ul>
-&lt;figure>&lt;img src="pdf_debugger.png" width="100%"/>
-&lt;/figure>
-&lt;p>If we view the contents of the file, we can view either the plaintext or encoded data stream. There’s a bunch of &lt;strong>Stuff&lt;/strong>, but let’s look for BT (Begin Text) / ET (End Text) and see what we can read.&lt;/p>
-&lt;figure>&lt;img src="pdf_decoded_text.png" width="100%"/>
-&lt;/figure>
-&lt;p>&lt;code>(m) 33 (e) -44 (a) -44 (su) -44 (r) 33 (e) -44 (d) -44 ( ) -22 (o) -44 (n)&lt;/code> - &amp;ldquo;measured on&amp;rdquo; - that text does indeed appear in the document. What&amp;rsquo;s with all the numbers, and having the letters in brackets? The numbers are the codepoints of glyphs+unicodes in fonts embedded in the PDF - you can see stuff like this in the font resources:&lt;/p>
-&lt;figure>&lt;img src="pdf_code_glyph_unicode.png" width="100%"/>
-&lt;/figure>
-&lt;p>Note that whilst the letters for &amp;ldquo;measured on&amp;rdquo; were at the top of the decoded stream, that doesn&amp;rsquo;t imply where the text will be on the document. The location is defined by coordinates, like 33.06, 44.38977.&lt;/p>
-&lt;p>Given that I can search the PDF in a PDF viewer for “measured on” and find it, and that I can also the “Band 1” and find it - I’m pretty confident the text is expressed “plainly” in the plain text (as something like 2(b) 1(a)&amp;hellip;).&lt;/p>
-&lt;p>There’s 225 “BT”s in the document. I had a flick through all of them and didn’t see something that was obviously our data. BW is the most unique short phrase in the document - can we find that? Searching for (W) gives no results. How can searches with a commercial PDF viewer find results for W? As I write this, I&amp;rsquo;m not so sure.&lt;/p>
-&lt;p>We can take a step back and try some higher-level tools to keep things simple. PDFbox comes with a CLI - we can try a few commands:&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>java -jar .\pdfbox-app-3.0.0-alpha3.jar&lt;/code> - shows us there&amp;rsquo;s an &amp;ldquo;export:text&amp;rdquo; option&lt;/li>
-&lt;li>&lt;code>java -jar .\pdfbox-app-3.0.0-alpha3.jar export:text --input=pdf.pdf&lt;/code> - gives us some interesting plain-text output:&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>...
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Filter Type Frequency Gain Q-Factor BW
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Band &lt;span style="color:#ae81ff">1&lt;/span> PEAK &lt;span style="color:#ae81ff">80&lt;/span> Hz -9,6 dB 0,4 3,02 Adjust gain of band &lt;span style="color:#ae81ff">2&lt;/span> to preference &lt;span style="color:#f92672">(&lt;/span>bass&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Band &lt;span style="color:#ae81ff">2&lt;/span> LOW_SHELF &lt;span style="color:#ae81ff">110&lt;/span> Hz 10,0 dB 0,71 1,89 Deviation from Target Adjust gain of band &lt;span style="color:#ae81ff">7&lt;/span> to preference &lt;span style="color:#f92672">(&lt;/span>airiness&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Band &lt;span style="color:#ae81ff">3&lt;/span> PEAK &lt;span style="color:#ae81ff">300&lt;/span> Hz -2,5 dB 1,0 1,39 Before EQ After EQ
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>...
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Band &lt;span style="color:#ae81ff">10&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>...
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Preamp gain:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>-9,0 dB
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="1more_table.png" width="100%"/>
-&lt;/figure>
-&lt;p>It looks like we’ve got everthing we’d want! And look at that preference rating jump: 58 to 95. Those earphones will sound twice as good with this EQ 😉&lt;/p>
-&lt;p>If you’re interested in extracting this information and playing with how PDFs work, I recommend you to have a deeper look with some of these tools. It looks like you could get something working quickly with PyPDF2, to extract this text and transform it into an EQ that Peace could use. No measuring of graphs and generating of configuration needed - you can just extract the provided configuration.&lt;/p>
-&lt;h1 id="personalising-eq">Personalising EQ&lt;/h1>
-&lt;p>We mentioned Harman curves, preference ratings, EQs and stuff - but every human is different, right? Generally, the Harman target will sound good to lots of people - but some people love bass, and some people hate sibilance. A good EQ can be tweaked to personal preference.&lt;/p>
-&lt;p>Here&amp;rsquo;s some notes from Oratory, then we can do a little experiment:&lt;/p>
-&lt;figure>&lt;img src="oratory_band_preference.png" width="100%"/>
-&lt;/figure>
-&lt;hr>
-&lt;figure>&lt;img src="oratory_db_tweaks.png" width="100%"/>
-&lt;/figure>
-&lt;h2 id="sibilance---electric-drum-machine">Sibilance - electric drum machine&lt;/h2>
-&lt;p>I listened to &amp;ldquo;Paper Love&amp;rdquo; by Allie X, and the hi-hat(?) on the electric drum machine was a little too loud for me - we can make it less of a focus if we want to.&lt;/p>
-&lt;p>To figure out where the sounds we want to change mostly lie, we can try making everything else quiet:&lt;/p>
-&lt;figure>&lt;img src="eq_isolate.png" width="50%"/>
-&lt;/figure>
-&lt;p>Tweaking the dials further, I figured out that -3dB at 8k and 10k was good for me. Vocals might be a &lt;em>tiny&lt;/em> bit squashed, but the song was much easier to listen to. Optimising for listening time can be a fair goal.&lt;/p>
-&lt;p>I saved this config as &amp;ldquo;660s_oratory_2022-07-15_relaxed_his&amp;rdquo;, and with a different colour icon.&lt;/p>
-&lt;p>If you can&amp;rsquo;t hear any change from moving the dials/pre-amp, you might need to restart your PC or check your Equaliser APO installation.&lt;/p>
-&lt;h2 id="more-basssub-bass">More bass/sub-bass&lt;/h2>
-&lt;p>This time we can try a different song. Choose whatever you like, or &amp;ldquo;Regulars&amp;rdquo; by Allie X (I do listen to other stuff, but was going through all the albums that day!). Try setting everything down and raise the sub-bass frequency:&lt;/p>
-&lt;figure>&lt;img src="eq_only_subbass.png" width="50%"/>
-&lt;/figure>
-&lt;p>With too much of this, there&amp;rsquo;s mostly a kick drum(?) and muffled voices. Turn everything back else to the EQ you want and then turn the lowest frequency down - it feels a bit like you&amp;rsquo;ve lost the &amp;ldquo;body&amp;rdquo;/substance of the song.&lt;/p>
-&lt;p>I&amp;rsquo;m sticking with the default provided by the EQ.&lt;/p>
-&lt;h2 id="bass">Bass&lt;/h2>
-&lt;p>I tried similar for 100 Hz, so probably &amp;ldquo;bass&amp;rdquo; frequencies. If I took it too high, other sounds seemed to get really quiet. I&amp;rsquo;m using a decent DAC (Schiit Modi) and amp (DIY O2), so I&amp;rsquo;m not sure what&amp;rsquo;s going on. But I&amp;rsquo;m OK with Oratory&amp;rsquo;s default, it&amp;rsquo;s got enough bass for me.&lt;/p>
-&lt;p>Again, I&amp;rsquo;m sticking with the default provided by the EQ.&lt;/p>
-&lt;h1 id="conclusion">Conclusion&lt;/h1>
-&lt;p>We&amp;rsquo;re all different. Audio is down to preference. You might like EQ, you might not. Why not give it a try? It&amp;rsquo;s free and could add even more enjoyment to your music listening.&lt;/p>
-&lt;h1 id="extra-notes">Extra notes&lt;/h1>
-&lt;p>Here&amp;rsquo;s an interesting aside: sometimes PDFs are very weird about how they show text. I’ve seen what looks like totally normal documents, but on further inspection they have no actual letters in. They just have a bunch of lines and curves that looked like letters. Documents like this have to be rendered to an image and OCR’d to extract the text!
-The heuristic for figuring out whether to do that is fairly simple (but expensive, so don&amp;rsquo;t do it by default): look for a ridiculous number of lines/curves, or like 99% of the PDF operations being line/curve draws.&lt;/p>
-&lt;p>Here’s an example of line draws and curves in one of the docs we looked at today:&lt;/p>
-&lt;figure>&lt;img src="pdf_lines_curves.png" width="100%"/>
-&lt;/figure>
-&lt;p>If you want to read more about PDFs, &lt;a href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf">this 2008 PDF .7 spec by Adobe&lt;/a> was the top Google result. It&amp;rsquo;s more than 750 pages long. I spent a lot of time reading that thing in my first Software job 😬&lt;/p>
-&lt;div class="footnotes" role="doc-endnotes">
-&lt;hr>
-&lt;ol>
-&lt;li id="fn:1">
-&lt;p>The usage/installation guide at &lt;a href="https://github.com/jaakkopasanen/AutoEq#usage">AutoEq&lt;/a> is pretty good. The Peace GUI makes it super easy to download and use the AutoEq settings.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;/div></description></item></channel></rss>
+&lt;/table></description></item></channel></rss>
