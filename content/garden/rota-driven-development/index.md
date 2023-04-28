@@ -5,6 +5,7 @@ garden_tags: ["ways of working"]
 summary: "... transfer all the knowledge"
 status: "evergreen"
 date: 2023-04-28
+lastmod: 2023-04-28
 ---
 
 How can you take a bunch of T-shaped developers and upskill everyone to be a 🟩-shaped developer?
