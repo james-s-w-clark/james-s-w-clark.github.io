@@ -50,6 +50,44 @@ This is much better than just having the ticket number (and no link) in the titl
 
 Until I knew this I was using an Espanso text expansion macro `:JIRA` to do similar, but this setup gives your whole team an awesome shared capability
 
+### Conventional comments
+
+Stating the importance & intent of your message up front can make communication clearer, and decisions faster.
+
+Read more in detail at https://conventionalcomments.org/, but basically comments on PRs can look more valuable like this:
+
+```markdown
+issue: this mock never gets called!
+```
+
+```markdown
+praise: this method is really easy to read, and handles the logic very well
+```
+
+```markdown
+nitpick: these two tests could be combined
+```
+
+Compare the latter example to how it might be expressed without "conventional comments":
+
+```markdown
+These two tests could be combined, but it's not a blocker for this PR and I'll approve
+```
+
+### Conventional commits
+
+Commits can look like:
+
+- `docs: add javadocs for user-facing swagger api`
+- `bug: fix a flaky test`
+- `chore: bump dependency version x->y`
+- `feat: AI face detection when user blinks`
+
+It could help you have a more atomic git history, which may make PRs easier to comb through.
+You can also use the prefixes to group changes, and make prettier changelogs.
+
+Read more: https://www.conventionalcommits.org/en/v1.0.0/
+
 # Tickets / work capture
 
 ## Make templates
