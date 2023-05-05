@@ -49,3 +49,59 @@ This is much better than just having the ticket number (and no link) in the titl
 - It ensures everyone has easily accessible context, so the PR description can focus on the actual changes
 
 Until I knew this I was using an Espanso text expansion macro `:JIRA` to do similar, but this setup gives your whole team an awesome shared capability
+
+# Tickets / work capture
+
+## Make templates
+
+- Context, task, ACs, key contacts,
+- User stories
+
+Templates are all about adding context in an organised way. 
+Having this context gives your team more autonomy and interest in the problems, and can lead to better outcomes. Think "Context over control"
+
+# Knowledge management
+
+How are you recording your knowledge? Probably in a few places! It might look like this:
+
+- Slack (short term - threads can be linked, good for captured asynchronous discussion)
+- Google Docs (also great for captured async discussion, but leaning towards )
+- Confluence (longer-term storage for internal decisions - awkward to collaborate on, not good for regular updates)
+- Websites (static sites like Hugo's Doks & Docusaurus can make information presentable, searchable, and written in simple markdown & managed by e.g. Git)
+- Some loose markdown files in various repos (maybe some readme.md)
+
+To get someone up to speed on your project, you'd probably start with the higher-level, more organised/presentable formats. Hopefully there is a natural flow through the information, otherwise someone who knows the scenery may have to plan a route for you.
+
+But what if there were tools that combined the strengths of these platforms. Are there any services that are:
+- simple: are written in simple markdown-like language
+- collaborative: many users can write in real-time
+- efficient: easy to convert discussions into clean documentation
+- searchable: text search, or even graph search (how do ideas and documentation naturally relate?)
+
+## Notion 
+I use Notion, which covers these points well. It's becoming more and more popular, and I've seen a few companies using it.
+Despite appearing simple, there's plenty of power features under the hood:
+- You can create tables of data - and create views over them, filter, sort, label and organise in helpful ways
+- You can make timelines, calendars
+- You can use it like a task management system (GTD, four quadrants - whatever you want)
+- You can use it as a sprint/kanban board
+
+It's powerful - even for free users.
+For businesses, it's at least $15 per user, per month. That sounds like quite a lot, but [it looks like Jira costs the same](https://www.atlassian.com/software/jira/pricing?&aceid=&adposition=&adgroup=144583507597&campaign=19306719987&creative=642044705684&device=c&keyword=jira%20cost&matchtype=e&network=g&placement=&ds_kids=p74602839944&ds_e=GOOGLE&ds_eid=700000001558501&ds_e1=GOOGLE&gclid=Cj0KCQjwr82iBhCuARIsAO0EAZwOOUXmPpGJL3jh7S3mnHU5GnfebfyTdNgpRlczLTWDG9gWD0QTlGkaAs1cEALw_wcB&gclsrc=aw.ds).
+
+I've never worked in a company using it as a central tool in all the ways above - so I can't actually vouch for it. Maybe it only works up to a certain scale of organisation - but maybe that could be your organisation.
+
+## Obsidian
+I didn't get far into Obsidian - the theory can get pretty deep, and there's many methodologies. You might have heard of:
+- "Second brain", and 
+- "Zettelkasten"
+
+The key concept is that ideas are related, and naturally link up (like in our brain).
+You can view them as a graph (looks like synapses in our brain), converge, and diverge thoughts whilst keeping them linked.
+There's also a cool plugin system. I had a play and set up cloud sync to GitHub and OneDrive. I've already got years of notes in Notion, and didn't quite get sold on Obsidian.
+
+Arguably, the notes (and their relations!) might not be personal enough to be maximally useful for everyone. However, across a small team it could work really well. [$50 per user, per year - plus about $100 a year for sync.](https://obsidian.md/pricing)
+
+If you think you're having problems in some of those areas, maybe try a different knowledge management system.
+This is totally not an advert ;) I'd just love to see first-hand how these tools could work for some teams instead of the usual Jira/Confluence fare! If you have some 💲 and some ⌛, your team could spike using these tools.
+
