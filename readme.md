@@ -1,3 +1,5 @@
+https://github.com/paulmartins/hugo-digital-garden-theme
+
 To run a server:
 ```shell
 hugo server

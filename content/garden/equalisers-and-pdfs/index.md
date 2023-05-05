@@ -3,7 +3,7 @@ title: "How PDFs make your headphones sound better 🎧"
 date: 2022-07-20
 lastmod: 2022-08-07
 draft: false
-garden_tags: ["audio, random"]
+garden_tags: ["audio", "random"]
 summary: "An intro to equalisers, and two ways EQ configuration can be extracted from PDFs"
 status: "evergreen"
 ---
