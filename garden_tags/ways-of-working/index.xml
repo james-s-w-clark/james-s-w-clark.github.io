@@ -82,7 +82,84 @@ You can view them as a graph (looks like synapses in our brain), converge, and d
 There&amp;rsquo;s also a cool plugin system. I had a play and set up cloud sync to GitHub and OneDrive. I&amp;rsquo;ve already got years of notes in Notion, and didn&amp;rsquo;t quite get sold on Obsidian.&lt;/p>
 &lt;p>Arguably, the notes (and their relations!) might not be personal enough to be maximally useful for everyone. However, across a small team it could work really well. &lt;a href="https://obsidian.md/pricing">$50 per user, per year - plus about $100 a year for sync.&lt;/a>&lt;/p>
 &lt;p>If you think you&amp;rsquo;re having problems in some of those areas, maybe try a different knowledge management system.
-This is totally not an advert ;) I&amp;rsquo;d just love to see first-hand how these tools could work for some teams instead of the usual Jira/Confluence fare! If you have some 💲 and some ⌛, your team could spike using these tools.&lt;/p></description></item><item><title>Rota Driven Development ⁉</title><status>evergreen</status><link>https://idiosapps.github.io/garden/rota-driven-development/</link><pubDate>Fri, 28 Apr 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/rota-driven-development/</guid><description>&lt;p>How can you take a bunch of T-shaped developers and upskill everyone to be a 🟩-shaped developer?&lt;/p>
+This is totally not an advert ;) I&amp;rsquo;d just love to see first-hand how these tools could work for some teams instead of the usual Jira/Confluence fare! If you have some 💲 and some ⌛, your team could spike using these tools.&lt;/p>
+&lt;h1 id="discussions">Discussions&lt;/h1>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Problem&lt;/th>
+&lt;th>Solution&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Rabbit holes&lt;/td>
+&lt;td>Be mindful of topics dominating meetings - consider a separate meeting/thread to go into specifics&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Circling&lt;/td>
+&lt;td>Be mindful of discussions looping. Raise the concern, or capture notes everyone can see and help to align on a plan&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Uncaptured discussion&lt;/td>
+&lt;td>Take notes and share them. Ask for corrections, as you may have misunderstood. Whether it&amp;rsquo;s minutes for regular meetings, or details in ticket refinement - capturing 5 minutes of context now can save a few minutes in the future&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Discussion contains too many moving pieces&lt;/td>
+&lt;td>Make a quick sketch, in TLDRAW or even Mermaid. Humans find it hard to remember 5-9 &amp;ldquo;bits&amp;rdquo; of info - compress ideas into a visual)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Out of office/ill teammates missed important discussion meetings&lt;/td>
+&lt;td>Record the meetings, and update the calendar invite with the recording link. Transcribe the audio, provide a searchable interface to save time&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Solutionising without being aligned&lt;/td>
+&lt;td>Define the problem statement. &amp;ldquo;What questions are we trying to answer?&amp;rdquo;, &amp;ldquo;What data lets us answer these questions?&amp;rdquo;, &amp;ldquo;How can we get that data?&amp;rdquo;&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h1 id="collaborative-working">Collaborative working&lt;/h1>
+&lt;h2 id="visible-welcoming-huddles">Visible, welcoming huddles&lt;/h2>
+&lt;p>Is your team pairing and mobbing, but in private calls?
+It&amp;rsquo;s not transparent or welcoming - so consider this:&lt;/p>
+&lt;p>Take the number of devs you have, and divide by two. Make this many &amp;ldquo;pairing&amp;rdquo; Slack channels.
+It gives a space for everyone to pair, or form mobs. If someone needs help, it&amp;rsquo;s easy to hop in and out without the complexity of setting up more calls.&lt;/p>
+&lt;h2 id="remote-pairing">Remote pairing&lt;/h2>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Tool&lt;/th>
+&lt;th>Review&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Zoom&lt;/td>
+&lt;td>Solid screenshare quality, awkward drawing tools, and confusing controls. Preferred screen-sharing platform for now&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Slack&lt;/td>
+&lt;td>Worst screenshare &amp;amp; audio quality. Most convenient to drop in/out with pairing channels&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>VS Code&lt;/td>
+&lt;td>Shared editor &amp;amp; terminal are good - but the file explorer seems too strict to let the guest explore the project and be productive&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Intellij&lt;/td>
+&lt;td>Code With Me is decent now - my main issue is the Shared Terminal is completely broken for the host (a big problem if you run your tests there!)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;a href="https://tuple.app/">Tuple&lt;/a>&lt;/td>
+&lt;td>Great screenshare quality (configurable), good interactivity. Configuration maybe a bit too permissive, but necessary. Great features like &amp;ldquo;pebble drop&amp;rdquo; to show where you&amp;rsquo;re looking&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h1 id="quality-checks">Quality checks&lt;/h1>
+&lt;ul>
+&lt;li>git hooks&lt;/li>
+&lt;li>github actions has a broad marketplace&lt;/li>
+&lt;/ul></description></item><item><title>Rota Driven Development ⁉</title><status>evergreen</status><link>https://idiosapps.github.io/garden/rota-driven-development/</link><pubDate>Fri, 28 Apr 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/rota-driven-development/</guid><description>&lt;p>How can you take a bunch of T-shaped developers and upskill everyone to be a 🟩-shaped developer?&lt;/p>
 &lt;p>You might know a few ways you can do this already:&lt;/p>
 &lt;ul>
 &lt;li>Knowledge sharing sessions&lt;/li>
