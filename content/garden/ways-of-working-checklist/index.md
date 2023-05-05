@@ -1,7 +1,7 @@
 ---
 title: "Ways of Working 'checklist'"
 draft: false
-garden_tags: ["ways of working"]
+garden_tags: ["Ways-Of-Working"]
 summary: "... WoW, I can use some of these posthaste!"
 status: "seeding"
 date: 2023-05-05
