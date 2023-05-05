@@ -34,6 +34,25 @@ This is much better than just having the ticket number (and no link) in the titl
 &lt;li>It ensures everyone has easily accessible context, so the PR description can focus on the actual changes&lt;/li>
 &lt;/ul>
 &lt;p>Until I knew this I was using an Espanso text expansion macro &lt;code>:JIRA&lt;/code> to do similar, but this setup gives your whole team an awesome shared capability&lt;/p>
+&lt;h3 id="conventional-comments">Conventional comments&lt;/h3>
+&lt;p>Stating the importance &amp;amp; intent of your message up front can make communication clearer, and decisions faster.&lt;/p>
+&lt;p>Read more in detail at &lt;a href="https://conventionalcomments.org/">https://conventionalcomments.org/&lt;/a>, but basically comments on PRs can look more valuable like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-markdown" data-lang="markdown">&lt;span style="display:flex;">&lt;span>issue: this mock never gets called!
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-markdown" data-lang="markdown">&lt;span style="display:flex;">&lt;span>praise: this method is really easy to read, and handles the logic very well
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-markdown" data-lang="markdown">&lt;span style="display:flex;">&lt;span>nitpick: these two tests could be combined
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Compare the latter example to how it might be expressed without &amp;ldquo;conventional comments&amp;rdquo;:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-markdown" data-lang="markdown">&lt;span style="display:flex;">&lt;span>These two tests could be combined, but it&amp;#39;s not a blocker for this PR and I&amp;#39;ll approve
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="conventional-commits">Conventional commits&lt;/h3>
+&lt;p>Commits can look like:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>docs: add javadocs for user-facing swagger api&lt;/code>&lt;/li>
+&lt;li>&lt;code>bug: fix a flaky test&lt;/code>&lt;/li>
+&lt;li>&lt;code>chore: bump dependency version x-&amp;gt;y&lt;/code>&lt;/li>
+&lt;li>&lt;code>feat: AI face detection when user blinks&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>It could help you have a more atomic git history, which may make PRs easier to comb through.
+You can also use the prefixes to group changes, and make prettier changelogs.&lt;/p>
+&lt;p>Read more: &lt;a href="https://www.conventionalcommits.org/en/v1.0.0/">https://www.conventionalcommits.org/en/v1.0.0/&lt;/a>&lt;/p>
 &lt;h1 id="tickets--work-capture">Tickets / work capture&lt;/h1>
 &lt;h2 id="make-templates">Make templates&lt;/h2>
 &lt;ul>
