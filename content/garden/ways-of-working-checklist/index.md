@@ -105,3 +105,38 @@ Arguably, the notes (and their relations!) might not be personal enough to be ma
 If you think you're having problems in some of those areas, maybe try a different knowledge management system.
 This is totally not an advert ;) I'd just love to see first-hand how these tools could work for some teams instead of the usual Jira/Confluence fare! If you have some 💲 and some ⌛, your team could spike using these tools.
 
+# Discussions 
+
+| Problem | Solution |
+|---------|--|
+| Rabbit holes        | Be mindful of topics dominating meetings - consider a separate meeting/thread to go into specifics |
+| Circling        | Be mindful of discussions looping. Raise the concern, or capture notes everyone can see and help to align on a plan|
+| Uncaptured discussion        | Take notes and share them. Ask for corrections, as you may have misunderstood. Whether it's minutes for regular meetings, or details in ticket refinement - capturing 5 minutes of context now can save a few minutes in the future |
+| Discussion contains too many moving pieces  | Make a quick sketch, in TLDRAW or even Mermaid. Humans find it hard to remember 5-9 "bits" of info - compress ideas into a visual)|
+| Out of office/ill teammates missed important discussion meetings        | Record the meetings, and update the calendar invite with the recording link. Transcribe the audio, provide a searchable interface to save time |
+| Solutionising without being aligned      | Define the problem statement. "What questions are we trying to answer?", "What data lets us answer these questions?", "How can we get that data?"  |
+
+# Collaborative working
+
+## Visible, welcoming huddles
+
+Is your team pairing and mobbing, but in private calls?
+It's not transparent or welcoming - so consider this:
+
+Take the number of devs you have, and divide by two. Make this many "pairing" Slack channels.
+It gives a space for everyone to pair, or form mobs. If someone needs help, it's easy to hop in and out without the complexity of setting up more calls.
+
+## Remote pairing
+
+| Tool                        | Review                                                                                                                                                                               |
+|-----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Zoom                        | Solid screenshare quality, awkward drawing tools, and confusing controls. Preferred screen-sharing platform for now                                                                  |
+| Slack                       | Worst screenshare & audio quality. Most convenient to drop in/out with pairing channels                                                                                              |
+| VS Code                     | Shared editor & terminal are good  - but the file explorer seems too strict to let the guest explore the project and be productive                                                   |
+| Intellij                    | Code With Me is decent now - my main issue is the Shared Terminal is completely broken for the host (a big problem if you run your tests there!)                                     |
+| [Tuple](https://tuple.app/) | Great screenshare quality (configurable), good interactivity. Configuration maybe a bit too permissive, but necessary. Great features like "pebble drop" to show where you're looking |
+
+# Quality checks
+
+- git hooks
+- github actions has a broad marketplace 
