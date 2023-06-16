@@ -28,6 +28,7 @@ I loved using Kubernetes (with k9s!) at Sainsbury's, so I volunteered to lead th
 - For real-time knowledge sharing, encourage various people to take tickets on the work. Pair with them for smooth KT
 - In refinement, it can be great to call out a ticket as a pairing ticket - a "🍐" emoji in the title is a nice reminder that some felt they had something new to learn from it
 
+I also wrote a popular internal blog post for our organisation about how to use [`k9s`](https://k9scli.io/), with specific instructions for a frictionless walk-through.
 
 
 
@@ -58,13 +59,37 @@ Open source contributions:
 
 I was familiar with Hugo's Doks static site generator, and was happy to try a new SSG here: Docusaurus.
 
-We were on Docusaurus 1, and we had a lot of complexity with the sidebar, document ordering, etc.. - so I was happy to simplify things and upgrade us to Docusuaurs 2. Here's a few tips:
+We were on Docusaurus 1, and we had a lot of complexity with the sidebar, document ordering, couldn't use cool new plugins, etc. - so I was happy to simplify things and upgrade us to Docusuaurs 2. Here's a few tips:
 
 - Set up [PR preview](https://github.com/marketplace/actions/deploy-pr-preview), so non-developers can see what their changes look like
     - You might need to "recreate" the Action from scratch to avoid nesting (it's a composite action) - see [this issue](https://github.com/rossjrw/pr-preview-action/issues/33)
 - Consider adding comments to your site, so people can reach out with the context directly above. [utteranc.es](https://utteranc.es/) can help with this
 - Add light/dark src/css/custom.css to match the rest of your project's branding 
 - For user-facing documentation, add a FAQ page. This could save a lot of time helping resolve confusion on your most common questions!
+- When choosing document order, set weights like 0, 10, and 20. If you set 0, 1, and 2 then you can't insert a document between any of them without changing many files. With the former setup, you can set "15" to get between 10 and 20.
+
+## Text search in Docusaurus
+
+I also added text search, to help our users navigate straight to what their looking for - without having to look through the structure of our sidebar. I did this as a spike for fun on a "learning Friday" - and when it was nearly ready, our users were excited for it - it was apparently quite a headache for them. Once I figured it out, it was really simple! I [raised documentation](https://github.com/cmfcmf/docusaurus-search-local/commit/f169f9acc9fd44d7963f6e732466ba6cd38e6ce9) for this to make it easier for other people to get up to speed quickly with it too.
+
+package.json adds e.g.
+```json 
+"dependencies": {
+  "@cmfcmf/docusaurus-search-local": "^0.11.0",
+  ...
+}
+```
+
+docusaurus.config.js adds e.g.
+```javascript
+plugins: [require.resolve("@cmfcmf/docusaurus-search-local")],
+```
+
+To see it locally, do `yarn build` and `yarn serve`. These make a production-like version of your site. `yarn run dev` does not integrate most of the search plugins (the search index is built on build only)
+
+There's also https://github.com/easyops-cn/docusaurus-search-local if you need it to be local/static.
+Algolia is popular, but it needs a server. 
+See more [in the Docusaurus docs](https://docusaurus.io/docs/search)
 
 
 # Meetings
@@ -94,7 +119,7 @@ Our team uses our own `mill` build tool container. It already ran some basic che
 
 The outcome of this is that, several minutes are shaved off each module (more or less, each microservice) build time. *Faster PR compilations means faster PR checks, which means delivering value faster and reducing our mean time to recovery.* It also means faster builds for ChatOps triggering branch builds + perf tests, giving fast feedback on performance critical code changes!
 
-[//]: # (TODO image of Jenkins)
+{{< figure src="build-cache.webp" width="100%" caption="Can you guess which builds are using the cache?">}}
 
 I was pleased with doing this, as using `deltas` like this has seemed awesome to me for a long time. I was amazed as a teenager when one Android custom ROM could deliver OTA updates 10x smaller than anyone else, by using deltas.
 
@@ -139,3 +164,5 @@ If you're not getting updates with Scala Steward, that might be something to loo
 If you have a big `Mill` Scala project (let's say, a monorepo - with about 10 modules) and fair number of dependencies - you might be seeing this problem.
 
 I ran a local clone of Steward with a teammate, adding some print-lines to diagnose the parser. We saw the input string for parsing was blank for our project. Looking at `MillAlg.scala`, we saw about [5000 lines of the *end* of a JSON object](https://github.com/scala-steward-org/scala-steward/pull/2717). The default buffer is 8192 bytes. Increasing the CLI argument [`--max-buffer-size`](https://github.com/scala-steward-org/scala-steward/pull/1829) to `32768` fixed the issue for us. The author also raised a [PR](https://github.com/scala-steward-org/scala-steward/pull/2940) to give a more obvious error about this, instead of returning some partial JSON.
+
+[//]: # (todo - from week 43 and earlier)
