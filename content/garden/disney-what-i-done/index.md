@@ -31,13 +31,13 @@ I loved using Kubernetes (with k9s!) at Sainsbury's, so I volunteered to lead th
 
 
 
-# Jenkins
+# CI (Jenkins)
 
 - Consider adding a "notes" text parameter to some builds. Even if you don't update the build description with this, it can be very useful to know why some builds were run (e.g. manual perf testing of a branch - what change, what is expected)
 - For performance tests, put time-stamped links to observability platforms (DataDog, Grafana, etc.) in the output - it really helps the ergonomics of diagnosing any issues. Lower barrier to entry helps keep performance high!
 - Be mindful of how many messages you're sending to Slack, and where. If there's just a little traffic, it can go to a visible team chat. If it's noisy, it'll probably go to a chat where people don't look as often!
 
-# GitHub Actions
+# CI (GitHub Actions)
 
 Apart from linting, auto-fixing, formatting, etc. there are some really cool things you can do with GHA and GH
 
@@ -112,8 +112,30 @@ In your performance testing platform (we use Gatling), consider what types of te
 - load (branch)
   - results could be very far from average results on `main`, so have separate simulation to keep your "usually good" simulations clean
 
+You can try different traffic shapes, e.g. a triangle wave over a day to simulate real traffic variety. How does your app perform as load varies?
+
+We previously sent the reports to Slack, with pass/fail and the targets. I added time-stamped hyperlinks to observability dashboards for ergonomics.
+
 # Git hooks
 
 Git hooks are great - ensure your code is linted/compilable/tested before pushing.
 What's even cooler is combining them with interactive CLI tooling like `gum` - see my ["gummy hooks"](https://github.com/IdiosApps/gummy-hooks) examples.
 - Iterate quicker by using a bash script and just calling it - you don't actually have to do anything with Git to iterate on it.
+
+# Scala Steward
+
+## Not receiving updates
+
+For Scala, a common tool for getting dependency upgrades (and new Scala versions!) is [Scala Steward](https://github.com/scala-steward-org/scala-steward).
+For about half a year, only a few of our dependencies were getting updates. You may remember when Log4j had multiple security vulnerabilities (and corresponding patches) within about one week, in December 2021. This one *was* patched automatically. A few other dependencies weren't being updated (note: I never saw security issues, or if we did we'd patch manually).
+
+We were extracting a version and interpolating with it.
+The fix here was to declare each dependency and its version on its own line. It didn't really make PRs harder to review, and is even a bit clearer in a PR to show you what really changed.
+
+If you're not getting updates with Scala Steward, that might be something to look into!
+
+## Not receiving updates... 2.0: `Failed to decode Modules`
+
+If you have a big `Mill` Scala project (let's say, a monorepo - with about 10 modules) and fair number of dependencies - you might be seeing this problem.
+
+I ran a local clone of Steward with a teammate, adding some print-lines to diagnose the parser. We saw the input string for parsing was blank for our project. Looking at `MillAlg.scala`, we saw about [5000 lines of the *end* of a JSON object](https://github.com/scala-steward-org/scala-steward/pull/2717). The default buffer is 8192 bytes. Increasing the CLI argument [`--max-buffer-size`](https://github.com/scala-steward-org/scala-steward/pull/1829) to `32768` fixed the issue for us. The author also raised a [PR](https://github.com/scala-steward-org/scala-steward/pull/2940) to give a more obvious error about this, instead of returning some partial JSON.
