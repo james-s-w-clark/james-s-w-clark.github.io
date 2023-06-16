@@ -24,7 +24,16 @@ In your team's day-to-day repositories, it's likely you aren't using templates. 
 
 GitHub uses MarkDown (their own special flavour of MarkDown, really) - and it supports comments:
 
-`example md comment`
+```text
+<!-- Please enter the ticket number below (GitHub will autolink to Jira), e.g. JIRA-1234 -->
+JIRA-420
+
+<!--
+For this feature/fix, please link any tests from other repositories too:
+- [ ] e2e: E2E-PR-1337
+- [ ] perf-tests: PERF-404
+-->
+```
 
 These comments are only visible when editing - you can't see them on the posted description. 
 You can use comment to give friendly reminders on:
