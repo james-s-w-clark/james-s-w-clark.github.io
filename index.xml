@@ -35,6 +35,7 @@
 &lt;li>Consider adding a &amp;ldquo;notes&amp;rdquo; text parameter to some builds. Even if you don&amp;rsquo;t update the build description with this, it can be very useful to know why some builds were run (e.g. manual perf testing of a branch - what change, what is expected)&lt;/li>
 &lt;li>For performance tests, put time-stamped links to observability platforms (DataDog, Grafana, etc.) in the output - it really helps the ergonomics of diagnosing any issues. Lower barrier to entry helps keep performance high!&lt;/li>
 &lt;li>Be mindful of how many messages you&amp;rsquo;re sending to Slack, and where. If there&amp;rsquo;s just a little traffic, it can go to a visible team chat. If it&amp;rsquo;s noisy, it&amp;rsquo;ll probably go to a chat where people don&amp;rsquo;t look as often!&lt;/li>
+&lt;li>For parameters, be explicit - say &lt;code>3600&lt;/code> for the &lt;code>default&lt;/code> seconds run time, rather than &lt;code>default&lt;/code> then loading in the number based on that string&lt;/li>
 &lt;/ul>
 &lt;h1 id="ci-github-actions">CI (GitHub Actions)&lt;/h1>
 &lt;p>Apart from linting, auto-fixing, formatting, etc. there are some really cool things you can do with GHA and GH&lt;/p>
@@ -168,7 +169,13 @@ The fix here was to declare each dependency and its version on its own line. It 
 &lt;p>If you&amp;rsquo;re not getting updates with Scala Steward, that might be something to look into!&lt;/p>
 &lt;h2 id="not-receiving-updates-20-failed-to-decode-modules">Not receiving updates&amp;hellip; 2.0: &lt;code>Failed to decode Modules&lt;/code>&lt;/h2>
 &lt;p>If you have a big &lt;code>Mill&lt;/code> Scala project (let&amp;rsquo;s say, a monorepo - with about 10 modules) and fair number of dependencies - you might be seeing this problem.&lt;/p>
-&lt;p>I ran a local clone of Steward with a teammate, adding some print-lines to diagnose the parser. We saw the input string for parsing was blank for our project. Looking at &lt;code>MillAlg.scala&lt;/code>, we saw about &lt;a href="https://github.com/scala-steward-org/scala-steward/pull/2717">5000 lines of the &lt;em>end&lt;/em> of a JSON object&lt;/a>. The default buffer is 8192 bytes. Increasing the CLI argument &lt;a href="https://github.com/scala-steward-org/scala-steward/pull/1829">&lt;code>--max-buffer-size&lt;/code>&lt;/a> to &lt;code>32768&lt;/code> fixed the issue for us. The author also raised a &lt;a href="https://github.com/scala-steward-org/scala-steward/pull/2940">PR&lt;/a> to give a more obvious error about this, instead of returning some partial JSON.&lt;/p></description></item><item><title>ChatOps - just say the word</title><status>seeding</status><link>https://idiosapps.github.io/garden/chatops/</link><pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/chatops/</guid><description>&lt;p>ChatOps: you say some trigger, and you get some response. The processing behind the scenes can be as complex or niche as you like.&lt;/p>
+&lt;p>I ran a local clone of Steward with a teammate, adding some print-lines to diagnose the parser. We saw the input string for parsing was blank for our project. Looking at &lt;code>MillAlg.scala&lt;/code>, we saw about &lt;a href="https://github.com/scala-steward-org/scala-steward/pull/2717">5000 lines of the &lt;em>end&lt;/em> of a JSON object&lt;/a>. The default buffer is 8192 bytes. Increasing the CLI argument &lt;a href="https://github.com/scala-steward-org/scala-steward/pull/1829">&lt;code>--max-buffer-size&lt;/code>&lt;/a> to &lt;code>32768&lt;/code> fixed the issue for us. The author also raised a &lt;a href="https://github.com/scala-steward-org/scala-steward/pull/2940">PR&lt;/a> to give a more obvious error about this, instead of returning some partial JSON.&lt;/p>
+&lt;h1 id="kinesis">Kinesis&lt;/h1>
+&lt;p>With Kinesis, we were getting hundreds of thousands of errors per week -&lt;code>[metrics_manager.cc:145] Metrics upload failed&lt;/code>- giving a very bad signal:noise ratio in our DataDog logs.&lt;/p>
+&lt;p>We only use metrics at the &amp;ldquo;stream&amp;rdquo; level, rather than the &amp;ldquo;shard&amp;rdquo; level (a stream has many shards, and shards can sometimes report no data &amp;amp; error).&lt;/p>
+&lt;p>On a &lt;code>KinesisProducerConfiguration&lt;/code>, do &lt;code>.setMetricsGranularity(&amp;quot;stream&amp;quot;)&lt;/code>. The default level is &amp;ldquo;shard&amp;rdquo;.&lt;/p>
+&lt;p>Also be mindful of costs. The Javadocs state that two shards with two streams each will produce &lt;em>seven&lt;/em> CloudWatch metrics (4x shard, 2x stream, 1 global).&lt;/p>
+&lt;p>AWS support was not so helpful with this error (&lt;a href="https://github.com/awslabs/amazon-kinesis-producer/issues/188#issuecomment-557198786">essentially saying: &amp;ldquo;it&amp;rsquo;s a known issue, but please work around it by filtering out the logs&amp;rdquo;&lt;/a>) - setting a more accurate configuration is better, and I &lt;a href="https://github.com/awslabs/amazon-kinesis-producer/issues/188#issuecomment-1189202115">shared our recommendation on the issue&lt;/a>.&lt;/p></description></item><item><title>ChatOps - just say the word</title><status>seeding</status><link>https://idiosapps.github.io/garden/chatops/</link><pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/chatops/</guid><description>&lt;p>ChatOps: you say some trigger, and you get some response. The processing behind the scenes can be as complex or niche as you like.&lt;/p>
 &lt;p>In this blog, we&amp;rsquo;ll talk about three different ChatOps tools (Slack, GitHub Actions, Hubot) and how they can:&lt;/p>
 &lt;ul>
 &lt;li>Set up a basic reminder (Slack)&lt;/li>
@@ -201,8 +208,15 @@ The most useful I&amp;rsquo;ve seen is reminders - whether for yourself or for y
 &lt;p>In your team&amp;rsquo;s day-to-day repositories, it&amp;rsquo;s likely you aren&amp;rsquo;t using templates. Maybe they &amp;ldquo;get in the way&amp;rdquo; and &amp;ldquo;just get deleted&amp;rdquo;, but these two features might make it more interesting!&lt;/p>
 &lt;h3 id="markdown-comments">Markdown comments&lt;/h3>
 &lt;p>GitHub uses MarkDown (their own special flavour of MarkDown, really) - and it supports comments:&lt;/p>
-&lt;p>&lt;code>example md comment&lt;/code>&lt;/p>
-&lt;p>These comments are only visible when editing - you can&amp;rsquo;t see them on the posted description.
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>&amp;lt;!-- Please enter the ticket number below (GitHub will autolink to Jira), e.g. JIRA-1234 --&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>JIRA-420
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;!--
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>For this feature/fix, please link any tests from other repositories too:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- [ ] e2e: E2E-PR-1337
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- [ ] perf-tests: PERF-404
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>--&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>These comments are only visible when editing - you can&amp;rsquo;t see them on the posted description.
 You can use comment to give friendly reminders on:&lt;/p>
 &lt;ul>
 &lt;li>Providing context&lt;/li>

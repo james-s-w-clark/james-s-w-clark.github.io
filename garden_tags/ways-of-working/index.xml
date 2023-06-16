@@ -31,8 +31,15 @@ The most useful I&amp;rsquo;ve seen is reminders - whether for yourself or for y
 &lt;p>In your team&amp;rsquo;s day-to-day repositories, it&amp;rsquo;s likely you aren&amp;rsquo;t using templates. Maybe they &amp;ldquo;get in the way&amp;rdquo; and &amp;ldquo;just get deleted&amp;rdquo;, but these two features might make it more interesting!&lt;/p>
 &lt;h3 id="markdown-comments">Markdown comments&lt;/h3>
 &lt;p>GitHub uses MarkDown (their own special flavour of MarkDown, really) - and it supports comments:&lt;/p>
-&lt;p>&lt;code>example md comment&lt;/code>&lt;/p>
-&lt;p>These comments are only visible when editing - you can&amp;rsquo;t see them on the posted description.
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>&amp;lt;!-- Please enter the ticket number below (GitHub will autolink to Jira), e.g. JIRA-1234 --&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>JIRA-420
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;!--
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>For this feature/fix, please link any tests from other repositories too:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- [ ] e2e: E2E-PR-1337
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- [ ] perf-tests: PERF-404
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>--&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>These comments are only visible when editing - you can&amp;rsquo;t see them on the posted description.
 You can use comment to give friendly reminders on:&lt;/p>
 &lt;ul>
 &lt;li>Providing context&lt;/li>
