@@ -178,4 +178,15 @@ Also be mindful of costs. The Javadocs state that two shards with two streams ea
 
 AWS support was not so helpful with this error ([essentially saying: "it's a known issue, but please work around it by filtering out the logs"](https://github.com/awslabs/amazon-kinesis-producer/issues/188#issuecomment-557198786)) - setting a more accurate configuration is better, and I [shared our recommendation on the issue](https://github.com/awslabs/amazon-kinesis-producer/issues/188#issuecomment-1189202115).
 
+
+# On-call
+
+With good tests (unit, integration, end-to-end, performance, etc.), you won't get called out much and it might be worth the extra pay bump + other perks :)
+
+# `gh` CLI - downloading files, & using in GitHub Actions
+
+`curl $(gh api $URL_TO_FILE_ON_GITHUB) --jq .download_url) -o ./path/to/download.ext`
+
+If you install the `gh` CLI on you GitHub Action runners too, it can be a nice way to interact with your GitHub (enterprise works too!). You just need to [set the enterprise token and GitHub Host as env variables](https://josh-ops.com/posts/gh-auth-login-in-actions/).
+
 [//]: # (todo - from week 43 and earlier)
