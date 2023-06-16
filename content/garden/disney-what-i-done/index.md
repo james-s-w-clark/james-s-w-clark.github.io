@@ -8,7 +8,7 @@ summary: "...  because a CV is too brief"
 status: "seeding"
 ---
 
-Outside of usual sprint project work (Scala Functional Programming microservices with ZIO, Caliban, Circe, Doobie, etc.), I enjoyed dabbling with different bits of tech and ideas (mostly tech/way of working related) in my time at Disney Streaming so far!
+Outside of usual sprint project work (Scala Functional Programming microservices), I enjoyed dabbling with different bits of tech and ideas (mostly tech/way of working related) in my time at Disney Streaming so far!
 
 # Migrating our team to Kubernetes
 
@@ -49,6 +49,10 @@ Apart from linting, auto-fixing, formatting, etc. there are some really cool thi
   - If you have `auto merge` enabled, you can use the `PR_FILTER` of `auto_merge`
     - Done reviewing 5 PRs? Hit auto merge on them, and this will keep them merging until they're all done!
     - Without this, you'd have to wait and press "merge from main" four times. That could be like 10-30 minutes being distracted!
+
+Open source contributions:
+- Coursier's `setup-action` is "A GitHub Action to install Coursier and use it to install Java and Scala CLI tools.". It can set up various Java verisons and distributions.
+  - We use Amazon Corretto at work, and AWS. I [added Corretto to the jvm-index repo](https://github.com/coursier/setup-action https://github.com/coursier/jvm-index/blob/master/src/Corretto.scala).
 
 # Docusaurus
 
@@ -96,3 +100,20 @@ I was pleased with doing this, as using `deltas` like this has seemed awesome to
 
 
 # Performance tests
+
+In your performance testing platform (we use Gatling), consider what types of test you want to have, and what should be compared:
+- nightly, load (main)
+  - I made them run for longer (why not? nobody is manually testing on the `perf` env at 3am)
+  - I made them run at peak RPS for 75% of the run time (configurable). Previously, only about 20% of the time was at peak RPS. Choose a traffic shape gives your services a proper workout!
+- soak (main) 
+  - Have seen dependencies clash and lead to slow memory leaks; soak tests protect us from this, run over the weekend
+  - I oversaw various performance test changes around this time after identifying improvements with the team in a post-mortem.
+  - Here, we basically decrease the load a little bit (75% of nightly) and run for much longer
+- load (branch)
+  - results could be very far from average results on `main`, so have separate simulation to keep your "usually good" simulations clean
+
+# Git hooks
+
+Git hooks are great - ensure your code is linted/compilable/tested before pushing.
+What's even cooler is combining them with interactive CLI tooling like `gum` - see my ["gummy hooks"](https://github.com/IdiosApps/gummy-hooks) examples.
+- Iterate quicker by using a bash script and just calling it - you don't actually have to do anything with Git to iterate on it.
