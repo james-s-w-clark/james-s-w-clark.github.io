@@ -29,6 +29,7 @@
 &lt;p>In refinement, it can be great to call out a ticket as a pairing ticket - a &amp;ldquo;🍐&amp;rdquo; emoji in the title is a nice reminder that some felt they had something new to learn from it&lt;/p>
 &lt;/li>
 &lt;/ul>
+&lt;p>I also wrote a popular internal blog post for our organisation about how to use &lt;a href="https://k9scli.io/">&lt;code>k9s&lt;/code>&lt;/a>, with specific instructions for a frictionless walk-through.&lt;/p>
 &lt;h1 id="ci-jenkins">CI (Jenkins)&lt;/h1>
 &lt;ul>
 &lt;li>Consider adding a &amp;ldquo;notes&amp;rdquo; text parameter to some builds. Even if you don&amp;rsquo;t update the build description with this, it can be very useful to know why some builds were run (e.g. manual perf testing of a branch - what change, what is expected)&lt;/li>
@@ -67,7 +68,7 @@
 &lt;/ul>
 &lt;h1 id="docusaurus">Docusaurus&lt;/h1>
 &lt;p>I was familiar with Hugo&amp;rsquo;s Doks static site generator, and was happy to try a new SSG here: Docusaurus.&lt;/p>
-&lt;p>We were on Docusaurus 1, and we had a lot of complexity with the sidebar, document ordering, etc.. - so I was happy to simplify things and upgrade us to Docusuaurs 2. Here&amp;rsquo;s a few tips:&lt;/p>
+&lt;p>We were on Docusaurus 1, and we had a lot of complexity with the sidebar, document ordering, couldn&amp;rsquo;t use cool new plugins, etc. - so I was happy to simplify things and upgrade us to Docusuaurs 2. Here&amp;rsquo;s a few tips:&lt;/p>
 &lt;ul>
 &lt;li>Set up &lt;a href="https://github.com/marketplace/actions/deploy-pr-preview">PR preview&lt;/a>, so non-developers can see what their changes look like
 &lt;ul>
@@ -77,7 +78,21 @@
 &lt;li>Consider adding comments to your site, so people can reach out with the context directly above. &lt;a href="https://utteranc.es/">utteranc.es&lt;/a> can help with this&lt;/li>
 &lt;li>Add light/dark src/css/custom.css to match the rest of your project&amp;rsquo;s branding&lt;/li>
 &lt;li>For user-facing documentation, add a FAQ page. This could save a lot of time helping resolve confusion on your most common questions!&lt;/li>
+&lt;li>When choosing document order, set weights like 0, 10, and 20. If you set 0, 1, and 2 then you can&amp;rsquo;t insert a document between any of them without changing many files. With the former setup, you can set &amp;ldquo;15&amp;rdquo; to get between 10 and 20.&lt;/li>
 &lt;/ul>
+&lt;h2 id="text-search-in-docusaurus">Text search in Docusaurus&lt;/h2>
+&lt;p>I also added text search, to help our users navigate straight to what their looking for - without having to look through the structure of our sidebar. I did this as a spike for fun on a &amp;ldquo;learning Friday&amp;rdquo; - and when it was nearly ready, our users were excited for it - it was apparently quite a headache for them. Once I figured it out, it was really simple! I &lt;a href="https://github.com/cmfcmf/docusaurus-search-local/commit/f169f9acc9fd44d7963f6e732466ba6cd38e6ce9">raised documentation&lt;/a> for this to make it easier for other people to get up to speed quickly with it too.&lt;/p>
+&lt;p>package.json adds e.g.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#d88200">&amp;#34;dependencies&amp;#34;&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span> &lt;span style="color:#111">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">&amp;#34;@cmfcmf/docusaurus-search-local&amp;#34;&lt;/span>&lt;span style="color:#111">:&lt;/span> &lt;span style="color:#d88200">&amp;#34;^0.11.0&amp;#34;&lt;/span>&lt;span style="color:#111">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#960050;background-color:#1e0010">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>docusaurus.config.js adds e.g.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75af00">plugins&lt;/span>&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#111">[&lt;/span>&lt;span style="color:#75af00">require&lt;/span>&lt;span style="color:#111">.&lt;/span>&lt;span style="color:#75af00">resolve&lt;/span>&lt;span style="color:#111">(&lt;/span>&lt;span style="color:#d88200">&amp;#34;@cmfcmf/docusaurus-search-local&amp;#34;&lt;/span>&lt;span style="color:#111">)],&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>To see it locally, do &lt;code>yarn build&lt;/code> and &lt;code>yarn serve&lt;/code>. These make a production-like version of your site. &lt;code>yarn run dev&lt;/code> does not integrate most of the search plugins (the search index is built on build only)&lt;/p>
+&lt;p>There&amp;rsquo;s also &lt;a href="https://github.com/easyops-cn/docusaurus-search-local">https://github.com/easyops-cn/docusaurus-search-local&lt;/a> if you need it to be local/static.
+Algolia is popular, but it needs a server.
+See more &lt;a href="https://docusaurus.io/docs/search">in the Docusaurus docs&lt;/a>&lt;/p>
 &lt;h1 id="meetings">Meetings&lt;/h1>
 &lt;ul>
 &lt;li>Enable closed captions
@@ -108,6 +123,11 @@ Some build tools have a remote cache - that&amp;rsquo;s great for quicker builds
 &lt;/li>
 &lt;/ul>
 &lt;p>The outcome of this is that, several minutes are shaved off each module (more or less, each microservice) build time. &lt;em>Faster PR compilations means faster PR checks, which means delivering value faster and reducing our mean time to recovery.&lt;/em> It also means faster builds for ChatOps triggering branch builds + perf tests, giving fast feedback on performance critical code changes!&lt;/p>
+&lt;figure>&lt;img src="build-cache.webp"
+alt="Can you guess which builds are using the cache?" width="100%"/>&lt;figcaption>
+&lt;p>Can you guess which builds are using the cache?&lt;/p>
+&lt;/figcaption>
+&lt;/figure>
 &lt;p>I was pleased with doing this, as using &lt;code>deltas&lt;/code> like this has seemed awesome to me for a long time. I was amazed as a teenager when one Android custom ROM could deliver OTA updates 10x smaller than anyone else, by using deltas.&lt;/p>
 &lt;h1 id="performance-tests">Performance tests&lt;/h1>
 &lt;p>In your performance testing platform (we use Gatling), consider what types of test you want to have, and what should be compared:&lt;/p>
