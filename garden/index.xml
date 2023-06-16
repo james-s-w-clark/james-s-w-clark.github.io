@@ -1,4 +1,132 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Digital Garden on James' Digital Garden</title><link>https://idiosapps.github.io/garden/</link><description>Recent content in Digital Garden on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Fri, 01 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/garden/index.xml" rel="self" type="application/rss+xml"/><item><title>Ways of Working 'checklist'</title><status>seeding</status><link>https://idiosapps.github.io/garden/ways-of-working-checklist/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/ways-of-working-checklist/</guid><description>&lt;p>Every team will figure out their own unique ways of working through &amp;ldquo;Forming, Storming, Norming and Performing&amp;rdquo; - but here are some techniques that I&amp;rsquo;ve seen provide lots of value - usually with little effort!&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Digital Garden on James' Digital Garden</title><link>https://idiosapps.github.io/garden/</link><description>Recent content in Digital Garden on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Fri, 01 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/garden/index.xml" rel="self" type="application/rss+xml"/><item><title>Career - Disney Streaming - What I Done</title><status>seeding</status><link>https://idiosapps.github.io/garden/disney-what-i-done/</link><pubDate>Tue, 06 Jun 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/disney-what-i-done/</guid><description>&lt;p>Outside of usual sprint project work (Scala Functional Programming microservices with ZIO, Caliban, Circe, Doobie, etc.), I enjoyed dabbling with different bits of tech and ideas (mostly tech/way of working related) in my time at Disney Streaming so far!&lt;/p>
+&lt;h1 id="migrating-our-team-to-kubernetes">Migrating our team to Kubernetes&lt;/h1>
+&lt;p>We were running our applications on a bespoke ECS-like platform - which worked fairly well, apart from deployments regularly failing due to nodes being too small to fit pods onto. It has health checks, self-healing properties, etc. like Kubernetes - but you can&amp;rsquo;t easily &lt;code>ssh&lt;/code> into pods even in non-prod environments easily. There&amp;rsquo;s more reasons for the move, but basically there&amp;rsquo;s a company-wide effort to move to EKS.&lt;/p>
+&lt;p>I loved using Kubernetes (with k9s!) at Sainsbury&amp;rsquo;s, so I volunteered to lead this migration project for our team. Here&amp;rsquo;s some things I learned whilst leading this:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>A shared knowledge base such as Google Docs works great. We captured key meeting notes, decisions, diagrams, etc. here.&lt;/p>
+&lt;ul>
+&lt;li>Anyone can get up to speed quickly&lt;/li>
+&lt;li>Easy to ask questions, add comments&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Creating a &amp;ldquo;team training Slack channel&amp;rdquo; for a new tech domain works great&lt;/p>
+&lt;ul>
+&lt;li>As you work through the training, questions, problems, and solutions crystallise&lt;/li>
+&lt;li>All information is contained neatly in the channel, not spread all over various places
+&lt;ul>
+&lt;li>It&amp;rsquo;s easier to collate key points and give feedback to the course owners&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>You can expand the channel beyond just your team, sharing the benefits&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>For real-time knowledge sharing, encourage various people to take tickets on the work. Pair with them for smooth KT&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>In refinement, it can be great to call out a ticket as a pairing ticket - a &amp;ldquo;🍐&amp;rdquo; emoji in the title is a nice reminder that some felt they had something new to learn from it&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="jenkins">Jenkins&lt;/h1>
+&lt;ul>
+&lt;li>Consider adding a &amp;ldquo;notes&amp;rdquo; text parameter to some builds. Even if you don&amp;rsquo;t update the build description with this, it can be very useful to know why some builds were run (e.g. manual perf testing of a branch - what change, what is expected)&lt;/li>
+&lt;li>For performance tests, put time-stamped links to observability platforms (DataDog, Grafana, etc.) in the output - it really helps the ergonomics of diagnosing any issues. Lower barrier to entry helps keep performance high!&lt;/li>
+&lt;li>Be mindful of how many messages you&amp;rsquo;re sending to Slack, and where. If there&amp;rsquo;s just a little traffic, it can go to a visible team chat. If it&amp;rsquo;s noisy, it&amp;rsquo;ll probably go to a chat where people don&amp;rsquo;t look as often!&lt;/li>
+&lt;/ul>
+&lt;h1 id="github-actions">GitHub Actions&lt;/h1>
+&lt;p>Apart from linting, auto-fixing, formatting, etc. there are some really cool things you can do with GHA and GH&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Have a fairly complex/tedious workflow for e.g. building docker images and performance testing them on a branch? Use ChatOps to listen to a command and let an Action do it for you&lt;/p>
+&lt;ul>
+&lt;li>It can reply with a comment, linking to the builds, perf tests, dashboards, etc.&lt;/li>
+&lt;li>It can describe what process it is doing, for more explicit documentation&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Use Chinthakagodawita&amp;rsquo;s &lt;a href="https://github.com/chinthakagodawita/autoupdate">autoupdate&lt;/a> action to keep PR&amp;rsquo;s up-to-date with the &lt;code>main&lt;/code> branch&lt;/p>
+&lt;ul>
+&lt;li>If you have &lt;code>auto merge&lt;/code> enabled, you can use the &lt;code>PR_FILTER&lt;/code> of &lt;code>auto_merge&lt;/code>
+&lt;ul>
+&lt;li>Done reviewing 5 PRs? Hit auto merge on them, and this will keep them merging until they&amp;rsquo;re all done!&lt;/li>
+&lt;li>Without this, you&amp;rsquo;d have to wait and press &amp;ldquo;merge from main&amp;rdquo; four times. That could be like 10-30 minutes being distracted!&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="docusaurus">Docusaurus&lt;/h1>
+&lt;p>I was familiar with Hugo&amp;rsquo;s Doks static site generator, and was happy to try a new SSG here: Docusaurus.&lt;/p>
+&lt;p>We were on Docusaurus 1, and we had a lot of complexity with the sidebar, document ordering, etc.. - so I was happy to simplify things and upgrade us to Docusuaurs 2. Here&amp;rsquo;s a few tips:&lt;/p>
+&lt;ul>
+&lt;li>Set up &lt;a href="https://github.com/marketplace/actions/deploy-pr-preview">PR preview&lt;/a>, so non-developers can see what their changes look like
+&lt;ul>
+&lt;li>You might need to &amp;ldquo;recreate&amp;rdquo; the Action from scratch to avoid nesting (it&amp;rsquo;s a composite action) - see &lt;a href="https://github.com/rossjrw/pr-preview-action/issues/33">this issue&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Consider adding comments to your site, so people can reach out with the context directly above. &lt;a href="https://utteranc.es/">utteranc.es&lt;/a> can help with this&lt;/li>
+&lt;li>Add light/dark src/css/custom.css to match the rest of your project&amp;rsquo;s branding&lt;/li>
+&lt;li>For user-facing documentation, add a FAQ page. This could save a lot of time helping resolve confusion on your most common questions!&lt;/li>
+&lt;/ul>
+&lt;h1 id="meetings">Meetings&lt;/h1>
+&lt;ul>
+&lt;li>Enable closed captions
+&lt;ul>
+&lt;li>Having the auto-generated subtitles should be accurate enough to help some of your team follow the conversation&lt;/li>
+&lt;li>If the auto-generated subtitles are garbage, you probably need to spend some budget on upgrading microphones. If the computer can&amp;rsquo;t understand you, maybe humans are having an issue too!&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="calendar">Calendar&lt;/h1>
+&lt;ul>
+&lt;li>If a meeting is recorded, but a link to the recording in the invite. It gives a real home to the recording, rather than just a Slack message that gets lost. Helpful for people coming back from holiday/sickness - can flick through Calendar and get straight into the meetings they need to catch up on&lt;/li>
+&lt;/ul>
+&lt;h1 id="build-caching">Build caching&lt;/h1>
+&lt;p>Compiling your apps from scratch every time is a waste of time &amp;amp; energy.
+Some build tools support delta/partial compilation - if only 1 file in 1000 changed, we can base our compile around that.
+GitHub Actions has a few options for caching dependencies, e.g. &lt;a href="https://github.com/actions/cache">https://github.com/actions/cache&lt;/a> or &lt;a href="https://github.com/coursier/cache-action">https://github.com/coursier/cache-action&lt;/a>. That &lt;em>could&lt;/em> help a little.
+Some build tools have a remote cache - that&amp;rsquo;s great for quicker builds on CI. But, if you don&amp;rsquo;t have a remote cache - what can you do?&lt;/p>
+&lt;p>Our team uses our own &lt;code>mill&lt;/code> build tool container. It already ran some basic checks to check it&amp;rsquo;d work with our project and could initialise some &amp;ldquo;workers&amp;rdquo; - but didn&amp;rsquo;t do any caching. Here&amp;rsquo;s what I did:&lt;/p>
+&lt;ul>
+&lt;li>Use a wrapper &lt;code>millw&lt;/code>, a bit like &lt;code>gradlew&lt;/code>. This would allow the container to build for any &lt;code>.mill-version&lt;/code>, by downloading the necessary tooling
+&lt;ul>
+&lt;li>If we merge a build tool upgrade in our main repo, builds would still work without requiring a manual rebuild on the new version of this image. Not technically efficient due to the redownloads of the build tool, but ultimately removing some toil in making things a little smoother for humans.&lt;/li>
+&lt;li>Compile, check formatting, fixing, etc. to generate these outputs in &lt;code>out&lt;/code>, as well as downloading dependencies&lt;/li>
+&lt;li>To prevent being over-written, run &lt;code>mv /root/build/out /root/out-cache&lt;/code>. In Jenkins jobs for app builds, move this cache back (if the build is parameterised with using the cache). Dependencies cache doesn&amp;rsquo;t need moving.&lt;/li>
+&lt;li>The cache doesn&amp;rsquo;t have to be used. It adds some size, but storage is cheap and saved time/energy is valuable. We use it for PR builds (not &lt;code>main&lt;/code> - that&amp;rsquo;s clean), and&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>The outcome of this is that, several minutes are shaved off each module (more or less, each microservice) build time. &lt;em>Faster PR compilations means faster PR checks, which means delivering value faster and reducing our mean time to recovery.&lt;/em> It also means faster builds for ChatOps triggering branch builds + perf tests, giving fast feedback on performance critical code changes!&lt;/p>
+&lt;p>I was pleased with doing this, as using &lt;code>deltas&lt;/code> like this has seemed awesome to me for a long time. I was amazed as a teenager when one Android custom ROM could deliver OTA updates 10x smaller than anyone else, by using deltas.&lt;/p>
+&lt;h1 id="performance-tests">Performance tests&lt;/h1></description></item><item><title>ChatOps - just say the word</title><status>seeding</status><link>https://idiosapps.github.io/garden/chatops/</link><pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/chatops/</guid><description>&lt;p>ChatOps: you say some trigger, and you get some response. The processing behind the scenes can be as complex or niche as you like.&lt;/p>
+&lt;p>In this blog, we&amp;rsquo;ll talk about three different ChatOps tools (Slack, GitHub Actions, Hubot) and how they can:&lt;/p>
+&lt;ul>
+&lt;li>Set up a basic reminder (Slack)&lt;/li>
+&lt;li>Trigger image builds, performance tests, etc. on PRs (GitHub Actions)&lt;/li>
+&lt;li>Send a list of open PRs, and their review counts, to Slack (Hubot)&lt;/li>
+&lt;/ul>
+&lt;h1 id="slack">Slack&lt;/h1>
+&lt;p>Slack has a few &lt;a href="https://slack.com/intl/en-gb/help/articles/360057554553-Use-shortcuts-to-take-actions-in-Slack">baked in commands (&amp;ldquo;Shortcuts&amp;rdquo;)&lt;/a>.
+The most useful I&amp;rsquo;ve seen is reminders - whether for yourself or for your team. Here&amp;rsquo;s a few examples, with the format []&lt;code>/remind [yourself or #channel] [what] [when].&lt;/code>](&lt;a href="https://slack.com/intl/en-gb/help/articles/208423427-Set-a-reminder)">https://slack.com/intl/en-gb/help/articles/208423427-Set-a-reminder)&lt;/a>:&lt;/p>
+&lt;ul>
+&lt;li>/remind #my-team to join &lt;a href="https://meet.google.com/?pli=1">Google Meet&lt;/a> on Wednesday at 4:30pm&lt;/li>
+&lt;li>/remind me to file TPS reports in 20 minutes&lt;/li>
+&lt;li>/remind me to have a great weekend every Friday at 5pm&lt;/li>
+&lt;/ul>
+&lt;h1 id="github-actions">GitHub Actions&lt;/h1>
+&lt;p>Note: If you have a project on Public GitHub, you can use their action &amp;ldquo;runners&amp;rdquo; for free. If you&amp;rsquo;re in the GitHub Enterprise Suite, you&amp;rsquo;ll need to deploy your own &lt;a href="https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow#using-default-labels-to-route-jobs">&lt;code>runs-on: [self-hosted]&lt;/code>&lt;/a> &amp;ldquo;runners&amp;rdquo;. There are some projects that can help you kick-start self-hosting, such as &lt;a href="https://github.com/philips-labs/terraform-aws-github-runner">the scalable spot instance setup
+&amp;ldquo;terraform-aws-github-runner&amp;rdquo;.&lt;/a>&lt;/p>
+&lt;p>perf tests awkward process, evolving over time as we change our Jenkins pipelines to multibranch etc.&lt;/p>
+&lt;p>very valuable - perf test before merge&lt;/p>
+&lt;p>low barrier to entry: chat ops. Ask a PR to be perf tested, and an hour later you have&lt;/p>
+&lt;ol>
+&lt;li>docker images build&lt;/li>
+&lt;li>applications performance tested&lt;/li>
+&lt;/ol>
+&lt;h1 id="hubot">Hubot&lt;/h1></description></item><item><title>Ways of Working 'checklist'</title><status>seeding</status><link>https://idiosapps.github.io/garden/ways-of-working-checklist/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/ways-of-working-checklist/</guid><description>&lt;p>Every team will figure out their own unique ways of working through &amp;ldquo;Forming, Storming, Norming and Performing&amp;rdquo; - but here are some techniques that I&amp;rsquo;ve seen provide lots of value - usually with little effort!&lt;/p>
 &lt;p>✏ Why not take a note of each one you aren&amp;rsquo;t using yet as you read?&lt;/p>
 &lt;h1 id="github">GitHub&lt;/h1>
 &lt;h2 id="pr-templates">PR Templates&lt;/h2>
@@ -280,150 +408,4 @@ The scripts to create junctions/symbolic links could be per-app, or you could pu
 &lt;li>Calibre, for digital book management&lt;/li>
 &lt;li>&amp;hellip; I can&amp;rsquo;t think of more, but I&amp;rsquo;m happy even with just Espanso having this :-)&lt;/li>
 &lt;/ul>
-&lt;p>The same principles apply to Ubuntu and MacOS - but implementation of your symlink script files might look more like &lt;a href="https://apple.stackexchange.com/a/115647">this StackExchange answer&lt;/a>.&lt;/p></description></item><item><title>How to always know when there are PRs to check out 🔮</title><status>seeding</status><link>https://idiosapps.github.io/garden/github-pr-watcher/</link><pubDate>Fri, 05 Aug 2022 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/github-pr-watcher/</guid><description>&lt;p>A few weeks ago I heard of SwiftBar, and &lt;a href="https://xbarapp.com/">Xbar&lt;/a>:&lt;/p>
-&lt;p>| Put the output from any script or program into your macOS Menu Bar&lt;/p>
-&lt;p>There&amp;rsquo;s a great library of plugins on the hub, covering all sorts of topics. Want to show the weather? Show upcoming info about your favourite sports team? Check if graphics cards are in stock? It can do all of this.&lt;/p>
-&lt;p>What&amp;rsquo;s also great is the fact that you can see the source code of all the plugins. You can tweak those plugins and make them your own - and it&amp;rsquo;s interesting to understand how people solved these kinds of problems.&lt;/p>
-&lt;h1 id="playing-with-plugins-">Playing with plugins 😳&lt;/h1>
-&lt;p>I installed a few plugins, said &amp;ldquo;wow&amp;rdquo;, and quickly realised that the Mac Pro&amp;rsquo;s camera notch is a bit annoying - you lose a fair bit of real estate for tools like this! I used &lt;a href="https://github.com/Mortennn/Dozer">Dozer&lt;/a> / &lt;a href="https://github.com/dwarvesf/hidden">Hidden&lt;/a> to get rid of a few non-essential plugins, but they take a couple icons themselves so it didn&amp;rsquo;t help much.&lt;/p>
-&lt;p>This taught me that I should be as lean as possible with how many characters I display with any plugin I write. Lots of plugins stick to emojis and numbers - I agree 💯%&lt;/p>
-&lt;h1 id="how-an-xbar-plugin-works">How an xbar plugin works&lt;/h1>
-&lt;p>The &lt;a href="https://github.com/matryer/xbar-plugins/blob/main/CONTRIBUTING.md">docs&lt;/a> for xbar are pretty good. There&amp;rsquo;s really two parts to a plugin: getting your data, and making xbar display it.&lt;/p>
-&lt;p>To show your data, you just echo/println it. How the display is structured (icon, click-on-icon-modal, etc.) is like this:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#!/usr/bin/env bash
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#75715e"># Cycle through &lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;cycle-one&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;cycle-two&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;cycle-three&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;---&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Next lines only visible in dropdown for this plugin&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;dropdown-item1&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;dropdown-item2&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;--dropdown-item2-something&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;----dropdown-item2-something-yodawg&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;--dropdown-item2-somethingElse&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Next item is also in dropdown, separated by horizontal bar&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;---&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;dropdown-item3&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="xbar_tree.jpg" width="100%"/>
-&lt;/figure>
-&lt;p>I think that&amp;rsquo;s far more nesting that I&amp;rsquo;d ever want to use - but it&amp;rsquo;s nice that it&amp;rsquo;s there if you want it. I guess somebody did!&lt;/p>
-&lt;p>Anyway, you can put links/colours/shortcuts in there and make it clickable. You can do other stuff like have the user enter variables (&amp;lt;xbar.var&amp;gt;) for the program to access as environment variables (it can&amp;rsquo;t access your actual environment variables).&lt;/p>
-&lt;p>Another key feature is deciding how often your plugin updates. The plugin filenames should have a format of {name}.{time}.{ext}, e.g. check_weather.15m.sh.&lt;/p>
-&lt;h1 id="writing-an-xbar-plugin">Writing an xbar plugin&lt;/h1>
-&lt;p>Lots of teams use Github PRs. xbar seemed like the perfect tool for me to monitor PRs. I&amp;rsquo;ve tried a few systems for monitoring PRs, but I&amp;rsquo;m not a fan of any of them:&lt;/p>
-&lt;ul>
-&lt;li>I don&amp;rsquo;t like &lt;em>email&lt;/em> spam (one more app/tab, multitasking)&lt;/li>
-&lt;li>&lt;em>Chatbots&lt;/em> are either slow (quickly oudated) or spammy&lt;/li>
-&lt;li>&lt;em>Manually checking the site&lt;/em> either needs a few page loads or a bookmark - either way, it&amp;rsquo;s not the smoothest experience&amp;hellip; but the problem for me is it doesn&amp;rsquo;t say in advance if there will be any information for you to act on&lt;/li>
-&lt;/ul>
-&lt;h2 id="goals">Goals&lt;/h2>
-&lt;p>I figured an xbar plugin would let me:&lt;/p>
-&lt;ul>
-&lt;li>know if I can to merge (required approval count is met, CI checks pass)&lt;/li>
-&lt;li>know if I have any comments/suggestions to address&lt;/li>
-&lt;li>get a count of how many PRs other people have open&lt;/li>
-&lt;li>get a count of how many PRs other people need reviews on&lt;/li>
-&lt;li>see if PR checks pass/fail&lt;/li>
-&lt;li>do this over multiple repositories&lt;/li>
-&lt;/ul>
-&lt;p>Your ideology on PRs probably makes you question these goals&amp;hellip; but you can tweak plugins, and you can tweak them to match your ideologies.&lt;/p>
-&lt;h1 id="writing-this-plugin-with-bash">Writing this plugin with bash&lt;/h1>
-&lt;p>The Github CLI is quite powerful - it can handle a lot of complexity with a clean API:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#!/bin/bash
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#111">username&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#d88200">$&amp;#34;james&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">repo&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#d88200">$&amp;#34;ourOrg/ourBigRepo&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">all_prs&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#00a8c8">$(&lt;/span>gh pr list --repo &lt;span style="color:#111">$repo&lt;/span>&lt;span style="color:#00a8c8">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;&lt;/span>&lt;span style="color:#111">$all_prs&lt;/span>&lt;span style="color:#d88200">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">my_prs&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#00a8c8">$(&lt;/span>gh pr list --repo WeaponX/ourBigRepo --author &lt;span style="color:#111">$username&lt;/span>&lt;span style="color:#00a8c8">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#34;&lt;/span>&lt;span style="color:#111">$my_prs&lt;/span>&lt;span style="color:#d88200">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># TODO take to browser with --web&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>There&amp;rsquo;s a lot of &lt;a href="https://cli.github.com/manual/gh_pr_list">options/args&lt;/a> you can use, and other handy commands like &lt;a href="https://cli.github.com/manual/gh_pr_status">gh pr status&lt;/a>. The CLI can natively output to json or use jq filters.&lt;/p>
-&lt;p>I had a think about how I&amp;rsquo;d use this to tick off those goals, but for me it seemed easier to use a language I&amp;rsquo;m more familar with.&lt;/p>
-&lt;ul>
-&lt;li>node.js
-&lt;ul>
-&lt;li>
-&lt;ul>
-&lt;li>I get higher order functions (map, filter, reduce, etc.) which can help me focus on what I want, not how to do it&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>
-&lt;ul>
-&lt;li>might need a global npm install of axios for making requests&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;del>- need to figure out how to run a node file as a bash-like file ()&lt;/del>
-&lt;ul>
-&lt;li>that only took a second to find out and verify - &lt;a href="https://stackoverflow.com/a/24183402/4261132">it&amp;rsquo;s pretty much what you&amp;rsquo;d expect&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>scala
-&lt;ul>
-&lt;li>it&amp;rsquo;s the language I work with, so it&amp;rsquo;d be good to practice more&lt;/li>
-&lt;li>&lt;a href="https://scala-cli.virtuslab.org/docs/guides/scripts#self-executable-scala-script">scala-cli&lt;/a> can let you write self-executable scala scripts
-&lt;ul>
-&lt;li>I was curious how the experience would be, so I went with this&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;p>Of course, sticking with bash would be nice. The Github CLI could be used for simplicity, which some users may already have - or curl could be used for even fewer dependencies. I encourage anyone who finds that challenge interesting to give it a try!&lt;/p>
-&lt;h1 id="writing-this-plugin-with-bash-scala">Writing this plugin with &lt;del>bash&lt;/del> Scala&lt;/h1>
-&lt;p>The first question is: Node has Axios, Python has Requests&amp;hellip; but what&amp;rsquo;s nice and simple for Scala? Enter Li Haoyi&amp;rsquo;s &lt;a href="https://github.com/com-lihaoyi/requests-scala">requests-scala&lt;/a>. Let&amp;rsquo;s install &lt;a href="https://scala-cli.virtuslab.org/install">scala-cli&lt;/a> and have a try:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#!/usr/bin/env -S scala-cli shebang
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>import &lt;span style="color:#111">$ivy&lt;/span>.&lt;span style="color:#d88200">`&lt;/span>com.lihaoyi::requests:0.7.1&lt;span style="color:#d88200">`&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>import &lt;span style="color:#111">$ivy&lt;/span>.&lt;span style="color:#d88200">`&lt;/span>com.lihaoyi::ujson:2.0.0&lt;span style="color:#d88200">`&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>val &lt;span style="color:#111">resp&lt;/span> &lt;span style="color:#f92672">=&lt;/span> requests.get&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#d88200">&amp;#34;https://api.github.com/users/lihaoyi&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>val &lt;span style="color:#111">data&lt;/span> &lt;span style="color:#f92672">=&lt;/span> ujson.read&lt;span style="color:#f92672">(&lt;/span>resp.text&lt;span style="color:#f92672">())&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>println&lt;span style="color:#f92672">(&lt;/span>data&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#d88200">&amp;#34;login&amp;#34;&lt;/span>&lt;span style="color:#f92672">))&lt;/span> &lt;span style="color:#75715e"># username&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>It&amp;rsquo;s close, it just needs a little tweak to the suggested shebang: for my MacOs brew install, &lt;code>#!/usr/bin/env /opt/homebrew/bin/scala-cli&lt;/code> works. Scala-cli is pulling in those Ivy dependencies and using them, very nice.&lt;/p>
-&lt;p>To keep the blog short, you can what I&amp;rsquo;ve got so far here: &lt;a href="https://github.com/IdiosApps/xbar-github-pr">xbar-github-pr&lt;/a>. At this time it just shows PR counts summed over multiple repositories for your PRs and others'.&lt;/p>
-&lt;p>TODO - add a screenshot&amp;hellip; or maybe in the goals section to get interest earlier?&lt;/p>
-&lt;p>For now it&amp;rsquo;s basic but it&amp;rsquo;s a useful gauge/reminder. It can definitely be more useful, and meet more of the &lt;a href="#goals">goals&lt;/a> we set up. At some point I&amp;rsquo;ll extend on it, make it more idiomatic, and clean it up. It&amp;rsquo;s pretty much a dirty POC at the time of writing, but nevertheless I wanted to share it.&lt;/p>
-&lt;p>Also note it was written for Github Enterprise, so might need a few small tweaks to work for public repos (mostly around the URLs used). Be respectful your scripts&amp;rsquo; frequency (remember, it&amp;rsquo;s in the filename, e.g. &lt;code>github-pr-checker.1h.sc&lt;/code>)&lt;/p>
-&lt;p>Writing scripts with Scala-cli was generally pleasant, and I will likely reach for it again when solving similar problems - however I couldn&amp;rsquo;t figure out how to have a great user experience. There are &lt;a href="https://scala-cli.virtuslab.org/docs/commands/setup-ide/">IDE setup docs for scala-cli&lt;/a>, which could have helped improve highlighting or autocompletion. They do acknowledge &lt;a href="https://scala-cli.virtuslab.org/docs/guides/ide/">IDE user experience could be better&lt;/a>.&lt;/p>
-&lt;h1 id="but-im-on-windows--linux">But I&amp;rsquo;m on Windows / Linux&lt;/h1>
-&lt;p>todo: have a look for alternatives that use plugins and thus could use this stuff too&lt;/p></description></item><item><title>Navigating multiple projects with IntelliJ &amp; MacOS</title><status>evergreen</status><link>https://idiosapps.github.io/garden/intellij-project-tabs/</link><pubDate>Wed, 03 Aug 2022 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/intellij-project-tabs/</guid><description>&lt;p>Microservices are pretty common nowadays, and often services gets their own repo. That has pros and cons, but one of the biggest cons you see day-to-day is that navigating multiple projects in IntelliJ &lt;del>isn&amp;rsquo;t&lt;/del> wasn&amp;rsquo;t a great experience.&lt;/p>
-&lt;ul>
-&lt;li>Do you switch between projects/folders in &lt;strong>IntelliJ&lt;/strong>?&lt;/li>
-&lt;li>Do you hate janky, slow UI reloads when switching projects?&lt;/li>
-&lt;li>Are you on &lt;strong>MacOS&lt;/strong>, and are on (or can get to) Big Sur or later?&lt;/li>
-&lt;/ul>
-&lt;p>If you answered yes to all of these questions, this post will interest you. Your IntelliJ can look like this:&lt;/p>
-&lt;figure>&lt;img src="intellij_project_tabs.jpg" width="100%"/>
-&lt;/figure>
-&lt;p>You can even close/re-order tabs 😍&lt;/p>
-&lt;h1 id="how-do-i-get-this-setup">How do I get this setup?&lt;/h1>
-&lt;p>According to JetBrains, &lt;a href="https://intellij-support.jetbrains.com/hc/en-us/community/posts/360010142139/comments/360002541180">this is a Big Sur only IntelliJ feature&lt;/a>. I guess it should also work on other JetBrains products, like WebStorm or PyCharm.&lt;/p>
-&lt;ul>
-&lt;li>Go to IntelliJ&amp;rsquo;s preferences&lt;/li>
-&lt;li>Go to Appearance &amp;amp; behaviour, then System Settings&lt;/li>
-&lt;li>Choose &amp;ldquo;New window&amp;rdquo; or &amp;ldquo;Ask&amp;rdquo; (it&amp;rsquo;s counter intuitive, I know!)
-&lt;ul>
-&lt;li>If you choose &amp;ldquo;Ask&amp;rdquo; and want a project to appear as a tab, choose &amp;ldquo;New window&amp;rdquo; in the popup dialogue when you open a project&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;figure>&lt;img src="intellij_preferences.jpg" width="100%"/>
-&lt;/figure>
-&lt;ul>
-&lt;li>Go to MacOS System Settings&lt;/li>
-&lt;li>Go to General&lt;/li>
-&lt;li>Choose &amp;ldquo;always&amp;rdquo; for Prefer tabs&lt;/li>
-&lt;/ul>
-&lt;figure>&lt;img src="macos_general_settings.jpg" width="100%"/>
-&lt;/figure>
-&lt;h1 id="closing-notes">Closing notes&lt;/h1>
-&lt;ul>
-&lt;li>Thanks to a few Stack Overflow posts/answers/comments &lt;a href="https://stackoverflow.com/a/65451682/4261132">1&lt;/a>, &lt;a href="https://stackoverflow.com/a/69350085/4261132">2&lt;/a>, &lt;a href="https://stackoverflow.com/a/71495096/4261132">3&lt;/a>. They helped clarify how the confusing setup should be done.&lt;/li>
-&lt;li>Don&amp;rsquo;t question why my default browser is Microsoft Edge&lt;/li>
-&lt;/ul></description></item></channel></rss>
+&lt;p>The same principles apply to Ubuntu and MacOS - but implementation of your symlink script files might look more like &lt;a href="https://apple.stackexchange.com/a/115647">this StackExchange answer&lt;/a>.&lt;/p></description></item></channel></rss>

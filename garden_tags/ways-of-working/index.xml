@@ -1,4 +1,29 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ways-Of-Working on James' Digital Garden</title><link>https://idiosapps.github.io/garden_tags/ways-of-working/</link><description>Recent content in Ways-Of-Working on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Fri, 05 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/garden_tags/ways-of-working/index.xml" rel="self" type="application/rss+xml"/><item><title>Ways of Working 'checklist'</title><status>seeding</status><link>https://idiosapps.github.io/garden/ways-of-working-checklist/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/ways-of-working-checklist/</guid><description>&lt;p>Every team will figure out their own unique ways of working through &amp;ldquo;Forming, Storming, Norming and Performing&amp;rdquo; - but here are some techniques that I&amp;rsquo;ve seen provide lots of value - usually with little effort!&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ways-Of-Working on James' Digital Garden</title><link>https://idiosapps.github.io/garden_tags/ways-of-working/</link><description>Recent content in Ways-Of-Working on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Thu, 18 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/garden_tags/ways-of-working/index.xml" rel="self" type="application/rss+xml"/><item><title>ChatOps - just say the word</title><status>seeding</status><link>https://idiosapps.github.io/garden/chatops/</link><pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/chatops/</guid><description>&lt;p>ChatOps: you say some trigger, and you get some response. The processing behind the scenes can be as complex or niche as you like.&lt;/p>
+&lt;p>In this blog, we&amp;rsquo;ll talk about three different ChatOps tools (Slack, GitHub Actions, Hubot) and how they can:&lt;/p>
+&lt;ul>
+&lt;li>Set up a basic reminder (Slack)&lt;/li>
+&lt;li>Trigger image builds, performance tests, etc. on PRs (GitHub Actions)&lt;/li>
+&lt;li>Send a list of open PRs, and their review counts, to Slack (Hubot)&lt;/li>
+&lt;/ul>
+&lt;h1 id="slack">Slack&lt;/h1>
+&lt;p>Slack has a few &lt;a href="https://slack.com/intl/en-gb/help/articles/360057554553-Use-shortcuts-to-take-actions-in-Slack">baked in commands (&amp;ldquo;Shortcuts&amp;rdquo;)&lt;/a>.
+The most useful I&amp;rsquo;ve seen is reminders - whether for yourself or for your team. Here&amp;rsquo;s a few examples, with the format []&lt;code>/remind [yourself or #channel] [what] [when].&lt;/code>](&lt;a href="https://slack.com/intl/en-gb/help/articles/208423427-Set-a-reminder)">https://slack.com/intl/en-gb/help/articles/208423427-Set-a-reminder)&lt;/a>:&lt;/p>
+&lt;ul>
+&lt;li>/remind #my-team to join &lt;a href="https://meet.google.com/?pli=1">Google Meet&lt;/a> on Wednesday at 4:30pm&lt;/li>
+&lt;li>/remind me to file TPS reports in 20 minutes&lt;/li>
+&lt;li>/remind me to have a great weekend every Friday at 5pm&lt;/li>
+&lt;/ul>
+&lt;h1 id="github-actions">GitHub Actions&lt;/h1>
+&lt;p>Note: If you have a project on Public GitHub, you can use their action &amp;ldquo;runners&amp;rdquo; for free. If you&amp;rsquo;re in the GitHub Enterprise Suite, you&amp;rsquo;ll need to deploy your own &lt;a href="https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow#using-default-labels-to-route-jobs">&lt;code>runs-on: [self-hosted]&lt;/code>&lt;/a> &amp;ldquo;runners&amp;rdquo;. There are some projects that can help you kick-start self-hosting, such as &lt;a href="https://github.com/philips-labs/terraform-aws-github-runner">the scalable spot instance setup
+&amp;ldquo;terraform-aws-github-runner&amp;rdquo;.&lt;/a>&lt;/p>
+&lt;p>perf tests awkward process, evolving over time as we change our Jenkins pipelines to multibranch etc.&lt;/p>
+&lt;p>very valuable - perf test before merge&lt;/p>
+&lt;p>low barrier to entry: chat ops. Ask a PR to be perf tested, and an hour later you have&lt;/p>
+&lt;ol>
+&lt;li>docker images build&lt;/li>
+&lt;li>applications performance tested&lt;/li>
+&lt;/ol>
+&lt;h1 id="hubot">Hubot&lt;/h1></description></item><item><title>Ways of Working 'checklist'</title><status>seeding</status><link>https://idiosapps.github.io/garden/ways-of-working-checklist/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/ways-of-working-checklist/</guid><description>&lt;p>Every team will figure out their own unique ways of working through &amp;ldquo;Forming, Storming, Norming and Performing&amp;rdquo; - but here are some techniques that I&amp;rsquo;ve seen provide lots of value - usually with little effort!&lt;/p>
 &lt;p>✏ Why not take a note of each one you aren&amp;rsquo;t using yet as you read?&lt;/p>
 &lt;h1 id="github">GitHub&lt;/h1>
 &lt;h2 id="pr-templates">PR Templates&lt;/h2>
