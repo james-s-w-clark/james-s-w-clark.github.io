@@ -29,13 +29,13 @@
 &lt;p>In refinement, it can be great to call out a ticket as a pairing ticket - a &amp;ldquo;🍐&amp;rdquo; emoji in the title is a nice reminder that some felt they had something new to learn from it&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;h1 id="jenkins">Jenkins&lt;/h1>
+&lt;h1 id="ci-jenkins">CI (Jenkins)&lt;/h1>
 &lt;ul>
 &lt;li>Consider adding a &amp;ldquo;notes&amp;rdquo; text parameter to some builds. Even if you don&amp;rsquo;t update the build description with this, it can be very useful to know why some builds were run (e.g. manual perf testing of a branch - what change, what is expected)&lt;/li>
 &lt;li>For performance tests, put time-stamped links to observability platforms (DataDog, Grafana, etc.) in the output - it really helps the ergonomics of diagnosing any issues. Lower barrier to entry helps keep performance high!&lt;/li>
 &lt;li>Be mindful of how many messages you&amp;rsquo;re sending to Slack, and where. If there&amp;rsquo;s just a little traffic, it can go to a visible team chat. If it&amp;rsquo;s noisy, it&amp;rsquo;ll probably go to a chat where people don&amp;rsquo;t look as often!&lt;/li>
 &lt;/ul>
-&lt;h1 id="github-actions">GitHub Actions&lt;/h1>
+&lt;h1 id="ci-github-actions">CI (GitHub Actions)&lt;/h1>
 &lt;p>Apart from linting, auto-fixing, formatting, etc. there are some really cool things you can do with GHA and GH&lt;/p>
 &lt;ul>
 &lt;li>
@@ -131,9 +131,21 @@ Some build tools have a remote cache - that&amp;rsquo;s great for quicker builds
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
+&lt;p>You can try different traffic shapes, e.g. a triangle wave over a day to simulate real traffic variety. How does your app perform as load varies?&lt;/p>
+&lt;p>We previously sent the reports to Slack, with pass/fail and the targets. I added time-stamped hyperlinks to observability dashboards for ergonomics.&lt;/p>
 &lt;h1 id="git-hooks">Git hooks&lt;/h1>
 &lt;p>Git hooks are great - ensure your code is linted/compilable/tested before pushing.
 What&amp;rsquo;s even cooler is combining them with interactive CLI tooling like &lt;code>gum&lt;/code> - see my &lt;a href="https://github.com/IdiosApps/gummy-hooks">&amp;ldquo;gummy hooks&amp;rdquo;&lt;/a> examples.&lt;/p>
 &lt;ul>
 &lt;li>Iterate quicker by using a bash script and just calling it - you don&amp;rsquo;t actually have to do anything with Git to iterate on it.&lt;/li>
-&lt;/ul></description></item></channel></rss>
+&lt;/ul>
+&lt;h1 id="scala-steward">Scala Steward&lt;/h1>
+&lt;h2 id="not-receiving-updates">Not receiving updates&lt;/h2>
+&lt;p>For Scala, a common tool for getting dependency upgrades (and new Scala versions!) is &lt;a href="https://github.com/scala-steward-org/scala-steward">Scala Steward&lt;/a>.
+For about half a year, only a few of our dependencies were getting updates. You may remember when Log4j had multiple security vulnerabilities (and corresponding patches) within about one week, in December 2021. This one &lt;em>was&lt;/em> patched automatically. A few other dependencies weren&amp;rsquo;t being updated (note: I never saw security issues, or if we did we&amp;rsquo;d patch manually).&lt;/p>
+&lt;p>We were extracting a version and interpolating with it.
+The fix here was to declare each dependency and its version on its own line. It didn&amp;rsquo;t really make PRs harder to review, and is even a bit clearer in a PR to show you what really changed.&lt;/p>
+&lt;p>If you&amp;rsquo;re not getting updates with Scala Steward, that might be something to look into!&lt;/p>
+&lt;h2 id="not-receiving-updates-20-failed-to-decode-modules">Not receiving updates&amp;hellip; 2.0: &lt;code>Failed to decode Modules&lt;/code>&lt;/h2>
+&lt;p>If you have a big &lt;code>Mill&lt;/code> Scala project (let&amp;rsquo;s say, a monorepo - with about 10 modules) and fair number of dependencies - you might be seeing this problem.&lt;/p>
+&lt;p>I ran a local clone of Steward with a teammate, adding some print-lines to diagnose the parser. We saw the input string for parsing was blank for our project. Looking at &lt;code>MillAlg.scala&lt;/code>, we saw about &lt;a href="https://github.com/scala-steward-org/scala-steward/pull/2717">5000 lines of the &lt;em>end&lt;/em> of a JSON object&lt;/a>. The default buffer is 8192 bytes. Increasing the CLI argument &lt;a href="https://github.com/scala-steward-org/scala-steward/pull/1829">&lt;code>--max-buffer-size&lt;/code>&lt;/a> to &lt;code>32768&lt;/code> fixed the issue for us. The author also raised a &lt;a href="https://github.com/scala-steward-org/scala-steward/pull/2940">PR&lt;/a> to give a more obvious error about this, instead of returning some partial JSON.&lt;/p></description></item></channel></rss>
