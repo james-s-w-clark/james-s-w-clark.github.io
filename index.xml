@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>James' Digital Garden</title><link>https://idiosapps.github.io/</link><description>Recent content on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Tue, 06 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Career - Disney Streaming - What I Done</title><status>seeding</status><link>https://idiosapps.github.io/garden/disney-what-i-done/</link><pubDate>Tue, 06 Jun 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/disney-what-i-done/</guid><description>&lt;p>Outside of usual sprint project work (Scala Functional Programming microservices with ZIO, Caliban, Circe, Doobie, etc.), I enjoyed dabbling with different bits of tech and ideas (mostly tech/way of working related) in my time at Disney Streaming so far!&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>James' Digital Garden</title><link>https://idiosapps.github.io/</link><description>Recent content on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Tue, 06 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Career - Disney Streaming - What I Done</title><status>seeding</status><link>https://idiosapps.github.io/garden/disney-what-i-done/</link><pubDate>Tue, 06 Jun 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/disney-what-i-done/</guid><description>&lt;p>Outside of usual sprint project work (Scala Functional Programming microservices), I enjoyed dabbling with different bits of tech and ideas (mostly tech/way of working related) in my time at Disney Streaming so far!&lt;/p>
 &lt;h1 id="migrating-our-team-to-kubernetes">Migrating our team to Kubernetes&lt;/h1>
 &lt;p>We were running our applications on a bespoke ECS-like platform - which worked fairly well, apart from deployments regularly failing due to nodes being too small to fit pods onto. It has health checks, self-healing properties, etc. like Kubernetes - but you can&amp;rsquo;t easily &lt;code>ssh&lt;/code> into pods even in non-prod environments easily. There&amp;rsquo;s more reasons for the move, but basically there&amp;rsquo;s a company-wide effort to move to EKS.&lt;/p>
 &lt;p>I loved using Kubernetes (with k9s!) at Sainsbury&amp;rsquo;s, so I volunteered to lead this migration project for our team. Here&amp;rsquo;s some things I learned whilst leading this:&lt;/p>
@@ -57,6 +57,14 @@
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
+&lt;p>Open source contributions:&lt;/p>
+&lt;ul>
+&lt;li>Coursier&amp;rsquo;s &lt;code>setup-action&lt;/code> is &amp;ldquo;A GitHub Action to install Coursier and use it to install Java and Scala CLI tools.&amp;rdquo;. It can set up various Java verisons and distributions.
+&lt;ul>
+&lt;li>We use Amazon Corretto at work, and AWS. I [added Corretto to the jvm-index repo](&lt;a href="https://github.com/coursier/setup-action">https://github.com/coursier/setup-action&lt;/a> &lt;a href="https://github.com/coursier/jvm-index/blob/master/src/Corretto.scala)">https://github.com/coursier/jvm-index/blob/master/src/Corretto.scala)&lt;/a>.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
 &lt;h1 id="docusaurus">Docusaurus&lt;/h1>
 &lt;p>I was familiar with Hugo&amp;rsquo;s Doks static site generator, and was happy to try a new SSG here: Docusaurus.&lt;/p>
 &lt;p>We were on Docusaurus 1, and we had a lot of complexity with the sidebar, document ordering, etc.. - so I was happy to simplify things and upgrade us to Docusuaurs 2. Here&amp;rsquo;s a few tips:&lt;/p>
@@ -101,7 +109,34 @@ Some build tools have a remote cache - that&amp;rsquo;s great for quicker builds
 &lt;/ul>
 &lt;p>The outcome of this is that, several minutes are shaved off each module (more or less, each microservice) build time. &lt;em>Faster PR compilations means faster PR checks, which means delivering value faster and reducing our mean time to recovery.&lt;/em> It also means faster builds for ChatOps triggering branch builds + perf tests, giving fast feedback on performance critical code changes!&lt;/p>
 &lt;p>I was pleased with doing this, as using &lt;code>deltas&lt;/code> like this has seemed awesome to me for a long time. I was amazed as a teenager when one Android custom ROM could deliver OTA updates 10x smaller than anyone else, by using deltas.&lt;/p>
-&lt;h1 id="performance-tests">Performance tests&lt;/h1></description></item><item><title>ChatOps - just say the word</title><status>seeding</status><link>https://idiosapps.github.io/garden/chatops/</link><pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/chatops/</guid><description>&lt;p>ChatOps: you say some trigger, and you get some response. The processing behind the scenes can be as complex or niche as you like.&lt;/p>
+&lt;h1 id="performance-tests">Performance tests&lt;/h1>
+&lt;p>In your performance testing platform (we use Gatling), consider what types of test you want to have, and what should be compared:&lt;/p>
+&lt;ul>
+&lt;li>nightly, load (main)
+&lt;ul>
+&lt;li>I made them run for longer (why not? nobody is manually testing on the &lt;code>perf&lt;/code> env at 3am)&lt;/li>
+&lt;li>I made them run at peak RPS for 75% of the run time (configurable). Previously, only about 20% of the time was at peak RPS. Choose a traffic shape gives your services a proper workout!&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>soak (main)
+&lt;ul>
+&lt;li>Have seen dependencies clash and lead to slow memory leaks; soak tests protect us from this, run over the weekend&lt;/li>
+&lt;li>I oversaw various performance test changes around this time after identifying improvements with the team in a post-mortem.&lt;/li>
+&lt;li>Here, we basically decrease the load a little bit (75% of nightly) and run for much longer&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>load (branch)
+&lt;ul>
+&lt;li>results could be very far from average results on &lt;code>main&lt;/code>, so have separate simulation to keep your &amp;ldquo;usually good&amp;rdquo; simulations clean&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="git-hooks">Git hooks&lt;/h1>
+&lt;p>Git hooks are great - ensure your code is linted/compilable/tested before pushing.
+What&amp;rsquo;s even cooler is combining them with interactive CLI tooling like &lt;code>gum&lt;/code> - see my &lt;a href="https://github.com/IdiosApps/gummy-hooks">&amp;ldquo;gummy hooks&amp;rdquo;&lt;/a> examples.&lt;/p>
+&lt;ul>
+&lt;li>Iterate quicker by using a bash script and just calling it - you don&amp;rsquo;t actually have to do anything with Git to iterate on it.&lt;/li>
+&lt;/ul></description></item><item><title>ChatOps - just say the word</title><status>seeding</status><link>https://idiosapps.github.io/garden/chatops/</link><pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/chatops/</guid><description>&lt;p>ChatOps: you say some trigger, and you get some response. The processing behind the scenes can be as complex or niche as you like.&lt;/p>
 &lt;p>In this blog, we&amp;rsquo;ll talk about three different ChatOps tools (Slack, GitHub Actions, Hubot) and how they can:&lt;/p>
 &lt;ul>
 &lt;li>Set up a basic reminder (Slack)&lt;/li>
