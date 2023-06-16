@@ -37,6 +37,7 @@ I also wrote a popular internal blog post for our organisation about how to use 
 - Consider adding a "notes" text parameter to some builds. Even if you don't update the build description with this, it can be very useful to know why some builds were run (e.g. manual perf testing of a branch - what change, what is expected)
 - For performance tests, put time-stamped links to observability platforms (DataDog, Grafana, etc.) in the output - it really helps the ergonomics of diagnosing any issues. Lower barrier to entry helps keep performance high!
 - Be mindful of how many messages you're sending to Slack, and where. If there's just a little traffic, it can go to a visible team chat. If it's noisy, it'll probably go to a chat where people don't look as often!
+- For parameters, be explicit -  say `3600` for the `default` seconds run time, rather than `default` then loading in the number based on that string
 
 # CI (GitHub Actions)
 
@@ -164,5 +165,17 @@ If you're not getting updates with Scala Steward, that might be something to loo
 If you have a big `Mill` Scala project (let's say, a monorepo - with about 10 modules) and fair number of dependencies - you might be seeing this problem.
 
 I ran a local clone of Steward with a teammate, adding some print-lines to diagnose the parser. We saw the input string for parsing was blank for our project. Looking at `MillAlg.scala`, we saw about [5000 lines of the *end* of a JSON object](https://github.com/scala-steward-org/scala-steward/pull/2717). The default buffer is 8192 bytes. Increasing the CLI argument [`--max-buffer-size`](https://github.com/scala-steward-org/scala-steward/pull/1829) to `32768` fixed the issue for us. The author also raised a [PR](https://github.com/scala-steward-org/scala-steward/pull/2940) to give a more obvious error about this, instead of returning some partial JSON.
+
+# Kinesis
+
+With Kinesis, we were getting hundreds of thousands of errors per week -`[metrics_manager.cc:145] Metrics upload failed`- giving a very bad signal:noise ratio in our DataDog logs.
+
+We only use metrics at the "stream" level, rather than the "shard" level (a stream has many shards, and shards can sometimes report no data & error). 
+
+On a `KinesisProducerConfiguration`, do `.setMetricsGranularity("stream")`. The default level is "shard".
+
+Also be mindful of costs. The Javadocs state that two shards with two streams each will produce *seven* CloudWatch metrics (4x shard, 2x stream, 1 global).
+
+AWS support was not so helpful with this error ([essentially saying: "it's a known issue, but please work around it by filtering out the logs"](https://github.com/awslabs/amazon-kinesis-producer/issues/188#issuecomment-557198786)) - setting a more accurate configuration is better, and I [shared our recommendation on the issue](https://github.com/awslabs/amazon-kinesis-producer/issues/188#issuecomment-1189202115).
 
 [//]: # (todo - from week 43 and earlier)
