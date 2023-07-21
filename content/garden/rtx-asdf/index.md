@@ -1,7 +1,7 @@
 ---
 title: "RTX ON - it's execution time"
 draft: false
-garden_tags: ["Tooling]
+garden_tags: ["Tooling"]
 summary: "... it's never been easier to get set up"
 status: "evergreen"
 date: 2023-07-21
