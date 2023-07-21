@@ -3,18 +3,19 @@
 &lt;p>This was working great for Elixir &amp;amp; Erlang, but the ergonomics felt a little off. In order to list versions, you have to first download the plugin. And due to its &amp;ldquo;shim&amp;rdquo; mechanism, it adds about 100ms delay to each command that passes through the asdf executable (my ELI5 understanding).&lt;/p>
 &lt;p>I then came across &lt;a href="https://github.com/jdxcode/rtx">rtx&lt;/a>, a Rust tool inspired by &lt;code>asdf&lt;/code> that takes a different approach. Here&amp;rsquo;s some features I&amp;rsquo;m really liking:&lt;/p>
 &lt;ul>
-&lt;li>&lt;code>rtx&lt;/code> points to tooling versions via changes to the PATH - this keeps interactions fast&lt;/li>
-&lt;li>Local/Global installs - If you have a bunch of microservices on different Node/Java versions, &lt;code>rtx&lt;/code> reloads the PATH when you open a project in your terminal. You don&amp;rsquo;t need to run commands like &lt;code>nvm use node 16&lt;/code> - it&amp;rsquo;s automatic&lt;/li>
-&lt;li>&lt;code>asdf&lt;/code>&amp;rsquo;s amazing plugins - but you don&amp;rsquo;t have to explicltly install them first!&lt;/li>
-&lt;li>documentation - the CLI &amp;amp; interactions are friendly, and setup is (almost) frictionless&lt;/li>
-&lt;li>.rtx.toml configuration - easy to use, and really powerful - see below!&lt;/li>
+&lt;li>Speed - &lt;code>rtx&lt;/code> points to tooling versions via the PATH, and updates the PATH when necessary - this keeps interactions fast (it doesn&amp;rsquo;t go through a &amp;ldquo;shim&amp;rdquo; unless it has to, unlike &lt;code>asdf&lt;/code>)&lt;/li>
+&lt;li>Installs - If you have a bunch of microservices on different Node/Java versions, &lt;code>rtx&lt;/code> reloads the relevant version via the PATH when you switch project in your terminal. You don&amp;rsquo;t need to run commands like &lt;code>nvm use node 16&lt;/code> - it&amp;rsquo;s automatic. Global installs are supported too.&lt;/li>
+&lt;li>Plugins - &lt;code>asdf&lt;/code>&amp;rsquo;s amazing plugins are here still, but you don&amp;rsquo;t have to explicltly install them first!&lt;/li>
+&lt;li>Documentation - the CLI &amp;amp; interactions are friendly, and setup is (almost) frictionless&lt;/li>
+&lt;li>Configuration - &lt;code>.rtx.toml&lt;/code> and the CLI interactions with it are easy to use, and really powerful - see below!&lt;/li>
 &lt;/ul>
+&lt;h1 id="show-me-the-config">Show me the config&lt;/h1>
 &lt;p>For our documentation website, I suggested we move from install nvm/node/yarn/sbt to just this configuration file (.rtx.toml):&lt;/p>
-&lt;pre tabindex="0">&lt;code>[tools]
-node = &amp;#34;16&amp;#34;
-yarn = &amp;#34;1.22.19&amp;#34;
-sbt = &amp;#34;1.9.2&amp;#34;
-&lt;/code>&lt;/pre>&lt;p>and this one-click script (in IntelliJ) to go from 0 to READY:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-toml" data-lang="toml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">[&lt;/span>&lt;span style="color:#75af00">tools&lt;/span>&lt;span style="color:#111">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75af00">node&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#d88200">&amp;#34;16&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75af00">yarn&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#d88200">&amp;#34;1.22.19&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75af00">sbt&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#d88200">&amp;#34;1.9.2&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>and this one-click script (in IntelliJ) to go from 0 to READY:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>curl https://rtx.pub/install.sh &lt;span style="color:#111">|&lt;/span> sh &lt;span style="color:#75715e"># install rtx &lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#39;eval &amp;#34;$(~/bin/rtx activate zsh)&amp;#34;&amp;#39;&lt;/span> &amp;gt;&amp;gt; ~/.zshrc &lt;span style="color:#75715e"># hook rtx into shell&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rtx install &lt;span style="color:#75715e"># install tooling&lt;/span>
@@ -26,7 +27,26 @@ sbt = &amp;#34;1.9.2&amp;#34;
 &lt;p>So, &lt;code>rtx&lt;/code> is pretty cool for local development - but what about CI?&lt;/p>
 &lt;p>For our main project, we use a JDK, Scala, and Mill.
 There&amp;rsquo;s a few Actions for setup (setup-java, coursier-setup, mill-setup, etc.) - but they usually want a version typing out. This could lead to drift between development and CI, and introduce a bit of toil when somebody finally notices or remembers.&lt;/p>
-&lt;p>With the &lt;code>rtx&lt;/code> Action, our .rtx.toml files can be used to set everything up in less code (probably just one line, the &amp;ldquo;uses&amp;rdquo;, as it should spot the .rtx.toml file automatically!), and it&amp;rsquo;ll stay up to date.&lt;/p>
+&lt;p>&lt;a href="https://github.com/actions/setup-java">setup-java&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">steps&lt;/span>&lt;span style="color:#111">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#f92672">uses&lt;/span>&lt;span style="color:#111">:&lt;/span> &lt;span style="color:#ae81ff">actions/checkout@v3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#f92672">uses&lt;/span>&lt;span style="color:#111">:&lt;/span> &lt;span style="color:#ae81ff">actions/setup-java@v3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">with&lt;/span>&lt;span style="color:#111">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">distribution&lt;/span>&lt;span style="color:#111">:&lt;/span> &lt;span style="color:#d88200">&amp;#39;openjdk&amp;#39;&lt;/span> &lt;span style="color:#75715e"># See &amp;#39;Supported distributions&amp;#39; for available options&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">java-version&lt;/span>&lt;span style="color:#111">:&lt;/span> &lt;span style="color:#d88200">&amp;#39;17&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>But it&amp;rsquo;d be nice if we could set up more, with less lines right? See &lt;a href="https://github.com/coursier/setup-action">Coursier&amp;rsquo;s setup-action&lt;/a>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">steps&lt;/span>&lt;span style="color:#111">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#f92672">uses&lt;/span>&lt;span style="color:#111">:&lt;/span> &lt;span style="color:#ae81ff">actions/checkout@v3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- &lt;span style="color:#f92672">uses&lt;/span>&lt;span style="color:#111">:&lt;/span> &lt;span style="color:#ae81ff">coursier/setup-action@v1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">with&lt;/span>&lt;span style="color:#111">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">jvm&lt;/span>&lt;span style="color:#111">:&lt;/span> &lt;span style="color:#ae81ff">adopt:17&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">apps&lt;/span>&lt;span style="color:#111">:&lt;/span> &lt;span style="color:#ae81ff">sbtn bloop ammonite&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Ah, so it seems the versions can&amp;rsquo;t be specified (other than for the jvm).&lt;/p>
+&lt;p>With the &lt;a href="https://github.com/marketplace/actions/rtx-action">rtx Action&lt;/a>, our &lt;code>.rtx.toml&lt;/code> files can be used - which is accurate, and brief:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">steps&lt;/span>&lt;span style="color:#111">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">uses&lt;/span>&lt;span style="color:#111">:&lt;/span> &lt;span style="color:#ae81ff">actions/checkout@v3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">uses&lt;/span>&lt;span style="color:#111">:&lt;/span> &lt;span style="color:#ae81ff">jdxcode/rtx-action@v1&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>It isn&amp;rsquo;t actually documented if it &amp;ldquo;just works&amp;rdquo; like a local &lt;code>rtx install&lt;/code>, but even if it doesn&amp;rsquo;t &lt;em>right now&lt;/em> I&amp;rsquo;m sure it&amp;rsquo;ll get there!&lt;/p>
 &lt;h1 id="-but-my-versions-for-different-tools-are-scattered-around-my-source">&amp;hellip; but my versions for different tools are scattered around my source!&lt;/h1>
 &lt;p>Let&amp;rsquo;s say you use three tools, which are specified in different files:&lt;/p>
 &lt;ul>
