@@ -84,7 +84,7 @@ steps:
     - uses: jdxcode/rtx-action@v1
 ```
 
-I ran [this](https://github.com/IdiosApps/havvk/blob/master/.github/workflows/rtx-action-check.yml) as a workflow dispatch. The first run took 3m36s, but [the second run (started soon after) took only 20 seconds](https://github.com/IdiosApps/havvk/actions/runs/5627022179/job/15248908167)! GitHub Actions seems to have nicely cached the worker for my `master` branch (270MB total). Apparently there's a [10GB total limit](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows) - though I can't see how long it lasts. That's cool though!
+I ran [this](https://github.com/IdiosApps/havvk/blob/master/.github/workflows/rtx-action-check.yml) as a workflow dispatch. The first run took 3m36s (it takes a while locally to install Elixir & Erlang too), but [the second run (started soon after) took only 20 seconds](https://github.com/IdiosApps/havvk/actions/runs/5627022179/job/15248908167)! GitHub Actions seems to have nicely cached the worker for my `master` branch (270MB total). Apparently there's a [10GB total limit](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows) - though I can't see how long it lasts. That's cool though - our action *just works* in CI, is super clean, and in Public GitHub they help us keep things fast with zero-configuration caches!
 
 # ... but my versions for different tools are scattered around my source!
 
