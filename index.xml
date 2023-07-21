@@ -1,4 +1,58 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>James' Digital Garden</title><link>https://idiosapps.github.io/</link><description>Recent content on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Tue, 06 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Career - Disney Streaming - What I Done</title><status>seeding</status><link>https://idiosapps.github.io/garden/disney-what-i-done/</link><pubDate>Tue, 06 Jun 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/disney-what-i-done/</guid><description>&lt;p>Outside of usual sprint project work (Scala Functional Programming microservices), I enjoyed dabbling with different bits of tech and ideas (mostly tech/way of working related) in my time at Disney Streaming so far!&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>James' Digital Garden</title><link>https://idiosapps.github.io/</link><description>Recent content on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Fri, 21 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>RTX ON - it's execution time</title><status>evergreen</status><link>https://idiosapps.github.io/garden/rtx-asdf/</link><pubDate>Fri, 21 Jul 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/rtx-asdf/</guid><description>&lt;p>I&amp;rsquo;ve been using previously used &lt;code>sdkman&lt;/code> for a few years to manage my JDK &amp;amp; Scala installations. It supports a good amount of tooling, but it&amp;rsquo;s very JVM focused. You may know &lt;code>nvm&lt;/code> for managing and switch Node versions - it&amp;rsquo;s similar.&lt;/p>
+&lt;p>Recently I&amp;rsquo;ve been getting into Elixir &amp;amp; Phoenix LiveView, and I came across a similar tool called &lt;code>asdf&lt;/code>. Actually though, thanks to its &amp;ldquo;plugins&amp;rdquo; system and almost 700 plugins, you can install so many different tools.&lt;/p>
+&lt;p>This was working great for Elixir &amp;amp; Erlang, but the ergonomics felt a little off. In order to list versions, you have to first download the plugin. And due to its &amp;ldquo;shim&amp;rdquo; mechanism, it adds about 100ms delay to each command that passes through the asdf executable (my ELI5 understanding).&lt;/p>
+&lt;p>I then came across &lt;a href="https://github.com/jdxcode/rtx">rtx&lt;/a>, a Rust tool inspired by &lt;code>asdf&lt;/code> that takes a different approach. Here&amp;rsquo;s some features I&amp;rsquo;m really liking:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>rtx&lt;/code> points to tooling versions via changes to the PATH - this keeps interactions fast&lt;/li>
+&lt;li>Local/Global installs - If you have a bunch of microservices on different Node/Java versions, &lt;code>rtx&lt;/code> reloads the PATH when you open a project in your terminal. You don&amp;rsquo;t need to run commands like &lt;code>nvm use node 16&lt;/code> - it&amp;rsquo;s automatic&lt;/li>
+&lt;li>&lt;code>asdf&lt;/code>&amp;rsquo;s amazing plugins - but you don&amp;rsquo;t have to explicltly install them first!&lt;/li>
+&lt;li>documentation - the CLI &amp;amp; interactions are friendly, and setup is (almost) frictionless&lt;/li>
+&lt;li>.rtx.toml configuration - easy to use, and really powerful - see below!&lt;/li>
+&lt;/ul>
+&lt;p>For our documentation website, I suggested we move from install nvm/node/yarn/sbt to just this configuration file (.rtx.toml):&lt;/p>
+&lt;pre tabindex="0">&lt;code>[tools]
+node = &amp;#34;16&amp;#34;
+yarn = &amp;#34;1.22.19&amp;#34;
+sbt = &amp;#34;1.9.2&amp;#34;
+&lt;/code>&lt;/pre>&lt;p>and this one-click script (in IntelliJ) to go from 0 to READY:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>curl https://rtx.pub/install.sh &lt;span style="color:#111">|&lt;/span> sh &lt;span style="color:#75715e"># install rtx &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#39;eval &amp;#34;$(~/bin/rtx activate zsh)&amp;#34;&amp;#39;&lt;/span> &amp;gt;&amp;gt; ~/.zshrc &lt;span style="color:#75715e"># hook rtx into shell&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rtx install &lt;span style="color:#75715e"># install tooling&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>yarn &lt;span style="color:#75715e"># install deps &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>yarn run &lt;span style="color:#75715e"># launch dev website&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>That&amp;rsquo;s a nice developer experience. I&amp;rsquo;m happy to know someone can clone a repo, click a button, grab a drink, and come back to a website!&lt;/p>
+&lt;hr>
+&lt;h1 id="ci---does-it-add-value-here">CI - does it add value here?&lt;/h1>
+&lt;p>So, &lt;code>rtx&lt;/code> is pretty cool for local development - but what about CI?&lt;/p>
+&lt;p>For our main project, we use a JDK, Scala, and Mill.
+There&amp;rsquo;s a few Actions for setup (setup-java, coursier-setup, mill-setup, etc.) - but they usually want a version typing out. This could lead to drift between development and CI, and introduce a bit of toil when somebody finally notices or remembers.&lt;/p>
+&lt;p>With the &lt;code>rtx&lt;/code> Action, our .rtx.toml files can be used to set everything up in less code (probably just one line, the &amp;ldquo;uses&amp;rdquo;, as it should spot the .rtx.toml file automatically!), and it&amp;rsquo;ll stay up to date.&lt;/p>
+&lt;h1 id="-but-my-versions-for-different-tools-are-scattered-around-my-source">&amp;hellip; but my versions for different tools are scattered around my source!&lt;/h1>
+&lt;p>Let&amp;rsquo;s say you use three tools, which are specified in different files:&lt;/p>
+&lt;ul>
+&lt;li>openjdk-17 - in a Dockerfile&lt;/li>
+&lt;li>Scala 2.13.xy - in a Dependencies.sc file&lt;/li>
+&lt;li>mill - in .mill-version&lt;/li>
+&lt;/ul>
+&lt;p>Fortunately, &lt;code>rtx&lt;/code> uses the &lt;code>tera&lt;/code> templating engine so we can grab these dynamically.
+These commands are kinda grim (I couldn&amp;rsquo;t use &amp;quot; or &amp;lsquo;; I found &lt;code>cut&lt;/code> to be a good command, thanks ChatGPT), but are probably &amp;ldquo;good enough&amp;rdquo; to not need updating. The sources they read won&amp;rsquo;t be changing spacing much:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-toml" data-lang="toml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">[&lt;/span>&lt;span style="color:#75af00">tools&lt;/span>&lt;span style="color:#111">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75af00">mill&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#111">{&lt;/span> &lt;span style="color:#75af00">version&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#d88200">&amp;#34;{{exec(command=&amp;#39;echo $(cat .mill-version)&amp;#39;)}}&amp;#34;&lt;/span> &lt;span style="color:#111">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75af00">java&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#111">{&lt;/span> &lt;span style="color:#75af00">version&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#d88200">&amp;#34;{{exec(command=&amp;#39;grep -m 1 openjdk docker/Dockerfile | cut -c 12- | tr : -&amp;#39;)}}&amp;#34;&lt;/span> &lt;span style="color:#111">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75af00">scala&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#111">{&lt;/span> &lt;span style="color:#75af00">version&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#d88200">&amp;#34;{{exec(command=&amp;#39;grep -m 1 2.13 dependencies/Dependencies.sc | cut -c 33-39&amp;#39;)}}&amp;#34;&lt;/span> &lt;span style="color:#111">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The secret sauce here is:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>grep -m 1 &amp;lt;phrase&amp;gt;&lt;/code> returns the first line that matches&lt;/li>
+&lt;li>&lt;code>cut 12-&lt;/code> gives from the 12th char onwards, &lt;code>cut 33-39&lt;/code> does what you&amp;rsquo;d think&lt;/li>
+&lt;/ul>
+&lt;p>Yep, it does look dumb, but:&lt;/p>
+&lt;ul>
+&lt;li>For Java we just pin to a major version; if we stick to the same vendor, there&amp;rsquo;ll be no issue&lt;/li>
+&lt;li>For Mill, it&amp;rsquo;s just a plain cat. Not too bad :)&lt;/li>
+&lt;li>For Scala, until there&amp;rsquo;s a migration to Scala 3 then we&amp;rsquo;ll just see 2.13.11 -&amp;gt; 2.13.xy&lt;/li>
+&lt;/ul>
+&lt;h1 id="conclusion">Conclusion&lt;/h1>
+&lt;p>I encourage you to give &lt;a href="https://github.com/jdxcode/rtx">rtx&lt;/a> a try. It&amp;rsquo;ll be my tooling manager of choice for personal projects now, and I&amp;rsquo;m encourgaging its use at work.&lt;/p></description></item><item><title>Career - Disney Streaming - What I Done</title><status>seeding</status><link>https://idiosapps.github.io/garden/disney-what-i-done/</link><pubDate>Tue, 06 Jun 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/disney-what-i-done/</guid><description>&lt;p>Outside of usual sprint project work (Scala Functional Programming microservices), I enjoyed dabbling with different bits of tech and ideas (mostly tech/way of working related) in my time at Disney Streaming so far!&lt;/p>
 &lt;h1 id="migrating-our-team-to-kubernetes">Migrating our team to Kubernetes&lt;/h1>
 &lt;p>We were running our applications on a bespoke ECS-like platform - which worked fairly well, apart from deployments regularly failing due to nodes being too small to fit pods onto. It has health checks, self-healing properties, etc. like Kubernetes - but you can&amp;rsquo;t easily &lt;code>ssh&lt;/code> into pods even in non-prod environments easily. There&amp;rsquo;s more reasons for the move, but basically there&amp;rsquo;s a company-wide effort to move to EKS.&lt;/p>
 &lt;p>I loved using Kubernetes (with k9s!) at Sainsbury&amp;rsquo;s, so I volunteered to lead this migration project for our team. Here&amp;rsquo;s some things I learned whilst leading this:&lt;/p>
@@ -449,49 +503,4 @@ If you can estimate the complexity (via story points or some other metric), you 
 &lt;li>Run a trial for a few weeks. Maybe run a retro on the rotation process, and iterate if you see value there. Scrap it and move on if not.&lt;/li>
 &lt;/ol>
 &lt;h1 id="conclusion">Conclusion&lt;/h1>
-&lt;p>For teams that have already bought into pairing and want to try a more focused approach to maximise their learning: &amp;ldquo;Rota Driven Development&amp;rdquo; could be an interesting experiment to try.&lt;/p></description></item><item><title>Symlinks, syncs, and app configuration</title><status>evergreen</status><link>https://idiosapps.github.io/garden/config-symlink-fast-setup/</link><pubDate>Wed, 18 Jan 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/config-symlink-fast-setup/</guid><description>&lt;p>When setting up a new Windows device, there are some tools that can help you to install your apps quickly and easily from the command line (WinGet, chocolatey). Whilst these are great (and can actually install most of your apps), one thing they can’t do is transfer your configuration between devices.&lt;/p>
-&lt;p>In this short blog, we’ll be using:&lt;/p>
-&lt;ul>
-&lt;li>A cloud sync of choice (Google Drive / OneDrive / DropBox etc.)
-&lt;ul>
-&lt;li>So I have my configuration files on any device&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>Symbolic links, in a tiny script file
-&lt;ul>
-&lt;li>So apps can easily access the backed-up configuration, and sync changes&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>An application we love, which uses simple configuration files&lt;/li>
-&lt;/ul>
-&lt;hr>
-&lt;p>For this worked example, we&amp;rsquo;ll use Espanso, and a folder &amp;ldquo;Junction&amp;rdquo; symlink.&lt;/p>
-&lt;p>The folder linking must be done before the source folder (Espanso&amp;rsquo;s config) is created. Either do this before installing the app, or do some file/folder shuffling.
-It doesn&amp;rsquo;t matter if the target exists or not.&lt;/p>
-&lt;p>In your cloud-sync&amp;rsquo;d folder (&lt;code>%HomePath%\OneDrive\Apps\espanso&lt;/code>), create a file &lt;code>symlink.bat&lt;/code> and add:&lt;/p>
-&lt;pre tabindex="0">&lt;code>mklink /J %APPDATA%\espanso %HomePath%\OneDrive\Apps\espanso
-&lt;/code>&lt;/pre>&lt;p>In Windows, the &lt;code>%APPDATA%&lt;/code> folder will look like this if the command succeed; note the little arrow on our symlinked folder:&lt;/p>
-&lt;p>&lt;img src="symlink_folder_icon.png" alt="Untitled">&lt;/p>
-&lt;p>In &lt;code>......./OneDrive/apps/espanso/match/base.yml&lt;/code>, add this to the main &lt;code>matches&lt;/code> body:&lt;/p>
-&lt;pre tabindex="0">&lt;code>- trigger: &amp;#34;:synctest&amp;#34;
-replace: &amp;#34;your espanso config was sync&amp;#39;d sucessfully!&amp;#34;
-&lt;/code>&lt;/pre>&lt;p>Install espanso with default settings&lt;/p>
-&lt;p>Espanso startup logs show our symlink folder being loaded in. It does this anyway (nothing special is happening to the file loading&amp;hellip; other than it actually loading from our cloud sync&amp;rsquo;d folder!):&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-scala" data-lang="scala">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">...&lt;/span> &lt;span style="color:#111">reading&lt;/span> &lt;span style="color:#111">configs&lt;/span> &lt;span style="color:#111">from&lt;/span>&lt;span style="color:#00a8c8">:&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">&amp;#34;&lt;/span>&lt;span style="color:#00a8c8">C:\\Users\\james\\AppData\\Roaming\\espanso&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#00a8c8">...&lt;/span> &lt;span style="color:#00a8c8">reading&lt;/span> &lt;span style="color:#00a8c8">packages&lt;/span> &lt;span style="color:#00a8c8">from:&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">&amp;#34;&lt;/span>&lt;span style="color:#00a8c8">C:\\Users\\james\\AppData\\Roaming\\espanso\\match\\packages&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>So if we enter our special phrase, &lt;code>:synctest&lt;/code>, we should see it expanded to:&lt;/p>
-&lt;p>&lt;code>your espanso config was sync’d sucessfully!&lt;/code>&lt;/p>
-&lt;p>On another computer (or a fresh installation of Windows), all you have to do is double-click the .bat file.
-In just a few minutes, we&amp;rsquo;ve made a system that will always take care of our favourite Espanso packages &amp;amp; personalised keywords.
-Also note that any changes we make will be backed up to the cloud too!&lt;/p>
-&lt;hr>
-&lt;p>What we’ve done here can be applied to more applications which have simple configuration.
-The scripts to create junctions/symbolic links could be per-app, or you could put them all in one script (to be run before a big WinGet/Brew install).&lt;/p>
-&lt;p>Here’s a few configurations ones I may set up this synchronisation for:&lt;/p>
-&lt;ul>
-&lt;li>Headphone EQ - Peace/EqualizerAPO - .txt files represent frequencies/decibels etc.&lt;/li>
-&lt;li>GPU Overclock/Undervolt - MSI Afterburner - Custom curve is a bit tricky to make (I have to search for my notes on instructions every time I set up)&lt;/li>
-&lt;li>Calibre, for digital book management&lt;/li>
-&lt;li>&amp;hellip; I can&amp;rsquo;t think of more, but I&amp;rsquo;m happy even with just Espanso having this :-)&lt;/li>
-&lt;/ul>
-&lt;p>The same principles apply to Ubuntu and MacOS - but implementation of your symlink script files might look more like &lt;a href="https://apple.stackexchange.com/a/115647">this StackExchange answer&lt;/a>.&lt;/p></description></item></channel></rss>
+&lt;p>For teams that have already bought into pairing and want to try a more focused approach to maximise their learning: &amp;ldquo;Rota Driven Development&amp;rdquo; could be an interesting experiment to try.&lt;/p></description></item></channel></rss>

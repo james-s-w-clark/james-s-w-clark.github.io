@@ -1,4 +1,58 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>tooling on James' Digital Garden</title><link>https://idiosapps.github.io/garden_tags/tooling/</link><description>Recent content in tooling on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Fri, 05 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/garden_tags/tooling/index.xml" rel="self" type="application/rss+xml"/><item><title>How to always know when there are PRs to check out 🔮</title><status>seeding</status><link>https://idiosapps.github.io/garden/github-pr-watcher/</link><pubDate>Fri, 05 Aug 2022 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/github-pr-watcher/</guid><description>&lt;p>A few weeks ago I heard of SwiftBar, and &lt;a href="https://xbarapp.com/">Xbar&lt;/a>:&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>tooling on James' Digital Garden</title><link>https://idiosapps.github.io/garden_tags/tooling/</link><description>Recent content in tooling on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Fri, 21 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/garden_tags/tooling/index.xml" rel="self" type="application/rss+xml"/><item><title>RTX ON - it's execution time</title><status>evergreen</status><link>https://idiosapps.github.io/garden/rtx-asdf/</link><pubDate>Fri, 21 Jul 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/rtx-asdf/</guid><description>&lt;p>I&amp;rsquo;ve been using previously used &lt;code>sdkman&lt;/code> for a few years to manage my JDK &amp;amp; Scala installations. It supports a good amount of tooling, but it&amp;rsquo;s very JVM focused. You may know &lt;code>nvm&lt;/code> for managing and switch Node versions - it&amp;rsquo;s similar.&lt;/p>
+&lt;p>Recently I&amp;rsquo;ve been getting into Elixir &amp;amp; Phoenix LiveView, and I came across a similar tool called &lt;code>asdf&lt;/code>. Actually though, thanks to its &amp;ldquo;plugins&amp;rdquo; system and almost 700 plugins, you can install so many different tools.&lt;/p>
+&lt;p>This was working great for Elixir &amp;amp; Erlang, but the ergonomics felt a little off. In order to list versions, you have to first download the plugin. And due to its &amp;ldquo;shim&amp;rdquo; mechanism, it adds about 100ms delay to each command that passes through the asdf executable (my ELI5 understanding).&lt;/p>
+&lt;p>I then came across &lt;a href="https://github.com/jdxcode/rtx">rtx&lt;/a>, a Rust tool inspired by &lt;code>asdf&lt;/code> that takes a different approach. Here&amp;rsquo;s some features I&amp;rsquo;m really liking:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>rtx&lt;/code> points to tooling versions via changes to the PATH - this keeps interactions fast&lt;/li>
+&lt;li>Local/Global installs - If you have a bunch of microservices on different Node/Java versions, &lt;code>rtx&lt;/code> reloads the PATH when you open a project in your terminal. You don&amp;rsquo;t need to run commands like &lt;code>nvm use node 16&lt;/code> - it&amp;rsquo;s automatic&lt;/li>
+&lt;li>&lt;code>asdf&lt;/code>&amp;rsquo;s amazing plugins - but you don&amp;rsquo;t have to explicltly install them first!&lt;/li>
+&lt;li>documentation - the CLI &amp;amp; interactions are friendly, and setup is (almost) frictionless&lt;/li>
+&lt;li>.rtx.toml configuration - easy to use, and really powerful - see below!&lt;/li>
+&lt;/ul>
+&lt;p>For our documentation website, I suggested we move from install nvm/node/yarn/sbt to just this configuration file (.rtx.toml):&lt;/p>
+&lt;pre tabindex="0">&lt;code>[tools]
+node = &amp;#34;16&amp;#34;
+yarn = &amp;#34;1.22.19&amp;#34;
+sbt = &amp;#34;1.9.2&amp;#34;
+&lt;/code>&lt;/pre>&lt;p>and this one-click script (in IntelliJ) to go from 0 to READY:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>curl https://rtx.pub/install.sh &lt;span style="color:#111">|&lt;/span> sh &lt;span style="color:#75715e"># install rtx &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">echo&lt;/span> &lt;span style="color:#d88200">&amp;#39;eval &amp;#34;$(~/bin/rtx activate zsh)&amp;#34;&amp;#39;&lt;/span> &amp;gt;&amp;gt; ~/.zshrc &lt;span style="color:#75715e"># hook rtx into shell&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rtx install &lt;span style="color:#75715e"># install tooling&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>yarn &lt;span style="color:#75715e"># install deps &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>yarn run &lt;span style="color:#75715e"># launch dev website&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>That&amp;rsquo;s a nice developer experience. I&amp;rsquo;m happy to know someone can clone a repo, click a button, grab a drink, and come back to a website!&lt;/p>
+&lt;hr>
+&lt;h1 id="ci---does-it-add-value-here">CI - does it add value here?&lt;/h1>
+&lt;p>So, &lt;code>rtx&lt;/code> is pretty cool for local development - but what about CI?&lt;/p>
+&lt;p>For our main project, we use a JDK, Scala, and Mill.
+There&amp;rsquo;s a few Actions for setup (setup-java, coursier-setup, mill-setup, etc.) - but they usually want a version typing out. This could lead to drift between development and CI, and introduce a bit of toil when somebody finally notices or remembers.&lt;/p>
+&lt;p>With the &lt;code>rtx&lt;/code> Action, our .rtx.toml files can be used to set everything up in less code (probably just one line, the &amp;ldquo;uses&amp;rdquo;, as it should spot the .rtx.toml file automatically!), and it&amp;rsquo;ll stay up to date.&lt;/p>
+&lt;h1 id="-but-my-versions-for-different-tools-are-scattered-around-my-source">&amp;hellip; but my versions for different tools are scattered around my source!&lt;/h1>
+&lt;p>Let&amp;rsquo;s say you use three tools, which are specified in different files:&lt;/p>
+&lt;ul>
+&lt;li>openjdk-17 - in a Dockerfile&lt;/li>
+&lt;li>Scala 2.13.xy - in a Dependencies.sc file&lt;/li>
+&lt;li>mill - in .mill-version&lt;/li>
+&lt;/ul>
+&lt;p>Fortunately, &lt;code>rtx&lt;/code> uses the &lt;code>tera&lt;/code> templating engine so we can grab these dynamically.
+These commands are kinda grim (I couldn&amp;rsquo;t use &amp;quot; or &amp;lsquo;; I found &lt;code>cut&lt;/code> to be a good command, thanks ChatGPT), but are probably &amp;ldquo;good enough&amp;rdquo; to not need updating. The sources they read won&amp;rsquo;t be changing spacing much:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-toml" data-lang="toml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#111">[&lt;/span>&lt;span style="color:#75af00">tools&lt;/span>&lt;span style="color:#111">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75af00">mill&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#111">{&lt;/span> &lt;span style="color:#75af00">version&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#d88200">&amp;#34;{{exec(command=&amp;#39;echo $(cat .mill-version)&amp;#39;)}}&amp;#34;&lt;/span> &lt;span style="color:#111">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75af00">java&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#111">{&lt;/span> &lt;span style="color:#75af00">version&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#d88200">&amp;#34;{{exec(command=&amp;#39;grep -m 1 openjdk docker/Dockerfile | cut -c 12- | tr : -&amp;#39;)}}&amp;#34;&lt;/span> &lt;span style="color:#111">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75af00">scala&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#111">{&lt;/span> &lt;span style="color:#75af00">version&lt;/span> &lt;span style="color:#111">=&lt;/span> &lt;span style="color:#d88200">&amp;#34;{{exec(command=&amp;#39;grep -m 1 2.13 dependencies/Dependencies.sc | cut -c 33-39&amp;#39;)}}&amp;#34;&lt;/span> &lt;span style="color:#111">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The secret sauce here is:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>grep -m 1 &amp;lt;phrase&amp;gt;&lt;/code> returns the first line that matches&lt;/li>
+&lt;li>&lt;code>cut 12-&lt;/code> gives from the 12th char onwards, &lt;code>cut 33-39&lt;/code> does what you&amp;rsquo;d think&lt;/li>
+&lt;/ul>
+&lt;p>Yep, it does look dumb, but:&lt;/p>
+&lt;ul>
+&lt;li>For Java we just pin to a major version; if we stick to the same vendor, there&amp;rsquo;ll be no issue&lt;/li>
+&lt;li>For Mill, it&amp;rsquo;s just a plain cat. Not too bad :)&lt;/li>
+&lt;li>For Scala, until there&amp;rsquo;s a migration to Scala 3 then we&amp;rsquo;ll just see 2.13.11 -&amp;gt; 2.13.xy&lt;/li>
+&lt;/ul>
+&lt;h1 id="conclusion">Conclusion&lt;/h1>
+&lt;p>I encourage you to give &lt;a href="https://github.com/jdxcode/rtx">rtx&lt;/a> a try. It&amp;rsquo;ll be my tooling manager of choice for personal projects now, and I&amp;rsquo;m encourgaging its use at work.&lt;/p></description></item><item><title>How to always know when there are PRs to check out 🔮</title><status>seeding</status><link>https://idiosapps.github.io/garden/github-pr-watcher/</link><pubDate>Fri, 05 Aug 2022 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/github-pr-watcher/</guid><description>&lt;p>A few weeks ago I heard of SwiftBar, and &lt;a href="https://xbarapp.com/">Xbar&lt;/a>:&lt;/p>
 &lt;p>| Put the output from any script or program into your macOS Menu Bar&lt;/p>
 &lt;p>There&amp;rsquo;s a great library of plugins on the hub, covering all sorts of topics. Want to show the weather? Show upcoming info about your favourite sports team? Check if graphics cards are in stock? It can do all of this.&lt;/p>
 &lt;p>What&amp;rsquo;s also great is the fact that you can see the source code of all the plugins. You can tweak those plugins and make them your own - and it&amp;rsquo;s interesting to understand how people solved these kinds of problems.&lt;/p>
