@@ -15,16 +15,17 @@ Recently I've been getting into Elixir & Phoenix LiveView, and I came across a s
 This was working great for Elixir & Erlang, but the ergonomics felt a little off. In order to list versions, you have to first download the plugin. And due to its "shim" mechanism, it adds about 100ms delay to each command that passes through the asdf executable (my ELI5 understanding).
 
 I then came across [rtx](https://github.com/jdxcode/rtx), a Rust tool inspired by `asdf` that takes a different approach. Here's some features I'm really liking:
-- `rtx` points to tooling versions via changes to the PATH - this keeps interactions fast
-- Local/Global installs - If you have a bunch of microservices on different Node/Java versions, `rtx` reloads the PATH when you open a project in your terminal. You don't need to run commands like `nvm use node 16` - it's automatic
-- `asdf`'s amazing plugins - but you don't have to explicltly install them first!
-- documentation - the CLI & interactions are friendly, and setup is (almost) frictionless
-- .rtx.toml configuration - easy to use, and really powerful - see below!
+- Speed - `rtx` points to tooling versions via the PATH, and updates the PATH when necessary - this keeps interactions fast (it doesn't go through a "shim" unless it has to, unlike `asdf`)
+- Installs - If you have a bunch of microservices on different Node/Java versions, `rtx` reloads the relevant version via the PATH when you switch project in your terminal. You don't need to run commands like `nvm use node 16` - it's automatic. Global installs are supported too.
+- Plugins - `asdf`'s amazing plugins are here still, but you don't have to explicltly install them first!
+- Documentation - the CLI & interactions are friendly, and setup is (almost) frictionless
+- Configuration - `.rtx.toml` and the CLI interactions with it are easy to use, and really powerful - see below!
 
+# Show me the config
 
 For our documentation website, I suggested we move from install nvm/node/yarn/sbt to just this configuration file (.rtx.toml):
 
-```
+```toml
 [tools]
 node = "16"
 yarn = "1.22.19"
@@ -52,7 +53,38 @@ So, `rtx` is pretty cool for local development - but what about CI?
 For our main project, we use a JDK, Scala, and Mill. 
 There's a few Actions for setup (setup-java, coursier-setup, mill-setup, etc.) - but they usually want a version typing out. This could lead to drift between development and CI, and introduce a bit of toil when somebody finally notices or remembers.
 
-With the `rtx` Action, our .rtx.toml files can be used to set everything up in less code (probably just one line, the "uses", as it should spot the .rtx.toml file automatically!), and it'll stay up to date.
+[setup-java](https://github.com/actions/setup-java)
+```yaml
+steps:
+- uses: actions/checkout@v3
+- uses: actions/setup-java@v3
+  with:
+    distribution: 'openjdk' # See 'Supported distributions' for available options
+    java-version: '17'
+```
+
+But it'd be nice if we could set up more, with less lines right? See [Coursier's setup-action](https://github.com/coursier/setup-action):
+
+```yaml
+steps:
+- uses: actions/checkout@v3
+- uses: coursier/setup-action@v1
+    with:
+    jvm: adopt:17
+    apps: sbtn bloop ammonite
+```
+
+Ah, so it seems the versions can't be specified (other than for the jvm).
+
+With the [rtx Action](https://github.com/marketplace/actions/rtx-action), our `.rtx.toml` files can be used - which is accurate, and brief:
+
+```yaml
+steps:
+    - uses: actions/checkout@v3
+    - uses: jdxcode/rtx-action@v1
+```
+
+It isn't actually documented if it "just works" like a local `rtx install`, but even if it doesn't _right now_ I'm sure it'll get there!
 
 # ... but my versions for different tools are scattered around my source!
 
