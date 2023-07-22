@@ -8,14 +8,15 @@ date: 2023-07-21
 lastmod: 2023-07-21
 ---
 
-I've been using previously used `sdkman` for a few years to manage my JDK & Scala installations. It supports a good amount of tooling, but it's very JVM focused. You may know `nvm` for managing and switch Node versions - it's similar.
+I've been using previously used `sdkman` for a few years to manage my JDK & Scala installations. It supports a good amount of tooling, but it's very JVM focused. You may know `nvm` for managing and switching Node versions, or Volta/fnm for more general Javascript tooling management.
 
-Recently I've been getting into Elixir & Phoenix LiveView, and I came across a similar tool called `asdf`. Actually though, thanks to its "plugins" system and almost 700 plugins, you can install so many different tools.
+Recently I've been getting into Elixir & Phoenix LiveView, and I came across a similar tool called `asdf`. Actually though, thanks to its "plugins" system and almost 700 plugins, you can install so many different tools. Sounds good to me - I might have projects using Python, Elixir, Java/Scala, Node, or Terraform and the AWS CLI. With one application, I can have tooling defined locally (per-project) so it's all independent and easy to get the tooling right.
 
 This was working great for Elixir & Erlang, but the ergonomics felt a little off. In order to list versions, you have to first download the plugin. And due to its "shim" mechanism, it adds about 100ms delay to each command that passes through the asdf executable (my ELI5 understanding).
 
 I then came across [rtx](https://github.com/jdxcode/rtx), a Rust tool inspired by `asdf` that takes a different approach. Here's some features I'm really liking:
 - Speed - `rtx` points to tooling versions via the PATH, and updates the PATH when necessary - this keeps interactions fast (it doesn't go through a "shim" unless it has to, unlike `asdf`)
+    - Also, apparently `python` called via `rtx` is much more response than `python` with `pyenv`
 - Installs - If you have a bunch of microservices on different Node/Java versions, `rtx` reloads the relevant version via the PATH when you switch project in your terminal. You don't need to run commands like `nvm use node 16` - it's automatic. Global installs are supported too.
 - Plugins - `asdf`'s amazing plugins are here still, but you don't have to explicltly install them first!
 - Documentation - the CLI & interactions are friendly, and setup is (almost) frictionless
