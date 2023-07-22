@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>tooling on James' Digital Garden</title><link>https://idiosapps.github.io/garden_tags/tooling/</link><description>Recent content in tooling on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Fri, 21 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/garden_tags/tooling/index.xml" rel="self" type="application/rss+xml"/><item><title>RTX ON - it's execution time</title><status>evergreen</status><link>https://idiosapps.github.io/garden/rtx-asdf/</link><pubDate>Fri, 21 Jul 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/rtx-asdf/</guid><description>&lt;p>I&amp;rsquo;ve been using previously used &lt;code>sdkman&lt;/code> for a few years to manage my JDK &amp;amp; Scala installations. It supports a good amount of tooling, but it&amp;rsquo;s very JVM focused. You may know &lt;code>nvm&lt;/code> for managing and switching Node versions, or Volta/fnm for more general Javascript tooling management.&lt;/p>
-&lt;p>Recently I&amp;rsquo;ve been getting into Elixir &amp;amp; Phoenix LiveView, and I came across a similar tool called &lt;code>asdf&lt;/code>. Actually though, thanks to its &amp;ldquo;plugins&amp;rdquo; system and almost 700 plugins, you can install so many different tools. Sounds good to me - I might have projects using Python, Elixir, Java/Scala, Node, or Terraform and the AWS CLI. With one application, I can have tooling defined locally (per-project) so it&amp;rsquo;s all independent and easy to get the tooling right.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>tooling on James' Digital Garden</title><link>https://idiosapps.github.io/garden_tags/tooling/</link><description>Recent content in tooling on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Fri, 21 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://idiosapps.github.io/garden_tags/tooling/index.xml" rel="self" type="application/rss+xml"/><item><title>RTX ON - it's execution time</title><status>evergreen</status><link>https://idiosapps.github.io/garden/rtx-asdf/</link><pubDate>Fri, 21 Jul 2023 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/rtx-asdf/</guid><description>&lt;p>I&amp;rsquo;ve been using previously used &lt;code>sdkman&lt;/code> for a few years to manage my JDK &amp;amp; Scala installations. It supports a good amount of tooling, but it&amp;rsquo;s very JVM focused. You may know &lt;code>nvm&lt;/code> or &lt;code>n&lt;/code> for managing and switching Node versions, or Volta/fnm for more general Javascript tooling management.&lt;/p>
+&lt;p>Recently I&amp;rsquo;ve been getting into Elixir &amp;amp; Phoenix LiveView, and I came across a similar tool called &lt;code>asdf&lt;/code>. Actually though, thanks to its &amp;ldquo;plugins&amp;rdquo; system and almost 700 plugins, you can install so many different tools. Sounds good to me - I have projects using Python, Elixir, Java/Scala, Node, Terraform, AWS CLI, etc.. With one application, I can have tooling defined locally (per-project) so it&amp;rsquo;s all independent and easy to get the tooling right.&lt;/p>
 &lt;p>This was working great for Elixir &amp;amp; Erlang, but the ergonomics felt a little off. In order to list versions, you have to first download the plugin. And due to its &amp;ldquo;shim&amp;rdquo; mechanism, it adds about 100ms delay to each command that passes through the asdf executable (my ELI5 understanding).&lt;/p>
 &lt;p>I then came across &lt;a href="https://github.com/jdxcode/rtx">rtx&lt;/a>, a Rust tool inspired by &lt;code>asdf&lt;/code> that takes a different approach. Here&amp;rsquo;s some features I&amp;rsquo;m really liking:&lt;/p>
 &lt;ul>
@@ -9,7 +9,11 @@
 &lt;/ul>
 &lt;/li>
 &lt;li>Installs - If you have a bunch of microservices on different Node/Java versions, &lt;code>rtx&lt;/code> reloads the relevant version via the PATH when you switch project in your terminal. You don&amp;rsquo;t need to run commands like &lt;code>nvm use node 16&lt;/code> - it&amp;rsquo;s automatic. Global installs are supported too.&lt;/li>
-&lt;li>Plugins - &lt;code>asdf&lt;/code>&amp;rsquo;s amazing plugins are here still, but you don&amp;rsquo;t have to explicltly install them first!&lt;/li>
+&lt;li>Plugins - &lt;code>asdf&lt;/code>&amp;rsquo;s amazing plugins are here still, but you don&amp;rsquo;t have to explicltly install them first!
+&lt;ul>
+&lt;li>&lt;code>rtx&lt;/code> does have it&amp;rsquo;s own plugins, but &amp;lt;10 at the time of writing. Re-using asdf&amp;rsquo;s plugins is smart&lt;/li>
+&lt;/ul>
+&lt;/li>
 &lt;li>Documentation - the CLI &amp;amp; interactions are friendly, and setup is (almost) frictionless&lt;/li>
 &lt;li>Configuration - &lt;code>.rtx.toml&lt;/code> and the CLI interactions with it are easy to use, and really powerful - see below!&lt;/li>
 &lt;/ul>
@@ -75,6 +79,20 @@ These commands are kinda grim (I couldn&amp;rsquo;t use &amp;quot; or &amp;lsquo
 &lt;li>For Mill, it&amp;rsquo;s just a plain cat. Not too bad :)&lt;/li>
 &lt;li>For Scala, until there&amp;rsquo;s a migration to Scala 3 then we&amp;rsquo;ll just see 2.13.11 -&amp;gt; 2.13.xy&lt;/li>
 &lt;/ul>
+&lt;h1 id="additions--alternatives">Additions &amp;amp; Alternatives&lt;/h1>
+&lt;ul>
+&lt;li>For &lt;code>asdf&lt;/code>, there is &lt;a href="https://github.com/mhanberg/lazyasdf">lazyasdf&lt;/a> - it&amp;rsquo;s a TUI for &lt;code>asdf&lt;/code> (like how k9s is a TUI for k8s)&lt;/li>
+&lt;li>An alternative to &lt;code>asdf&lt;/code>/&lt;code>rtx&lt;/code> is &lt;a href="https://github.com/aquaproj/aqua">aqua&lt;/a>, written in Go. The local configuration (like .rtx.toml) is aqua.yaml, and it supports global installs too
+&lt;ul>
+&lt;li>The &lt;a href="https://github.com/aquaproj/aqua-registry/tree/main/pkgs">Aqua registry&lt;/a> has gives 1200+ results - but I see nothing for Elixir, Java/JDK/JVM, and the only node result is &amp;ldquo;kubectl-node-shell&amp;rdquo;&lt;/li>
+&lt;li>The fzf-esque interactive search for packages with &lt;code>aqua g&lt;/code> is nice, even if I can&amp;rsquo;t find what I want&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="whats-bad-about-rtx">What&amp;rsquo;s bad about rtx?&lt;/h1>
+&lt;p>There&amp;rsquo;s a good &lt;a href="https://github.com/jdxcode/rtx/blob/main/SECURITY.md">security write-up on the rtx repo&lt;/a>.&lt;/p>
+&lt;p>Even tools like &lt;a href="https://github.com/IdiosApps/dependabot-gradlewrapper-test#what-are-some-problems-with-the-gradle-wrapper">gradlew have risks&lt;/a> though, and that&amp;rsquo;s massively popular. You have to pick your battles.&lt;/p>
+&lt;p>To answer &amp;ldquo;can/should I use rtx?&amp;rdquo;, at this point you need to do your own homework ;)&lt;/p>
 &lt;h1 id="conclusion">Conclusion&lt;/h1>
 &lt;p>I encourage you to give &lt;a href="https://github.com/jdxcode/rtx">rtx&lt;/a> a try. It&amp;rsquo;ll be my tooling manager of choice for personal projects now, and I&amp;rsquo;m encourgaging its use at work.&lt;/p></description></item><item><title>How to always know when there are PRs to check out 🔮</title><status>seeding</status><link>https://idiosapps.github.io/garden/github-pr-watcher/</link><pubDate>Fri, 05 Aug 2022 00:00:00 +0000</pubDate><guid>https://idiosapps.github.io/garden/github-pr-watcher/</guid><description>&lt;p>A few weeks ago I heard of SwiftBar, and &lt;a href="https://xbarapp.com/">Xbar&lt;/a>:&lt;/p>
 &lt;p>| Put the output from any script or program into your macOS Menu Bar&lt;/p>
