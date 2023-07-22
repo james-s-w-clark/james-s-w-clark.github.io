@@ -8,9 +8,9 @@ date: 2023-07-21
 lastmod: 2023-07-21
 ---
 
-I've been using previously used `sdkman` for a few years to manage my JDK & Scala installations. It supports a good amount of tooling, but it's very JVM focused. You may know `nvm` for managing and switching Node versions, or Volta/fnm for more general Javascript tooling management.
+I've been using previously used `sdkman` for a few years to manage my JDK & Scala installations. It supports a good amount of tooling, but it's very JVM focused. You may know `nvm` or `n` for managing and switching Node versions, or Volta/fnm for more general Javascript tooling management.
 
-Recently I've been getting into Elixir & Phoenix LiveView, and I came across a similar tool called `asdf`. Actually though, thanks to its "plugins" system and almost 700 plugins, you can install so many different tools. Sounds good to me - I might have projects using Python, Elixir, Java/Scala, Node, or Terraform and the AWS CLI. With one application, I can have tooling defined locally (per-project) so it's all independent and easy to get the tooling right.
+Recently I've been getting into Elixir & Phoenix LiveView, and I came across a similar tool called `asdf`. Actually though, thanks to its "plugins" system and almost 700 plugins, you can install so many different tools. Sounds good to me - I have projects using Python, Elixir, Java/Scala, Node, Terraform, AWS CLI, etc.. With one application, I can have tooling defined locally (per-project) so it's all independent and easy to get the tooling right.
 
 This was working great for Elixir & Erlang, but the ergonomics felt a little off. In order to list versions, you have to first download the plugin. And due to its "shim" mechanism, it adds about 100ms delay to each command that passes through the asdf executable (my ELI5 understanding).
 
@@ -18,7 +18,8 @@ I then came across [rtx](https://github.com/jdxcode/rtx), a Rust tool inspired b
 - Speed - `rtx` points to tooling versions via the PATH, and updates the PATH when necessary - this keeps interactions fast (it doesn't go through a "shim" unless it has to, unlike `asdf`)
     - Also, apparently `python` called via `rtx` is much more response than `python` with `pyenv`
 - Installs - If you have a bunch of microservices on different Node/Java versions, `rtx` reloads the relevant version via the PATH when you switch project in your terminal. You don't need to run commands like `nvm use node 16` - it's automatic. Global installs are supported too.
-- Plugins - `asdf`'s amazing plugins are here still, but you don't have to explicltly install them first!
+- Plugins - `asdf`'s amazing plugins are here still, but you don't have to explicltly install them first! 
+    - `rtx` does have it's own plugins, but <10 at the time of writing. Re-using asdf's plugins is smart
 - Documentation - the CLI & interactions are friendly, and setup is (almost) frictionless
 - Configuration - `.rtx.toml` and the CLI interactions with it are easy to use, and really powerful - see below!
 
@@ -113,6 +114,21 @@ Yep, it does look dumb, but:
 - For Java we just pin to a major version; if we stick to the same vendor, there'll be no issue
 - For Mill, it's just a plain cat. Not too bad :)
 - For Scala, until there's a migration to Scala 3 then we'll just see 2.13.11 -> 2.13.xy
+
+# Additions & Alternatives
+
+- For `asdf`, there is [lazyasdf](https://github.com/mhanberg/lazyasdf) - it's a TUI for `asdf` (like how k9s is a TUI for k8s)
+- An alternative to `asdf`/`rtx` is [aqua](https://github.com/aquaproj/aqua), written in Go. The local configuration (like .rtx.toml) is aqua.yaml, and it supports global installs too
+    - The [Aqua registry](https://github.com/aquaproj/aqua-registry/tree/main/pkgs) has gives 1200+ results - but I see nothing for Elixir, Java/JDK/JVM, and the only node result is "kubectl-node-shell"
+    - The fzf-esque interactive search for packages with `aqua g` is nice, even if I can't find what I want
+
+# What's bad about rtx?
+
+There's a good [security write-up on the rtx repo](https://github.com/jdxcode/rtx/blob/main/SECURITY.md).
+
+Even tools like [gradlew have risks](https://github.com/IdiosApps/dependabot-gradlewrapper-test#what-are-some-problems-with-the-gradle-wrapper) though, and that's massively popular. You have to pick your battles.
+
+To answer "can/should I use rtx?", at this point you need to do your own homework ;)
 
 # Conclusion
 
