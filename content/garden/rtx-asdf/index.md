@@ -122,14 +122,17 @@ Yep, it does look dumb, but:
     - The [Aqua registry](https://github.com/aquaproj/aqua-registry/tree/main/pkgs) has gives 1200+ results - but I see nothing for Elixir, Java/JDK/JVM, and the only node result is "kubectl-node-shell"
     - The fzf-esque interactive search for packages with `aqua g` is nice, even if I can't find what I want
 
-# What's bad about rtx?
+# What's bad about rtx (security)?
 
 There's a good [security write-up on the rtx repo](https://github.com/jdxcode/rtx/blob/main/SECURITY.md).
 
-Even tools like [gradlew have risks](https://github.com/IdiosApps/dependabot-gradlewrapper-test#what-are-some-problems-with-the-gradle-wrapper) though, and that's massively popular. You have to pick your battles.
+As you can see, with Tera templating you can run some arbitrary commands (firstly in PRs/GitHub Actions, then locally if a change is merged). There is a command [rtx trust](https://github.com/jdxcode/rtx#rtx-trust-options-config_file), meaning "rtx will parse the file with potentially dangerous
+features enabled" - I guess that'd be useful if you clone some OSS repo and don't want the tooling. There's also configuration via environment variables, e.g. [RTX_TRUSTED_CONFIG_PATHS](https://github.com/jdxcode/rtx#rtx_trusted_config_paths) that may be useful.
+
+Even tools like [gradlew have risks](https://github.com/IdiosApps/dependabot-gradlewrapper-test#what-are-some-problems-with-the-gradle-wrapper) though, and that's massively popular. 
 
 To answer "can/should I use rtx?", at this point you need to do your own homework ;)
 
 # Conclusion
 
-I encourage you to give [rtx](https://github.com/jdxcode/rtx) a try. It'll be my tooling manager of choice for personal projects now, and I'm encourgaging its use at work.
+I encourage you to give [rtx](https://github.com/jdxcode/rtx) a try. It'll be my tooling manager of choice for personal projects now, and I'm encourgaging its use at work. So far I'm using it in a backend JVM repo, a yarn/node documentation repo, and an Elixir/Erlang repo. 
