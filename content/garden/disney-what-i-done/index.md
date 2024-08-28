@@ -2,7 +2,7 @@
 title: "Career - Disney Streaming - What I Done"
 date: 2023-06-06
 lastmod: 2023-06-06
-draft: false
+draft: true
 garden_tags: ["work, tech"]
 summary: "...  because a CV is too brief"
 status: "seeding"
