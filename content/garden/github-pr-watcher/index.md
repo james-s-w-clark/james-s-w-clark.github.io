@@ -126,7 +126,7 @@ println(data("login")) # username
 
 It's close, it just needs a little tweak to the suggested shebang: for my MacOs brew install, `#!/usr/bin/env /opt/homebrew/bin/scala-cli` works. Scala-cli is pulling in those Ivy dependencies and using them, very nice.
 
-To keep the blog short, you can what I've got so far here: [xbar-github-pr](https://github.com/IdiosApps/xbar-github-pr). At this time it just shows PR counts summed over multiple repositories for your PRs and others'.
+To keep the blog short, you can what I've got so far here: [xbar-github-pr](https://github.com/james-s-w-clark/xbar-github-pr). At this time it just shows PR counts summed over multiple repositories for your PRs and others'.
 
 TODO - add a screenshot... or maybe in the goals section to get interest earlier?
 

@@ -86,7 +86,7 @@ steps:
     - uses: jdxcode/rtx-action@v1
 ```
 
-I ran [this](https://github.com/IdiosApps/havvk/blob/master/.github/workflows/rtx-action-check.yml) as a workflow dispatch. The first run took 3m36s (it takes a while locally to install Elixir & Erlang too), but [the second run (started soon after) took only 20 seconds](https://github.com/IdiosApps/havvk/actions/runs/5627022179/job/15248908167)! GitHub Actions seems to have nicely cached the worker for my `master` branch (270MB total). Apparently there's a [10GB total limit](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows) - though I can't see how long it lasts. That's cool though - our action *just works* in CI, is super clean, and in Public GitHub they help us keep things fast with zero-configuration caches!
+I ran [this](https://github.com/james-s-w-clark/havvk/blob/master/.github/workflows/rtx-action-check.yml) as a workflow dispatch. The first run took 3m36s (it takes a while locally to install Elixir & Erlang too), but [the second run (started soon after) took only 20 seconds](https://github.com/james-s-w-clark/havvk/actions/runs/5627022179/job/15248908167)! GitHub Actions seems to have nicely cached the worker for my `master` branch (270MB total). Apparently there's a [10GB total limit](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows) - though I can't see how long it lasts. That's cool though - our action *just works* in CI, is super clean, and in Public GitHub they help us keep things fast with zero-configuration caches!
 
 # ... but my versions for different tools are scattered around my source!
 
@@ -129,7 +129,7 @@ There's a good [security write-up on the rtx repo](https://github.com/jdxcode/rt
 As you can see, with Tera templating you can run some arbitrary commands (firstly in PRs/GitHub Actions, then locally if a change is merged). There is a command [rtx trust](https://github.com/jdxcode/rtx#rtx-trust-options-config_file), meaning "rtx will parse the file with potentially dangerous
 features enabled" - I guess that'd be useful if you clone some OSS repo and don't want the tooling. There's also configuration via environment variables, e.g. [RTX_TRUSTED_CONFIG_PATHS](https://github.com/jdxcode/rtx#rtx_trusted_config_paths) that may be useful.
 
-Even tools like [gradlew have risks](https://github.com/IdiosApps/dependabot-gradlewrapper-test#what-are-some-problems-with-the-gradle-wrapper) though, and that's massively popular. 
+Even tools like [gradlew have risks](https://github.com/james-s-w-clark/dependabot-gradlewrapper-test#what-are-some-problems-with-the-gradle-wrapper) though, and that's massively popular. 
 
 To answer "can/should I use rtx?", at this point you need to do your own homework ;)
 

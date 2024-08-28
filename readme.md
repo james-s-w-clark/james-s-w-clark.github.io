@@ -24,7 +24,7 @@ git submodule update --init --recursive --remote
 ```
 
 [A hidden git submodule config points to a remote](.git/modules/themes/digital-garden/config). 
-I pointed it to [my digital garden fork](https://github.com/IdiosApps/hugo-digital-garden-theme).
+I pointed it to [my digital garden fork](https://github.com/james-s-w-clark/hugo-digital-garden-theme).
 ```shell
 git submodule sync --recursive
 ```

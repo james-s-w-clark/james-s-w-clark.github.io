@@ -16,12 +16,12 @@ rssLimit = 5
 
   [[params.social]]
     name = "RSS"
-    link = "https://raw.githubusercontent.com/IdiosApps/IdiosApps.github.io/gh-pages/index.xml"
+    link = "https://raw.githubusercontent.com/james-s-w-clark/james-s-w-clark.github.io/gh-pages/index.xml"
     icon = "fas fa-rss"
 
   [[params.social]]
     name = "Github"
-    link = "https://github.com/IdiosApps"
+    link = "https://github.com/james-s-w-clark"
     icon = "fab fa-github"
 
   [[params.social]]

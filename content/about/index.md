@@ -72,7 +72,7 @@ layout: about
 # You (also) may not know
 - I studied Mandarin Chines for a while, but became more interested in Second Language Acquisition (and tooling for learning languages)
   - This was my pivotal path to becoming a software engineer
-  - ["Graded Reader" builder](https://github.com/IdiosApps/gradedReaderBuilderServer)
+  - ["Graded Reader" builder](https://github.com/james-s-w-clark/gradedReaderBuilderServer)
   - ["Hanzi To Anki" - generate flashcards from any text](https://github.com/danielt998/HanziToAnki)
 
 # Other topics/questions to expand on
