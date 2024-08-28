@@ -145,7 +145,7 @@ We previously sent the reports to Slack, with pass/fail and the targets. I added
 # Git hooks
 
 Git hooks are great - ensure your code is linted/compilable/tested before pushing.
-What's even cooler is combining them with interactive CLI tooling like `gum` - see my ["gummy hooks"](https://github.com/IdiosApps/gummy-hooks) examples.
+What's even cooler is combining them with interactive CLI tooling like `gum` - see my ["gummy hooks"](https://github.com/james-s-w-clark/gummy-hooks) examples.
 - Iterate quicker by using a bash script and just calling it - you don't actually have to do anything with Git to iterate on it.
 
 # Scala Steward
