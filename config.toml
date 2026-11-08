@@ -38,25 +38,16 @@ rssLimit = 5
 [menu]
   [[menu.main]]
     name = "Digital Garden"
-    url = "/garden/"
+    url = "/"
     weight = 1
-#  [[menu.main]]
-#    name = "Projects"
-#    url = "/projects/"
-#    weight = 2
-#  [[menu.main]]
-#    name = "Library"
-#    url = "/library/"
-#    weight = 3
   [[menu.main]]
     name = "About"
     url = "/about/"
-    weight = 4
+    weight = 2
 
 
 [taxonomies]
   garden_tags = 'garden_tags'
-  project_tags = 'project_tags'
 
 
 [markup]
