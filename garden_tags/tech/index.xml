@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tech on James' Digital Garden</title><link>https://james-s-w-clark.github.io/garden_tags/tech/</link><description>Recent content in Tech on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Wed, 18 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://james-s-w-clark.github.io/garden_tags/tech/index.xml" rel="self" type="application/rss+xml"/><item><title>Symlinks, syncs, and app configuration</title><status>evergreen</status><link>https://james-s-w-clark.github.io/garden/config-symlink-fast-setup/</link><pubDate>Wed, 18 Jan 2023 00:00:00 +0000</pubDate><guid>https://james-s-w-clark.github.io/garden/config-symlink-fast-setup/</guid><description>&lt;p&gt;When setting up a new Windows device, there are some tools that can help you to install your apps quickly and easily from the command line (WinGet, chocolatey). Whilst these are great (and can actually install most of your apps), one thing they can’t do is transfer your configuration between devices.&lt;/p&gt;
+&lt;p&gt;In this short blog, we’ll be using:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A cloud sync of choice (Google Drive / OneDrive / DropBox etc.)
+&lt;ul&gt;
+&lt;li&gt;So I have my configuration files on any device&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Symbolic links, in a tiny script file
+&lt;ul&gt;
+&lt;li&gt;So apps can easily access the backed-up configuration, and sync changes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;An application we love, which uses simple configuration files&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;For this worked example, we&amp;rsquo;ll use Espanso, and a folder &amp;ldquo;Junction&amp;rdquo; symlink.&lt;/p&gt;
+&lt;p&gt;The folder linking must be done before the source folder (Espanso&amp;rsquo;s config) is created. Either do this before installing the app, or do some file/folder shuffling.
+It doesn&amp;rsquo;t matter if the target exists or not.&lt;/p&gt;
+&lt;p&gt;In your cloud-sync&amp;rsquo;d folder (&lt;code&gt;%HomePath%\OneDrive\Apps\espanso&lt;/code&gt;), create a file &lt;code&gt;symlink.bat&lt;/code&gt; and add:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;mklink /J %APPDATA%\espanso %HomePath%\OneDrive\Apps\espanso
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In Windows, the &lt;code&gt;%APPDATA%&lt;/code&gt; folder will look like this if the command succeed; note the little arrow on our symlinked folder:&lt;/p&gt;
+&lt;p&gt;&lt;img src="symlink_folder_icon.png" alt="Untitled"&gt;&lt;/p&gt;
+&lt;p&gt;In &lt;code&gt;......./OneDrive/apps/espanso/match/base.yml&lt;/code&gt;, add this to the main &lt;code&gt;matches&lt;/code&gt; body:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;- trigger: &amp;#34;:synctest&amp;#34;
+replace: &amp;#34;your espanso config was sync&amp;#39;d sucessfully!&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Install espanso with default settings&lt;/p&gt;
+&lt;p&gt;Espanso startup logs show our symlink folder being loaded in. It does this anyway (nothing special is happening to the file loading&amp;hellip; other than it actually loading from our cloud sync&amp;rsquo;d folder!):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-scala" data-lang="scala"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;...&lt;/span&gt; &lt;span style="color:#111"&gt;reading&lt;/span&gt; &lt;span style="color:#111"&gt;configs&lt;/span&gt; &lt;span style="color:#111"&gt;from&lt;/span&gt;&lt;span style="color:#00a8c8"&gt;:&lt;/span&gt; &lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#00a8c8"&gt;C:\\Users\\james\\AppData\\Roaming\\espanso&lt;/span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#00a8c8"&gt;...&lt;/span&gt; &lt;span style="color:#00a8c8"&gt;reading&lt;/span&gt; &lt;span style="color:#00a8c8"&gt;packages&lt;/span&gt; &lt;span style="color:#00a8c8"&gt;from:&lt;/span&gt; &lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#00a8c8"&gt;C:\\Users\\james\\AppData\\Roaming\\espanso\\match\\packages&lt;/span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So if we enter our special phrase, &lt;code&gt;:synctest&lt;/code&gt;, we should see it expanded to:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;your espanso config was sync’d sucessfully!&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;On another computer (or a fresh installation of Windows), all you have to do is double-click the .bat file.
+In just a few minutes, we&amp;rsquo;ve made a system that will always take care of our favourite Espanso packages &amp;amp; personalised keywords.
+Also note that any changes we make will be backed up to the cloud too!&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;What we’ve done here can be applied to more applications which have simple configuration.
+The scripts to create junctions/symbolic links could be per-app, or you could put them all in one script (to be run before a big WinGet/Brew install).&lt;/p&gt;
+&lt;p&gt;Here’s a few configurations ones I may set up this synchronisation for:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Headphone EQ - Peace/EqualizerAPO - .txt files represent frequencies/decibels etc.&lt;/li&gt;
+&lt;li&gt;GPU Overclock/Undervolt - MSI Afterburner - Custom curve is a bit tricky to make (I have to search for my notes on instructions every time I set up)&lt;/li&gt;
+&lt;li&gt;Calibre, for digital book management&lt;/li&gt;
+&lt;li&gt;&amp;hellip; I can&amp;rsquo;t think of more, but I&amp;rsquo;m happy even with just Espanso having this :-)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The same principles apply to Ubuntu and MacOS - but implementation of your symlink script files might look more like &lt;a href="https://apple.stackexchange.com/a/115647"&gt;this StackExchange answer&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>Git LFS</title><status>growing</status><link>https://james-s-w-clark.github.io/garden/git-lfs/</link><pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate><guid>https://james-s-w-clark.github.io/garden/git-lfs/</guid><description>&lt;h1 id="introduction---what-is-git-lfs"id="introduction---what-is-git-lfs"
+&gt;Introduction - what is Git LFS?
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/git-lfs/#introduction---what-is-git-lfs&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;Version control systems are great. Having a history which you can timetravel with is incredibly powerful.&lt;/p&gt;
+&lt;p&gt;Usually with VCS like Git or Mercurial, we when we write code we are making fairly lightweight text files. What if we want to use version history with much larger files - perhaps design assets like complex 3D videogame maps, or hi-res Photoshop drawings?&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s not wise to store large files like this in Git, as Git repositories store the full history: cloning a repo with 10 of our 1GB maps will be slow, as 10GB needs to download. And maybe you only need one (or even none!) of them straightaway.&lt;/p&gt;
+&lt;p&gt;&amp;hellip; Enter Git Large File System (LFS). It allows you to save full files in remote storage, and only keep lightweight pointers to those files in your repository. Cloning the repository is fast, and you can download the large files when you need them.&lt;/p&gt;
+&lt;h1 id="for-more-general-software-engineers-what-value-could-it-add"id="for-more-general-software-engineers-what-value-could-it-add"
+&gt;For more general software engineers, what value could it add?
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/git-lfs/#for-more-general-software-engineers-what-value-could-it-add&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;But I&amp;rsquo;m not a game developer, how can this be useful to me?&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Okay, here&amp;rsquo;s the scenario I had in mind when exploring Git LFS: build systems like &lt;a href="https://blog.gradle.org/introducing-incremental-build-support"&gt;Gradle&lt;/a&gt;, Bazel, and mill can become much more efficient by only performing tasks when there&amp;rsquo;s a change. If your source code hasn&amp;rsquo;t changed, the compilation output won&amp;rsquo;t change - so why compile anything? This avoids pointless work, saving time and money.&lt;/p&gt;
+&lt;p&gt;GitHub Actions seems to be becoming very popular now, and in theory it should integrate nicely with Git LFS &lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt;. Whilst some Actions can use a cache, cache is not supported for Github Enterprise &amp;gt;3.5. If you prefer to work smarter not harder - why make infrastructure for an S3 bucket/policies/networking if you can use easier tools? So, I wondered:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;Can I store build compilation output in Git LFS, i.e. as simple remote build cache&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id="what-does-interacting-with-git-lfs-look-like"id="what-does-interacting-with-git-lfs-look-like"
+&gt;What does interacting with Git LFS look like?
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/git-lfs/#what-does-interacting-with-git-lfs-look-like&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;Let&amp;rsquo;s say we want to push a compilation output archive (.tar.gz) on a branch &lt;code&gt;build-cache&lt;/code&gt;, to hide it from &lt;code&gt;main&lt;/code&gt; branch. I borrowed this idea from Github Pages being able to find static website compilations (such as from Hugo) in the &lt;code&gt;gh-pages&lt;/code&gt; branch.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;// https://git-lfs.github.com/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;brew install git-lfs
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;// install various git hooks &lt;span style="color:#00a8c8"&gt;for&lt;/span&gt; nice git lfs syncing
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git lfs install
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;// in a repo
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git lfs track &lt;span style="color:#d88200"&gt;&amp;#34;*.tar.gz&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;// git attributes is now tracking this filetype with git lfs
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git add .gitattributes
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git add output.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git lfs push -u origin build-cache --all
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now we have our archive 1. in git history, 2. in a remote object store. Let&amp;rsquo;s go to another branch&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout -b aNewBranch
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git lfs fetch origin build-cache
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git checkout origin/build-cache output.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;// check we have the actual archive, not just a pointer
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;file output.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For your curiosity, here&amp;rsquo;s how the pointer looks:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;version https://git-lfs.github.com/spec/v1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;oid sha256:c37fecb501e8ce....
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;size &lt;span style="color:#ae81ff"&gt;173&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lfs-test.tar.gz &lt;span style="color:#f92672"&gt;(&lt;/span&gt;END&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Fortunately, I tested this with a &lt;em&gt;tiny&lt;/em&gt; archive. More on that soon.&lt;/p&gt;
+&lt;h1 id="sounds-pretty-nice---what-are-the-downsides-of-build-cache-with-git-lfs"id="sounds-pretty-nice---what-are-the-downsides-of-build-cache-with-git-lfs"
+&gt;Sounds pretty nice - what are the downsides of build cache with Git LFS?
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/git-lfs/#sounds-pretty-nice---what-are-the-downsides-of-build-cache-with-git-lfs&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;This is where the bad news comes&amp;hellip;&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s not easy to keep costs/remote storage lean with Git LFS.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;To remove Git LFS objects from a repository, delete and recreate the repository. &lt;a href="https://docs.github.com/en/repositories/working-with-files/managing-large-files/removing-files-from-git-large-file-storage#git-lfs-objects-in-your-repository"&gt;~ Github&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;GitHub argues they are all about keeping history, not deleting it.
+Git LFS says similar. On the other hand, to clear LFS remote on GitHub you have to delete all history, so it&amp;rsquo;s up for debate really.&lt;/p&gt;
+&lt;p&gt;Depsite a lot of &lt;a href="https://github.com/git-lfs/git-lfs/issues/1101"&gt;desire for a smarter Git LFS for about 6 years&lt;/a&gt;, it doesn&amp;rsquo;t look like it&amp;rsquo;ll be coming around any time soon. There&amp;rsquo;s lots of great suggestions/requests, like &amp;ldquo;last-only&amp;rdquo; backup, and rolling backup. I wonder who is using Git LFS, and how much it costs them&amp;hellip;&lt;/p&gt;
+&lt;h2 id="what-is-the-pricing-models"id="what-is-the-pricing-models"
+&gt;What is the pricing models?
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/git-lfs/#what-is-the-pricing-models&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h2&gt;&lt;h3 id="github"id="github"
+&gt;GitHub:
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/git-lfs/#github&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.github.com/en/billing/managing-billing-for-git-large-file-storage/about-billing-for-git-large-file-storage#about-billing-for-git-large-file-storage"&gt;Free tier&lt;/a&gt;: 1GB storage + 1GB bandwidth free per month&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.github.com/en/billing/managing-billing-for-git-large-file-storage/about-billing-for-git-large-file-storage#purchasing-additional-storage-and-bandwidth"&gt;Paid tiers&lt;/a&gt;: $5 per month per 50GB storage + bandwidth&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Example&lt;/strong&gt;: 1GB upload per day, 0.5GB download. First month cost: $5. Cost at 12 months: $35 per month.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;That&amp;rsquo;s actually not too bad.
+Using good compression to save space and bandwidth is sound advice. Bear in mind there&amp;rsquo;s a tradeoff between using the best compression formats and algorithms VS using what people will already have (e.g. .tar.gz is decent for macos/ubuntu)
+The problem comes with paying for stuff you don&amp;rsquo;t need.&lt;/p&gt;
+&lt;p&gt;Also, be careful with bandwidth - if your quota runs out, &lt;a href="https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-storage-and-bandwidth-usage#tracking-storage-and-bandwidth-use"&gt;&amp;ldquo;Git LFS suport is disabled&amp;hellip;. until the next month&amp;rdquo;&lt;/a&gt;. I guess if you do a pull/push mechanism for build cache, you&amp;rsquo;ll use 26GB storage but 52GB bandwidth. To reduce toil, I can foresee companies buying &amp;ldquo;a few&amp;rdquo; extra data packs.&lt;/p&gt;
+&lt;p&gt;It doesn&amp;rsquo;t look like you can use a custom remote. GitHub manages it all for you, which could be a pro or a con.&lt;/p&gt;
+&lt;h3 id="bitbucket"id="bitbucket"
+&gt;BitBucket:
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/git-lfs/#bitbucket&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://support.atlassian.com/bitbucket-cloud/docs/storage-policy-for-git-lfs-with-bitbucket/#How-much-storage-do-I-get-with-my-pricing-plan"&gt;Various free tiers&lt;/a&gt;, 1 or 5 GB depending on use-case&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://support.atlassian.com/bitbucket-cloud/docs/storage-policy-for-git-lfs-with-bitbucket/#How-much-does-additional-storage-for-Git-LFS-cost"&gt;Paid tier&lt;/a&gt;: $10 per 100GB file storage, no mention of bandwidth&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://support.atlassian.com/bitbucket-cloud/docs/manage-large-files-with-git-large-file-storage-lfs/"&gt;10GB file size limit&lt;/a&gt; - probably plenty, but worth calling out (seen as they do!)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Unlike GitHub, BitBucket has a &lt;em&gt;Git LFS&lt;/em&gt; view in a settings page where &lt;a href="https://support.atlassian.com/bitbucket-cloud/docs/use-git-lfs-with-existing-bitbucket-repositories/#Delete-Git-LFS-files-from-a-repository"&gt;LFS remote objects can be deleted&lt;/a&gt;. Better than nothing, but there&amp;rsquo;s toil to save these costs (and probably not worth the time for a human to do it!). As you may have guessed, &lt;a href="https://gist.github.com/danielgindi/db0e0a897d8d920f23e155bb5d59e9c6"&gt;someone has kindly automated this&lt;/a&gt; by running JS in Chrome&amp;rsquo;s console.&lt;/p&gt;
+&lt;h3 id="gitlab"id="gitlab"
+&gt;GitLab:
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/git-lfs/#gitlab&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;You can setup custom object storage &lt;a href="https://docs.gitlab.com/ee/administration/lfs/#storing-lfs-objects-in-remote-object-storage"&gt;via Fog&lt;/a&gt;, e.g. on a private local network, or on aws&lt;/li&gt;
+&lt;li&gt;For deleting remote files within Gitlab&amp;rsquo;s set of tooling/services, it doesn&amp;rsquo;t look like it&amp;rsquo;s an option. GitLab seem to give incorrect advice that clearing the repo should also clear the remote (&lt;a href="https://stackoverflow.com/a/34582910/4261132"&gt;1&lt;/a&gt;, &lt;a href="https://gitlab.com/gitlab-org/gitlab-foss/-/issues/30639"&gt;2&lt;/a&gt;). Someone wrote a &lt;a href="https://github.com/darshannnn/GitLabLFS-custom_hooks"&gt;custom Ruby hook&lt;/a&gt; to do this.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you&amp;rsquo;re already set up with AWS, you might be interested in estimating pricing. AWS provide a &lt;a href="https://calculator.s3.amazonaws.com/index.html"&gt;calculator&lt;/a&gt; for that.&lt;/p&gt;
+&lt;h1 id="conclusion"id="conclusion"
+&gt;Conclusion
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/git-lfs/#conclusion&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;If you &lt;em&gt;must&lt;/em&gt; keep your large files versioned with Git, you can keep your repository lean with Git LFS. You just need to be aware of how costs will scale with time, and that with some Git providers you don&amp;rsquo;t have much control over this.&lt;/p&gt;
+&lt;h1 id="extra-notes"id="extra-notes"
+&gt;Extra notes
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/git-lfs/#extra-notes&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;GitLab - &lt;a href="https://about.gitlab.com/blog/2017/01/30/getting-started-with-git-lfs-tutorial/"&gt;getting started with Git LFS&lt;/a&gt;. There&amp;rsquo;s a nice little advert for Tower showing integration with Git LFS in your usual Windows/Mac file browser. That could be nice for digital artists.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="footnotes" role="doc-endnotes"&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;Here&amp;rsquo;s a &lt;a href="https://stackoverflow.com/a/61466160/4261132"&gt;StackOverflow&lt;/a&gt; post with example usage:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;steps:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - name: Checkout github repo &lt;span style="color:#f92672"&gt;(&lt;/span&gt;+ download lfs dependencies&lt;span style="color:#f92672"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; uses: actions/checkout@v3
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; with:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; lfs: &lt;span style="color:#111"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - name: Checkout LFS objects
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; run: git lfs checkout
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For checking out the latest version of a file on a branch, it would be like &lt;code&gt;git checkout origin/build-cache out.tar.gz&lt;/code&gt;&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink"&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</description></item></channel></rss>

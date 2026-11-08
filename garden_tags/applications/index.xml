@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Applications on James' Digital Garden</title><link>https://james-s-w-clark.github.io/garden_tags/applications/</link><description>Recent content in Applications on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Wed, 18 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://james-s-w-clark.github.io/garden_tags/applications/index.xml" rel="self" type="application/rss+xml"/><item><title>Symlinks, syncs, and app configuration</title><status>evergreen</status><link>https://james-s-w-clark.github.io/garden/config-symlink-fast-setup/</link><pubDate>Wed, 18 Jan 2023 00:00:00 +0000</pubDate><guid>https://james-s-w-clark.github.io/garden/config-symlink-fast-setup/</guid><description>&lt;p&gt;When setting up a new Windows device, there are some tools that can help you to install your apps quickly and easily from the command line (WinGet, chocolatey). Whilst these are great (and can actually install most of your apps), one thing they can’t do is transfer your configuration between devices.&lt;/p&gt;
+&lt;p&gt;In this short blog, we’ll be using:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A cloud sync of choice (Google Drive / OneDrive / DropBox etc.)
+&lt;ul&gt;
+&lt;li&gt;So I have my configuration files on any device&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Symbolic links, in a tiny script file
+&lt;ul&gt;
+&lt;li&gt;So apps can easily access the backed-up configuration, and sync changes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;An application we love, which uses simple configuration files&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;For this worked example, we&amp;rsquo;ll use Espanso, and a folder &amp;ldquo;Junction&amp;rdquo; symlink.&lt;/p&gt;
+&lt;p&gt;The folder linking must be done before the source folder (Espanso&amp;rsquo;s config) is created. Either do this before installing the app, or do some file/folder shuffling.
+It doesn&amp;rsquo;t matter if the target exists or not.&lt;/p&gt;
+&lt;p&gt;In your cloud-sync&amp;rsquo;d folder (&lt;code&gt;%HomePath%\OneDrive\Apps\espanso&lt;/code&gt;), create a file &lt;code&gt;symlink.bat&lt;/code&gt; and add:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;mklink /J %APPDATA%\espanso %HomePath%\OneDrive\Apps\espanso
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In Windows, the &lt;code&gt;%APPDATA%&lt;/code&gt; folder will look like this if the command succeed; note the little arrow on our symlinked folder:&lt;/p&gt;
+&lt;p&gt;&lt;img src="symlink_folder_icon.png" alt="Untitled"&gt;&lt;/p&gt;
+&lt;p&gt;In &lt;code&gt;......./OneDrive/apps/espanso/match/base.yml&lt;/code&gt;, add this to the main &lt;code&gt;matches&lt;/code&gt; body:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;- trigger: &amp;#34;:synctest&amp;#34;
+replace: &amp;#34;your espanso config was sync&amp;#39;d sucessfully!&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Install espanso with default settings&lt;/p&gt;
+&lt;p&gt;Espanso startup logs show our symlink folder being loaded in. It does this anyway (nothing special is happening to the file loading&amp;hellip; other than it actually loading from our cloud sync&amp;rsquo;d folder!):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-scala" data-lang="scala"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;...&lt;/span&gt; &lt;span style="color:#111"&gt;reading&lt;/span&gt; &lt;span style="color:#111"&gt;configs&lt;/span&gt; &lt;span style="color:#111"&gt;from&lt;/span&gt;&lt;span style="color:#00a8c8"&gt;:&lt;/span&gt; &lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#00a8c8"&gt;C:\\Users\\james\\AppData\\Roaming\\espanso&lt;/span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#00a8c8"&gt;...&lt;/span&gt; &lt;span style="color:#00a8c8"&gt;reading&lt;/span&gt; &lt;span style="color:#00a8c8"&gt;packages&lt;/span&gt; &lt;span style="color:#00a8c8"&gt;from:&lt;/span&gt; &lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#00a8c8"&gt;C:\\Users\\james\\AppData\\Roaming\\espanso\\match\\packages&lt;/span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So if we enter our special phrase, &lt;code&gt;:synctest&lt;/code&gt;, we should see it expanded to:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;your espanso config was sync’d sucessfully!&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;On another computer (or a fresh installation of Windows), all you have to do is double-click the .bat file.
+In just a few minutes, we&amp;rsquo;ve made a system that will always take care of our favourite Espanso packages &amp;amp; personalised keywords.
+Also note that any changes we make will be backed up to the cloud too!&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;What we’ve done here can be applied to more applications which have simple configuration.
+The scripts to create junctions/symbolic links could be per-app, or you could put them all in one script (to be run before a big WinGet/Brew install).&lt;/p&gt;
+&lt;p&gt;Here’s a few configurations ones I may set up this synchronisation for:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Headphone EQ - Peace/EqualizerAPO - .txt files represent frequencies/decibels etc.&lt;/li&gt;
+&lt;li&gt;GPU Overclock/Undervolt - MSI Afterburner - Custom curve is a bit tricky to make (I have to search for my notes on instructions every time I set up)&lt;/li&gt;
+&lt;li&gt;Calibre, for digital book management&lt;/li&gt;
+&lt;li&gt;&amp;hellip; I can&amp;rsquo;t think of more, but I&amp;rsquo;m happy even with just Espanso having this :-)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The same principles apply to Ubuntu and MacOS - but implementation of your symlink script files might look more like &lt;a href="https://apple.stackexchange.com/a/115647"&gt;this StackExchange answer&lt;/a&gt;.&lt;/p&gt;</description></item></channel></rss>

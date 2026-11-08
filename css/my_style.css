@@ -1,0 +1,44 @@
+:root {
+    /* --mulish: 'Comic Neue'; */
+    --summary: 'Comic Neue';
+    /* --headings: 'Comic Neue'; */
+}
+
+
+/* https://google-webfonts-helper.herokuapp.com/fonts/comic-neue?subsets=latin */
+/* comic-neue-regular - latin */
+/* Font files go in ./static/fonts */
+/* Chrome Network inspector helpful to debug what's loaded, where */
+/* see head.html in theme to see which weights/fonts are downloaded */
+    /* Few different weights, don't know why */
+    /* Default "project1" has italics, bold, etc. all working with Comic Neue */
+@font-face {
+    font-family: 'Comic Neue';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/comic-neue-v8-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local(''),
+         url('../fonts/comic-neue-v8-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/comic-neue-v8-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+         url('../fonts/comic-neue-v8-latin-regular.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/comic-neue-v8-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/comic-neue-v8-latin-regular.svg#ComicNeue') format('svg'); /* Legacy iOS */
+  }
+
+tr {
+    border-bottom: thin solid #f3f3f3;
+}
+
+tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+thead tr {
+    background-color: #90C8AC;
+    color: #ffffff;
+    text-align: left;
+}
+
+th, td {
+    padding: 4px 5px;
+}

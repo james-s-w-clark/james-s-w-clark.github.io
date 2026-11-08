@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Productivity on James' Digital Garden</title><link>https://james-s-w-clark.github.io/garden_tags/productivity/</link><description>Recent content in Productivity on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Tue, 01 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://james-s-w-clark.github.io/garden_tags/productivity/index.xml" rel="self" type="application/rss+xml"/><item><title>Send tasks &amp; ideas to your work computer from anywhere, any time</title><status>evergreen</status><link>https://james-s-w-clark.github.io/garden/todoist-work-filter-widget/</link><pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate><guid>https://james-s-w-clark.github.io/garden/todoist-work-filter-widget/</guid><description>&lt;p&gt;Do you ever have an amazing idea for work whilst away from your work PC, but hate mingling work tasks/ideas into your personal to-do? Do you forget some of these great ideas, or can&amp;rsquo;t conveniently access them at work?&lt;/p&gt;
+&lt;p&gt;This guide shows how you can fix these problems with the free app Todoist. The following setup has worked incredibly well for me, and I hope you can benefit from it too!&lt;/p&gt;
+&lt;h1 id="our-goals"id="our-goals"
+&gt;Our goals
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/todoist-work-filter-widget/#our-goals&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;Our two widgets will look like this:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure&gt;&lt;img src="https://james-s-w-clark.github.io/garden/todoist-work-filter-widget/widget_view.jpg" width="50%"&gt;
+&lt;/figure&gt;
+&lt;ol start="2"&gt;
+&lt;li&gt;We can send tasks from a phone to a work project like this:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure&gt;&lt;img src="https://james-s-w-clark.github.io/garden/todoist-work-filter-widget/add_task.jpg" width="50%"&gt;
+&lt;/figure&gt;
+&lt;ol start="3"&gt;
+&lt;li&gt;
+&lt;p&gt;I want this &lt;em&gt;work widget&lt;/em&gt; to include only:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;work project&lt;/strong&gt; tasks, and&lt;/li&gt;
+&lt;li&gt;tasks for &lt;strong&gt;today or overdue&lt;/strong&gt;. I don&amp;rsquo;t want to see tasks I scheduled for next year!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;I want my personal widget to EXCLUDE these work tasks.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id="the-setup"id="the-setup"
+&gt;The setup
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/todoist-work-filter-widget/#the-setup&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;First create a &amp;ldquo;Work&amp;rdquo; project on your personal account. Invite your work email address to this project. You can use the &lt;a href="https://medium.com/r/?url=https%3A%2F%2Ftodoist.com%2Fdownloads"&gt;Todoist app&lt;/a&gt; for Desktop, Mobile, Browser, or Wearables.&lt;/p&gt;
+&lt;p&gt;For the filter the &lt;a href="https://medium.com/r/?url=https%3A%2F%2Ftodoist.com%2Fhelp%2Farticles%2Fintroduction-to-filters"&gt;Todoist guide&lt;/a&gt; actually lists the filter query we&amp;rsquo;ll need as their first example:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;(today | overdue) &amp;amp; #Work&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Todoist comes with many &lt;em&gt;filters&lt;/em&gt; already, but a limit of three means that we need to either delete existing filters, or subscribe. I deleted the existing filters - I don&amp;rsquo;t need them. So, create a &amp;ldquo;work filter&amp;rdquo;:&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://james-s-w-clark.github.io/garden/todoist-work-filter-widget/add_filter.jpg" width="50%"&gt;
+&lt;/figure&gt;
+&lt;p&gt;Then, create a &amp;ldquo;personal filter&amp;rdquo; too. As you may have guessed we&amp;rsquo;ll be using this query:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;(today | overdue) &amp;amp; !#Work&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Now, create your Todoist &lt;em&gt;widget&lt;/em&gt; and place it somewhere in your launcher. I recommend making a launcher page specific for work, which only has apps you need to use for work - e.g. 2FA apps, and this widget. This will help separate work and private life.&lt;/p&gt;
+&lt;p&gt;Enter the widget&amp;rsquo;s settings, and under &amp;ldquo;Choose view&amp;rdquo; select our new &amp;ldquo;Work filter&amp;rdquo;:&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://james-s-w-clark.github.io/garden/todoist-work-filter-widget/widget_settings.jpg" width="50%"&gt;
+&lt;/figure&gt;
+&lt;p&gt;For our personal Todoist widget, we need create another widget but this time we choose our &amp;ldquo;Personal filter&amp;rdquo;. I recommend having this on a launcher page with other organisational tools, such as a widget of your Calendar in Week/Month view.&lt;/p&gt;
+&lt;p&gt;Wherever you are, you can now hit the ➕ icon on a Todoist widget to create a &lt;strong&gt;#work&lt;/strong&gt; task - which you can interact with on your work machine!&lt;/p&gt;
+&lt;h1 id="closing-notes"id="closing-notes"
+&gt;Closing notes
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/todoist-work-filter-widget/#closing-notes&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;One last piece of advice to make this flow even better: Todoist is pretty smart, so to make a weekly reminder every 4pm on Friday you write a task like shown at the start of the article. You can read more about Todoist&amp;rsquo;s quick add ability &lt;a href="https://medium.com/r/?url=https%3A%2F%2Ftodoist.com%2Fhelp%2Farticles%2Ftask-quick-add"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s to working with lots of interesting ideas at work in 2022 - wherever and whenever you get those ideas!&lt;/p&gt;</description></item></channel></rss>

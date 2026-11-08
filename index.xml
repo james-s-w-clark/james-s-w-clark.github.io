@@ -1,0 +1,787 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>James' Digital Garden</title><link>https://james-s-w-clark.github.io/</link><description>Recent content on James' Digital Garden</description><generator>Hugo -- gohugo.io</generator><language>en-gb</language><copyright>James Clark ©</copyright><lastBuildDate>Fri, 21 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://james-s-w-clark.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>RTX ON - it's execution time</title><status>evergreen</status><link>https://james-s-w-clark.github.io/garden/rtx-asdf/</link><pubDate>Fri, 21 Jul 2023 00:00:00 +0000</pubDate><guid>https://james-s-w-clark.github.io/garden/rtx-asdf/</guid><description>&lt;p&gt;I&amp;rsquo;ve been using previously used &lt;code&gt;sdkman&lt;/code&gt; for a few years to manage my JDK &amp;amp; Scala installations. It supports a good amount of tooling, but it&amp;rsquo;s very JVM focused. You may know &lt;code&gt;nvm&lt;/code&gt; or &lt;code&gt;n&lt;/code&gt; for managing and switching Node versions, or Volta/fnm for more general Javascript tooling management.&lt;/p&gt;
+&lt;p&gt;Recently I&amp;rsquo;ve been getting into Elixir &amp;amp; Phoenix LiveView, and I came across a similar tool called &lt;code&gt;asdf&lt;/code&gt;. Actually though, thanks to its &amp;ldquo;plugins&amp;rdquo; system and almost 700 plugins, you can install so many different tools. Sounds good to me - I have projects using Python, Elixir, Java/Scala, Node, Terraform, AWS CLI, etc.. With one application, I can have tooling defined locally (per-project) so it&amp;rsquo;s all independent and easy to get the tooling right.&lt;/p&gt;
+&lt;p&gt;This was working great for Elixir &amp;amp; Erlang, but the ergonomics felt a little off. In order to list versions, you have to first download the plugin. And due to its &amp;ldquo;shim&amp;rdquo; mechanism, it adds about 100ms delay to each command that passes through the asdf executable (my ELI5 understanding).&lt;/p&gt;
+&lt;p&gt;I then came across &lt;a href="https://github.com/jdxcode/rtx"&gt;rtx&lt;/a&gt;, a Rust tool inspired by &lt;code&gt;asdf&lt;/code&gt; that takes a different approach. Here&amp;rsquo;s some features I&amp;rsquo;m really liking:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Speed - &lt;code&gt;rtx&lt;/code&gt; points to tooling versions via the PATH, and updates the PATH when necessary - this keeps interactions fast (it doesn&amp;rsquo;t go through a &amp;ldquo;shim&amp;rdquo; unless it has to, unlike &lt;code&gt;asdf&lt;/code&gt;)
+&lt;ul&gt;
+&lt;li&gt;Also, apparently &lt;code&gt;python&lt;/code&gt; called via &lt;code&gt;rtx&lt;/code&gt; is much more response than &lt;code&gt;python&lt;/code&gt; with &lt;code&gt;pyenv&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Installs - If you have a bunch of microservices on different Node/Java versions, &lt;code&gt;rtx&lt;/code&gt; reloads the relevant version via the PATH when you switch project in your terminal. You don&amp;rsquo;t need to run commands like &lt;code&gt;nvm use node 16&lt;/code&gt; - it&amp;rsquo;s automatic. Global installs are supported too.&lt;/li&gt;
+&lt;li&gt;Plugins - &lt;code&gt;asdf&lt;/code&gt;&amp;rsquo;s amazing plugins are here still, but you don&amp;rsquo;t have to explicltly install them first!
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;rtx&lt;/code&gt; does have it&amp;rsquo;s own plugins, but &amp;lt;10 at the time of writing. Re-using asdf&amp;rsquo;s plugins is smart&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Documentation - the CLI &amp;amp; interactions are friendly, and setup is (almost) frictionless&lt;/li&gt;
+&lt;li&gt;Configuration - &lt;code&gt;.rtx.toml&lt;/code&gt; and the CLI interactions with it are easy to use, and really powerful - see below!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="show-me-the-config"id="show-me-the-config"
+&gt;Show me the config
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/rtx-asdf/#show-me-the-config&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;For our documentation website, I suggested we move from install nvm/node/yarn/sbt to just this configuration file (.rtx.toml):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-toml" data-lang="toml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#111"&gt;[&lt;/span&gt;&lt;span style="color:#75af00"&gt;tools&lt;/span&gt;&lt;span style="color:#111"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75af00"&gt;node&lt;/span&gt; &lt;span style="color:#111"&gt;=&lt;/span&gt; &lt;span style="color:#d88200"&gt;&amp;#34;16&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75af00"&gt;yarn&lt;/span&gt; &lt;span style="color:#111"&gt;=&lt;/span&gt; &lt;span style="color:#d88200"&gt;&amp;#34;1.22.19&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75af00"&gt;sbt&lt;/span&gt; &lt;span style="color:#111"&gt;=&lt;/span&gt; &lt;span style="color:#d88200"&gt;&amp;#34;1.9.2&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;and this one-click script (in IntelliJ) to go from 0 to READY:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl https://rtx.pub/install.sh &lt;span style="color:#111"&gt;|&lt;/span&gt; sh &lt;span style="color:#75715e"&gt;# install rtx &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#111"&gt;echo&lt;/span&gt; &lt;span style="color:#d88200"&gt;&amp;#39;eval &amp;#34;$(~/bin/rtx activate zsh)&amp;#34;&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.zshrc &lt;span style="color:#75715e"&gt;# hook rtx into shell&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;rtx install &lt;span style="color:#75715e"&gt;# install tooling&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;yarn &lt;span style="color:#75715e"&gt;# install deps &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;yarn run &lt;span style="color:#75715e"&gt;# launch dev website&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;That&amp;rsquo;s a nice developer experience. I&amp;rsquo;m happy to know someone can clone a repo, click a button, grab a drink, and come back to a website!&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id="ci---does-it-add-value-here"id="ci---does-it-add-value-here"
+&gt;CI - does it add value here?
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/rtx-asdf/#ci---does-it-add-value-here&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;So, &lt;code&gt;rtx&lt;/code&gt; is pretty cool for local development - but what about CI?&lt;/p&gt;
+&lt;p&gt;For our main project, we use a JDK, Scala, and Mill.
+There&amp;rsquo;s a few Actions for setup (setup-java, coursier-setup, mill-setup, etc.) - but they usually want a version typing out. This could lead to drift between development and CI, and introduce a bit of toil when somebody finally notices or remembers.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/actions/setup-java"&gt;setup-java&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;steps&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;actions/checkout@v3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;actions/setup-java@v3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;with&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;distribution&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt; &lt;span style="color:#d88200"&gt;&amp;#39;openjdk&amp;#39;&lt;/span&gt; &lt;span style="color:#75715e"&gt;# See &amp;#39;Supported distributions&amp;#39; for available options&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;java-version&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt; &lt;span style="color:#d88200"&gt;&amp;#39;17&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;But it&amp;rsquo;d be nice if we could set up more, with less lines right? See &lt;a href="https://github.com/coursier/setup-action"&gt;Coursier&amp;rsquo;s setup-action&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;steps&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;actions/checkout@v3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;coursier/setup-action@v1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;with&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;jvm&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;adopt:17&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;apps&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;sbtn bloop ammonite&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ah, so it seems the versions can&amp;rsquo;t be specified (other than for the jvm).&lt;/p&gt;
+&lt;p&gt;With the &lt;a href="https://github.com/marketplace/actions/rtx-action"&gt;rtx Action&lt;/a&gt;, our &lt;code&gt;.rtx.toml&lt;/code&gt; files can be used - which is accurate, and brief:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;steps&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;actions/checkout@v3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;&lt;span style="color:#111"&gt;:&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;jdxcode/rtx-action@v1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I ran &lt;a href="https://github.com/james-s-w-clark/havvk/blob/master/.github/workflows/rtx-action-check.yml"&gt;this&lt;/a&gt; as a workflow dispatch. The first run took 3m36s (it takes a while locally to install Elixir &amp;amp; Erlang too), but &lt;a href="https://github.com/james-s-w-clark/havvk/actions/runs/5627022179/job/15248908167"&gt;the second run (started soon after) took only 20 seconds&lt;/a&gt;! GitHub Actions seems to have nicely cached the worker for my &lt;code&gt;master&lt;/code&gt; branch (270MB total). Apparently there&amp;rsquo;s a &lt;a href="https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows"&gt;10GB total limit&lt;/a&gt; - though I can&amp;rsquo;t see how long it lasts. That&amp;rsquo;s cool though - our action &lt;em&gt;just works&lt;/em&gt; in CI, is super clean, and in Public GitHub they help us keep things fast with zero-configuration caches!&lt;/p&gt;
+&lt;h1 id="-but-my-versions-for-different-tools-are-scattered-around-my-source"id="-but-my-versions-for-different-tools-are-scattered-around-my-source"
+&gt;&amp;hellip; but my versions for different tools are scattered around my source!
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/rtx-asdf/#-but-my-versions-for-different-tools-are-scattered-around-my-source&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;Let&amp;rsquo;s say you use three tools, which are specified in different files:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;openjdk-17 - in a Dockerfile&lt;/li&gt;
+&lt;li&gt;Scala 2.13.xy - in a Dependencies.sc file&lt;/li&gt;
+&lt;li&gt;mill - in .mill-version&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Fortunately, &lt;code&gt;rtx&lt;/code&gt; uses the &lt;code&gt;tera&lt;/code&gt; templating engine so we can grab these dynamically.
+These commands are kinda grim (I couldn&amp;rsquo;t use &amp;quot; or &amp;lsquo;; I found &lt;code&gt;cut&lt;/code&gt; to be a good command, thanks ChatGPT), but are probably &amp;ldquo;good enough&amp;rdquo; to not need updating. The sources they read won&amp;rsquo;t be changing spacing much:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-toml" data-lang="toml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#111"&gt;[&lt;/span&gt;&lt;span style="color:#75af00"&gt;tools&lt;/span&gt;&lt;span style="color:#111"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75af00"&gt;mill&lt;/span&gt; &lt;span style="color:#111"&gt;=&lt;/span&gt; &lt;span style="color:#111"&gt;{&lt;/span&gt; &lt;span style="color:#75af00"&gt;version&lt;/span&gt; &lt;span style="color:#111"&gt;=&lt;/span&gt; &lt;span style="color:#d88200"&gt;&amp;#34;{{exec(command=&amp;#39;echo $(cat .mill-version)&amp;#39;)}}&amp;#34;&lt;/span&gt; &lt;span style="color:#111"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75af00"&gt;java&lt;/span&gt; &lt;span style="color:#111"&gt;=&lt;/span&gt; &lt;span style="color:#111"&gt;{&lt;/span&gt; &lt;span style="color:#75af00"&gt;version&lt;/span&gt; &lt;span style="color:#111"&gt;=&lt;/span&gt; &lt;span style="color:#d88200"&gt;&amp;#34;{{exec(command=&amp;#39;grep -m 1 openjdk docker/Dockerfile | cut -c 12- | tr : -&amp;#39;)}}&amp;#34;&lt;/span&gt; &lt;span style="color:#111"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75af00"&gt;scala&lt;/span&gt; &lt;span style="color:#111"&gt;=&lt;/span&gt; &lt;span style="color:#111"&gt;{&lt;/span&gt; &lt;span style="color:#75af00"&gt;version&lt;/span&gt; &lt;span style="color:#111"&gt;=&lt;/span&gt; &lt;span style="color:#d88200"&gt;&amp;#34;{{exec(command=&amp;#39;grep -m 1 2.13 dependencies/Dependencies.sc | cut -c 33-39&amp;#39;)}}&amp;#34;&lt;/span&gt; &lt;span style="color:#111"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The secret sauce here is:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;grep -m 1 &amp;lt;phrase&amp;gt;&lt;/code&gt; returns the first line that matches&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cut 12-&lt;/code&gt; gives from the 12th char onwards, &lt;code&gt;cut 33-39&lt;/code&gt; does what you&amp;rsquo;d think&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Yep, it does look dumb, but:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For Java we just pin to a major version; if we stick to the same vendor, there&amp;rsquo;ll be no issue&lt;/li&gt;
+&lt;li&gt;For Mill, it&amp;rsquo;s just a plain cat. Not too bad :)&lt;/li&gt;
+&lt;li&gt;For Scala, until there&amp;rsquo;s a migration to Scala 3 then we&amp;rsquo;ll just see 2.13.11 -&amp;gt; 2.13.xy&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="additions--alternatives"id="additions--alternatives"
+&gt;Additions &amp;amp; Alternatives
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/rtx-asdf/#additions--alternatives&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;For &lt;code&gt;asdf&lt;/code&gt;, there is &lt;a href="https://github.com/mhanberg/lazyasdf"&gt;lazyasdf&lt;/a&gt; - it&amp;rsquo;s a TUI for &lt;code&gt;asdf&lt;/code&gt; (like how k9s is a TUI for k8s)&lt;/li&gt;
+&lt;li&gt;An alternative to &lt;code&gt;asdf&lt;/code&gt;/&lt;code&gt;rtx&lt;/code&gt; is &lt;a href="https://github.com/aquaproj/aqua"&gt;aqua&lt;/a&gt;, written in Go. The local configuration (like .rtx.toml) is aqua.yaml, and it supports global installs too
+&lt;ul&gt;
+&lt;li&gt;The &lt;a href="https://github.com/aquaproj/aqua-registry/tree/main/pkgs"&gt;Aqua registry&lt;/a&gt; has gives 1200+ results - but I see nothing for Elixir, Java/JDK/JVM, and the only node result is &amp;ldquo;kubectl-node-shell&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;The fzf-esque interactive search for packages with &lt;code&gt;aqua g&lt;/code&gt; is nice, even if I can&amp;rsquo;t find what I want&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="whats-bad-about-rtx-security"id="whats-bad-about-rtx-security"
+&gt;What&amp;rsquo;s bad about rtx (security)?
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/rtx-asdf/#whats-bad-about-rtx-security&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;There&amp;rsquo;s a good &lt;a href="https://github.com/jdxcode/rtx/blob/main/SECURITY.md"&gt;security write-up on the rtx repo&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As you can see, with Tera templating you can run some arbitrary commands (firstly in PRs/GitHub Actions, then locally if a change is merged). There is a command &lt;a href="https://github.com/jdxcode/rtx#rtx-trust-options-config_file"&gt;rtx trust&lt;/a&gt;, meaning &amp;ldquo;rtx will parse the file with potentially dangerous
+features enabled&amp;rdquo; - I guess that&amp;rsquo;d be useful if you clone some OSS repo and don&amp;rsquo;t want the tooling. There&amp;rsquo;s also configuration via environment variables, e.g. &lt;a href="https://github.com/jdxcode/rtx#rtx_trusted_config_paths"&gt;RTX_TRUSTED_CONFIG_PATHS&lt;/a&gt; that may be useful.&lt;/p&gt;
+&lt;p&gt;Even tools like &lt;a href="https://github.com/james-s-w-clark/dependabot-gradlewrapper-test#what-are-some-problems-with-the-gradle-wrapper"&gt;gradlew have risks&lt;/a&gt; though, and that&amp;rsquo;s massively popular.&lt;/p&gt;
+&lt;p&gt;To answer &amp;ldquo;can/should I use rtx?&amp;rdquo;, at this point you need to do your own homework ;)&lt;/p&gt;
+&lt;h1 id="conclusion"id="conclusion"
+&gt;Conclusion
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/rtx-asdf/#conclusion&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;I encourage you to give &lt;a href="https://github.com/jdxcode/rtx"&gt;rtx&lt;/a&gt; a try. It&amp;rsquo;ll be my tooling manager of choice for personal projects now, and I&amp;rsquo;m encourgaging its use at work. So far I&amp;rsquo;m using it in a backend JVM repo, a yarn/node documentation repo, and an Elixir/Erlang repo.&lt;/p&gt;</description></item><item><title>ChatOps - just say the word</title><status>growing</status><link>https://james-s-w-clark.github.io/garden/chatops/</link><pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate><guid>https://james-s-w-clark.github.io/garden/chatops/</guid><description>&lt;p&gt;ChatOps: you say some trigger, and you get some response. The processing behind the scenes can be as complex or niche as you like.&lt;/p&gt;
+&lt;p&gt;In this blog, we&amp;rsquo;ll talk about three different ChatOps tools (Slack, GitHub Actions, Hubot) and how they can:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Set up a basic reminder (Slack)&lt;/li&gt;
+&lt;li&gt;Trigger image builds, performance tests, etc. on PRs (GitHub Actions)&lt;/li&gt;
+&lt;li&gt;Send a list of open PRs, and their review counts, to Slack (Hubot)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="slack"id="slack"
+&gt;Slack
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/chatops/#slack&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;Slack has a few &lt;a href="https://slack.com/intl/en-gb/help/articles/360057554553-Use-shortcuts-to-take-actions-in-Slack"&gt;baked in commands (&amp;ldquo;Shortcuts&amp;rdquo;)&lt;/a&gt;.
+The most useful I&amp;rsquo;ve seen is reminders - whether for yourself or for your team. Here&amp;rsquo;s a few examples, with the format &lt;a href="https://slack.com/intl/en-gb/help/articles/208423427-Set-a-reminder"&gt;&lt;code&gt;/remind [yourself or #channel] [what] [when]&lt;/code&gt;&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/remind #my-team to join Google Meet on Wednesday at 4:30pm&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/remind me to file TPS reports in 20 minutes&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/remind me to have a great weekend every Friday at 5pm&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="github-actions"id="github-actions"
+&gt;GitHub Actions
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/chatops/#github-actions&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;Note: If you have a project on Public GitHub, you can use their action runners for free. If you&amp;rsquo;re in the GitHub Enterprise Suite, you&amp;rsquo;ll need to deploy your own &lt;a href="https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow#using-default-labels-to-route-jobs"&gt;&lt;code&gt;runs-on: [self-hosted]&lt;/code&gt;&lt;/a&gt; runners. There are some projects that can help you kick-start self-hosting, such as &lt;a href="https://github.com/philips-labs/terraform-aws-github-runner"&gt;the scalable spot instance setup terraform-aws-github-runner&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;When we counted the number of clicks to create a build and performance test a branch, it was about 40. With this, it was less than 10.&lt;/p&gt;
+&lt;p&gt;It is super valuable to performance test before merging. ChatOps provides a really low barrier to entry: just ask a PR to be performance tested via a comment trigger, and an hour later you have:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Docker images built&lt;/li&gt;
+&lt;li&gt;Applications performance tested&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;2026 edit:&lt;/strong&gt; And now we have PR chatbots like Greptile that do reviews&amp;hellip; still, firing custom commands on messages is pretty cool: high-level, simple declarative language.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id="hubot"id="hubot"
+&gt;Hubot
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/chatops/#hubot&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;Hubot is great for integrations like posting summaries of open PRs, review counts, and notifications into team Slack channels so you keep review cycles tight without noisy email alerts.&lt;/p&gt;</description></item><item><title>Ways of Working 'checklist'</title><status>seeding</status><link>https://james-s-w-clark.github.io/garden/ways-of-working-checklist/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><guid>https://james-s-w-clark.github.io/garden/ways-of-working-checklist/</guid><description>&lt;p&gt;Every team will figure out their own unique ways of working through &amp;ldquo;Forming, Storming, Norming and Performing&amp;rdquo; - but here are some techniques that I&amp;rsquo;ve seen provide lots of value - usually with little effort!&lt;/p&gt;
+&lt;p&gt;✏ Why not take a note of each one you aren&amp;rsquo;t using yet as you read?&lt;/p&gt;
+&lt;h1 id="github"id="github"
+&gt;GitHub
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#github&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;h2 id="pr-templates"id="pr-templates"
+&gt;PR Templates
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#pr-templates&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h2&gt;&lt;p&gt;Open source projects often have multiple PR templates, to help capture context on &lt;a href="https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates#issue-templates"&gt;bug reports, feature requests, and security vulnerabilities.&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;In your team&amp;rsquo;s day-to-day repositories, it&amp;rsquo;s likely you aren&amp;rsquo;t using templates. Maybe they &amp;ldquo;get in the way&amp;rdquo; and &amp;ldquo;just get deleted&amp;rdquo;, but these two features might make it more interesting!&lt;/p&gt;
+&lt;h3 id="markdown-comments"id="markdown-comments"
+&gt;Markdown comments
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#markdown-comments&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h3&gt;&lt;p&gt;GitHub uses MarkDown (their own special flavour of MarkDown, really) - and it supports comments:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;lt;!-- Please enter the ticket number below (GitHub will autolink to Jira), e.g. JIRA-1234 --&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;JIRA-420
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;lt;!--
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;For this feature/fix, please link any tests from other repositories too:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- [ ] e2e: E2E-PR-1337
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- [ ] perf-tests: PERF-404
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;These comments are only visible when editing - you can&amp;rsquo;t see them on the posted description.
+You can use comment to give friendly reminders on:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Providing context&lt;/li&gt;
+&lt;li&gt;Linking to the ticket (rather than paraphrasing all that context!)&lt;/li&gt;
+&lt;li&gt;Ensuring tests (unit, integration, performance) are covered
+&lt;ul&gt;
+&lt;li&gt;You could give a commented-out checklist if you want&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="autolinks"id="autolinks"
+&gt;AutoLinks
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#autolinks&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h3&gt;&lt;p&gt;In each GitHub repository, you can set up &amp;ldquo;AutoLinks&amp;rdquo;. They&amp;rsquo;re basically an autogenerated, tidy hyperlink.&lt;/p&gt;
+&lt;p&gt;The GitHub Docs give a good example - but I&amp;rsquo;ll extract a snippet and save you getting distracted:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Reference prefix: &lt;code&gt;JIRA-&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Target URL: &lt;code&gt;https://jira.example.com/issue?query=&amp;lt;num&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Preview: &lt;code&gt;JIRA-123&lt;/code&gt; is converted to &lt;code&gt;https://jira.example.com/issue?query=123&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Combined with templates, you can ensure that every PR has a short link to the relevant tickets.
+This is much better than just having the ticket number (and no link) in the title/description/branch/commits:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It saves the PR author time in making these links&lt;/li&gt;
+&lt;li&gt;It saves the reviewers time fishing around in Jira and getting distracted&lt;/li&gt;
+&lt;li&gt;It ensures everyone has easily accessible context, so the PR description can focus on the actual changes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Until I knew this I was using an Espanso text expansion macro &lt;code&gt;:JIRA&lt;/code&gt; to do similar, but this setup gives your whole team an awesome shared capability&lt;/p&gt;
+&lt;h3 id="conventional-comments"id="conventional-comments"
+&gt;Conventional comments
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#conventional-comments&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h3&gt;&lt;p&gt;Stating the importance &amp;amp; intent of your message up front can make communication clearer, and decisions faster.&lt;/p&gt;
+&lt;p&gt;Read more in detail at &lt;a href="https://conventionalcomments.org/"&gt;https://conventionalcomments.org/&lt;/a&gt;, but basically comments on PRs can look more valuable like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;issue: this mock never gets called!
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;praise: this method is really easy to read, and handles the logic very well
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nitpick: these two tests could be combined
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Compare the latter example to how it might be expressed without &amp;ldquo;conventional comments&amp;rdquo;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;These two tests could be combined, but it&amp;#39;s not a blocker for this PR and I&amp;#39;ll approve
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="conventional-commits"id="conventional-commits"
+&gt;Conventional commits
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#conventional-commits&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h3&gt;&lt;p&gt;Commits can look like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;docs: add javadocs for user-facing swagger api&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bug: fix a flaky test&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;chore: bump dependency version x-&amp;gt;y&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;feat: AI face detection when user blinks&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It could help you have a more atomic git history, which may make PRs easier to comb through.
+You can also use the prefixes to group changes, and make prettier changelogs.&lt;/p&gt;
+&lt;p&gt;Read more: &lt;a href="https://www.conventionalcommits.org/en/v1.0.0/"&gt;https://www.conventionalcommits.org/en/v1.0.0/&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id="tickets--work-capture"id="tickets--work-capture"
+&gt;Tickets / work capture
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#tickets--work-capture&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;h2 id="make-templates"id="make-templates"
+&gt;Make templates
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#make-templates&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Context, task, ACs, key contacts,&lt;/li&gt;
+&lt;li&gt;User stories&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Templates are all about adding context in an organised way.
+Having this context gives your team more autonomy and interest in the problems, and can lead to better outcomes. Think &amp;ldquo;Context over control&amp;rdquo;&lt;/p&gt;
+&lt;h1 id="knowledge-management"id="knowledge-management"
+&gt;Knowledge management
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#knowledge-management&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;How are you recording your knowledge? Probably in a few places! It might look like this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Slack (short term - threads can be linked, good for captured asynchronous discussion)&lt;/li&gt;
+&lt;li&gt;Google Docs (also great for captured async discussion, but leaning towards )&lt;/li&gt;
+&lt;li&gt;Confluence (longer-term storage for internal decisions - awkward to collaborate on, not good for regular updates)&lt;/li&gt;
+&lt;li&gt;Websites (static sites like Hugo&amp;rsquo;s Doks &amp;amp; Docusaurus can make information presentable, searchable, and written in simple markdown &amp;amp; managed by e.g. Git)&lt;/li&gt;
+&lt;li&gt;Some loose markdown files in various repos (maybe some readme.md)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To get someone up to speed on your project, you&amp;rsquo;d probably start with the higher-level, more organised/presentable formats. Hopefully there is a natural flow through the information, otherwise someone who knows the scenery may have to plan a route for you.&lt;/p&gt;
+&lt;p&gt;But what if there were tools that combined the strengths of these platforms. Are there any services that are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;simple: are written in simple markdown-like language&lt;/li&gt;
+&lt;li&gt;collaborative: many users can write in real-time&lt;/li&gt;
+&lt;li&gt;efficient: easy to convert discussions into clean documentation&lt;/li&gt;
+&lt;li&gt;searchable: text search, or even graph search (how do ideas and documentation naturally relate?)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="notion"id="notion"
+&gt;Notion
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#notion&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h2&gt;&lt;p&gt;I use Notion, which covers these points well. It&amp;rsquo;s becoming more and more popular, and I&amp;rsquo;ve seen a few companies using it.
+Despite appearing simple, there&amp;rsquo;s plenty of power features under the hood:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;You can create tables of data - and create views over them, filter, sort, label and organise in helpful ways&lt;/li&gt;
+&lt;li&gt;You can make timelines, calendars&lt;/li&gt;
+&lt;li&gt;You can use it like a task management system (GTD, four quadrants - whatever you want)&lt;/li&gt;
+&lt;li&gt;You can use it as a sprint/kanban board&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It&amp;rsquo;s powerful - even for free users.
+For businesses, it&amp;rsquo;s at least $15 per user, per month. That sounds like quite a lot, but &lt;a href="https://www.atlassian.com/software/jira/pricing?&amp;amp;aceid=&amp;amp;adposition=&amp;amp;adgroup=144583507597&amp;amp;campaign=19306719987&amp;amp;creative=642044705684&amp;amp;device=c&amp;amp;keyword=jira%20cost&amp;amp;matchtype=e&amp;amp;network=g&amp;amp;placement=&amp;amp;ds_kids=p74602839944&amp;amp;ds_e=GOOGLE&amp;amp;ds_eid=700000001558501&amp;amp;ds_e1=GOOGLE&amp;amp;gclid=Cj0KCQjwr82iBhCuARIsAO0EAZwOOUXmPpGJL3jh7S3mnHU5GnfebfyTdNgpRlczLTWDG9gWD0QTlGkaAs1cEALw_wcB&amp;amp;gclsrc=aw.ds"&gt;it looks like Jira costs the same&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ve never worked in a company using it as a central tool in all the ways above - so I can&amp;rsquo;t actually vouch for it. Maybe it only works up to a certain scale of organisation - but maybe that could be your organisation.&lt;/p&gt;
+&lt;h2 id="obsidian"id="obsidian"
+&gt;Obsidian
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#obsidian&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h2&gt;&lt;p&gt;I didn&amp;rsquo;t get far into Obsidian - the theory can get pretty deep, and there&amp;rsquo;s many methodologies. You might have heard of:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;Second brain&amp;rdquo;, and&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;Zettelkasten&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The key concept is that ideas are related, and naturally link up (like in our brain).
+You can view them as a graph (looks like synapses in our brain), converge, and diverge thoughts whilst keeping them linked.
+There&amp;rsquo;s also a cool plugin system. I had a play and set up cloud sync to GitHub and OneDrive. I&amp;rsquo;ve already got years of notes in Notion, and didn&amp;rsquo;t quite get sold on Obsidian.&lt;/p&gt;
+&lt;p&gt;Arguably, the notes (and their relations!) might not be personal enough to be maximally useful for everyone. However, across a small team it could work really well. &lt;a href="https://obsidian.md/pricing"&gt;$50 per user, per year - plus about $100 a year for sync.&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;If you think you&amp;rsquo;re having problems in some of those areas, maybe try a different knowledge management system.
+This is totally not an advert ;) I&amp;rsquo;d just love to see first-hand how these tools could work for some teams instead of the usual Jira/Confluence fare! If you have some 💲 and some ⌛, your team could spike using these tools.&lt;/p&gt;
+&lt;h1 id="discussions"id="discussions"
+&gt;Discussions
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#discussions&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Problem&lt;/th&gt;
+&lt;th&gt;Solution&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Rabbit holes&lt;/td&gt;
+&lt;td&gt;Be mindful of topics dominating meetings - consider a separate meeting/thread to go into specifics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Circling&lt;/td&gt;
+&lt;td&gt;Be mindful of discussions looping. Raise the concern, or capture notes everyone can see and help to align on a plan&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Uncaptured discussion&lt;/td&gt;
+&lt;td&gt;Take notes and share them. Ask for corrections, as you may have misunderstood. Whether it&amp;rsquo;s minutes for regular meetings, or details in ticket refinement - capturing 5 minutes of context now can save a few minutes in the future&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Discussion contains too many moving pieces&lt;/td&gt;
+&lt;td&gt;Make a quick sketch, in TLDRAW or even Mermaid. Humans find it hard to remember 5-9 &amp;ldquo;bits&amp;rdquo; of info - compress ideas into a visual)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Out of office/ill teammates missed important discussion meetings&lt;/td&gt;
+&lt;td&gt;Record the meetings, and update the calendar invite with the recording link. Transcribe the audio, provide a searchable interface to save time&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Solutionising without being aligned&lt;/td&gt;
+&lt;td&gt;Define the problem statement. &amp;ldquo;What questions are we trying to answer?&amp;rdquo;, &amp;ldquo;What data lets us answer these questions?&amp;rdquo;, &amp;ldquo;How can we get that data?&amp;rdquo;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id="collaborative-working"id="collaborative-working"
+&gt;Collaborative working
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#collaborative-working&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;h2 id="visible-welcoming-huddles"id="visible-welcoming-huddles"
+&gt;Visible, welcoming huddles
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#visible-welcoming-huddles&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h2&gt;&lt;p&gt;Is your team pairing and mobbing, but in private calls?
+It&amp;rsquo;s not transparent or welcoming - so consider this:&lt;/p&gt;
+&lt;p&gt;Take the number of devs you have, and divide by two. Make this many &amp;ldquo;pairing&amp;rdquo; Slack channels.
+It gives a space for everyone to pair, or form mobs. If someone needs help, it&amp;rsquo;s easy to hop in and out without the complexity of setting up more calls.&lt;/p&gt;
+&lt;h2 id="remote-pairing"id="remote-pairing"
+&gt;Remote pairing
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#remote-pairing&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h2&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Tool&lt;/th&gt;
+&lt;th&gt;Review&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Zoom&lt;/td&gt;
+&lt;td&gt;Solid screenshare quality, awkward drawing tools, and confusing controls. Preferred screen-sharing platform for now&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Slack&lt;/td&gt;
+&lt;td&gt;Worst screenshare &amp;amp; audio quality. Most convenient to drop in/out with pairing channels&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;VS Code&lt;/td&gt;
+&lt;td&gt;Shared editor &amp;amp; terminal are good - but the file explorer seems too strict to let the guest explore the project and be productive&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Intellij&lt;/td&gt;
+&lt;td&gt;Code With Me is decent now - my main issue is the Shared Terminal is completely broken for the host (a big problem if you run your tests there!)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href="https://tuple.app/"&gt;Tuple&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Great screenshare quality (configurable), good interactivity. Configuration maybe a bit too permissive, but necessary. Great features like &amp;ldquo;pebble drop&amp;rdquo; to show where you&amp;rsquo;re looking&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id="quality-checks"id="quality-checks"
+&gt;Quality checks
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/ways-of-working-checklist/#quality-checks&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;git hooks&lt;/li&gt;
+&lt;li&gt;github actions has a broad marketplace&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Rota Driven Development ⁉</title><status>evergreen</status><link>https://james-s-w-clark.github.io/garden/rota-driven-development/</link><pubDate>Fri, 28 Apr 2023 00:00:00 +0000</pubDate><guid>https://james-s-w-clark.github.io/garden/rota-driven-development/</guid><description>&lt;p&gt;How can you take a bunch of T-shaped developers and upskill everyone to be a 🟩-shaped developer?&lt;/p&gt;
+&lt;p&gt;You might know a few ways you can do this already:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Knowledge sharing sessions&lt;/li&gt;
+&lt;li&gt;Pairing/Mobbing&lt;/li&gt;
+&lt;li&gt;Giving regular, honest feedback&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You might know why it could be a good idea:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Employees want to be empowered&lt;/li&gt;
+&lt;li&gt;Learning, teaching, and broadening horizons can be rewarding &amp;amp; fun&lt;/li&gt;
+&lt;li&gt;Reduced &amp;ldquo;bus factor&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;But what would something &lt;em&gt;really extreme&lt;/em&gt; look like?
+Enter: &amp;ldquo;Rota Driven Development&amp;rdquo;
+&lt;em&gt;Note: You might even want to experiment with this setup if you already have pairing/mobbing as your main way of working. Otherwise, this might sound quite terrible! But let&amp;rsquo;s see how it might be valuable. This post isn&amp;rsquo;t about why pairing is good or bad - but what an extreme variant of it could look like&lt;/em&gt;&lt;/p&gt;
+&lt;h1 id="illustrative-example"id="illustrative-example"
+&gt;Illustrative example
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/rota-driven-development/#illustrative-example&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;Let&amp;rsquo;s say we have three developers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;BackEnd expert (B), with a bit of Cyber (c) [Bc_]&lt;/li&gt;
+&lt;li&gt;Cyber expert (C), no other experience [&lt;em&gt;C&lt;/em&gt;]&lt;/li&gt;
+&lt;li&gt;FrontEnd expert (F), with a bit of BackEnd (b) [b_F]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When you pair these developers, they&amp;rsquo;ll level up by working on tasks together:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;[Bc_] + [b_F] -&amp;gt; [Bcf] + [B_F] (let&amp;rsquo;s say the BackEnd expert didn&amp;rsquo;t share much on Cyber this time)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;[B_F] + [&lt;em&gt;C&lt;/em&gt;] -&amp;gt; [BcF] + [bCf] (they worked across all three topics)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Already, the team is becoming much more well-rounded. Everyone has picked up at least the basics of every field.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Of course, it&amp;rsquo;s an extreme example. More realistically, there could be many domains (framework, syntax, literally domain knowledge, etc.) within any of these three fields - so it can still make sense for e.g. BackEnd developers only.&lt;/p&gt;
+&lt;p&gt;In a real team, there would probably be a few more people as well - so everyone can Always Be Transferring Knowledge&lt;/p&gt;
+&lt;h1 id="your-teams-skill-matrix"id="your-teams-skill-matrix"
+&gt;Your team&amp;rsquo;s &amp;ldquo;skill matrix&amp;rdquo;
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/rota-driven-development/#your-teams-skill-matrix&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;To find out what some quality pairings would be, you can make a shared table of people and how they feel their skills are out of 5.
+It should highlight gaps, and if you update it few weeks/months you use it to track progress.&lt;/p&gt;
+&lt;h1 id="planning-work-for-maximal-learning"id="planning-work-for-maximal-learning"
+&gt;Planning work for maximal learning
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/rota-driven-development/#planning-work-for-maximal-learning&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;In &amp;ldquo;second language acquisition&amp;rdquo;, there is a theory called &amp;ldquo;i+1&amp;rdquo;:
+To have a smooth, low-stress learning environment, you feed someone content that is slightly more complex than their current level. In other words, don&amp;rsquo;t throw people in at the deep end.
+If you can estimate the complexity (via story points or some other metric), you could combine that with the skill matrix to optimise growth in your employees&amp;rsquo; skill set.&lt;/p&gt;
+&lt;h1 id="but-tickets-and-rotations-dont-line-up-nicely"id="but-tickets-and-rotations-dont-line-up-nicely"
+&gt;But tickets and rotations don&amp;rsquo;t line up nicely
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/rota-driven-development/#but-tickets-and-rotations-dont-line-up-nicely&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;There&amp;rsquo;s a few approaches you could try:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Set pairings for a whole sprint&lt;/li&gt;
+&lt;li&gt;Set pairings for only the first ticket in a sprint, and then let people self-organise&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="how-can-my-team-see-if-this-works-for-us"id="how-can-my-team-see-if-this-works-for-us"
+&gt;How can my team see if this works for us?
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/rota-driven-development/#how-can-my-team-see-if-this-works-for-us&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;Check if your team is even interested in such an idea&lt;/li&gt;
+&lt;li&gt;Make the up-front investment (skills matrix), and continued effort investment (changes to planning/ticket preparation)&lt;/li&gt;
+&lt;li&gt;Run a trial for a few weeks. Maybe run a retro on the rotation process, and iterate if you see value there. Scrap it and move on if not.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id="conclusion"id="conclusion"
+&gt;Conclusion
+&lt;button
+type="button"
+class="anchor"
+data-title="Copy link to clipboard"
+aria-label="Copy link to clipboard"
+onclick="navigator.clipboard.writeText(&amp;#34;https://james-s-w-clark.github.io/garden/rota-driven-development/#conclusion&amp;#34;);this.insertAdjacentHTML('afterend', '&lt;div class=link-copied&gt;Link copied&lt;/div&gt;');setTimeout(() =&gt; { document.querySelectorAll('.link-copied').forEach(el =&gt; el.remove()); }, 3000);"
+&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 96 960 960" width="1em"&gt;
+&lt;path d="M450 776H280q-83 0-141.5-58.5T80 576q0-83 58.5-141.5T280 376h170v60H280q-58.333 0-99.167 40.765-40.833 40.764-40.833 99Q140 634 180.833 675q40.834 41 99.167 41h170v60ZM325 606v-60h310v60H325Zm185 170v-60h170q58.333 0 99.167-40.765 40.833-40.764 40.833-99Q820 518 779.167 477 738.333 436 680 436H510v-60h170q83 0 141.5 58.5T880 576q0 83-58.5 141.5T680 776H510Z"/&gt;
+&lt;/svg&gt;
+&lt;/button&gt;
+&lt;/h1&gt;&lt;p&gt;For teams that have already bought into pairing and want to try a more focused approach to maximise their learning: &amp;ldquo;Rota Driven Development&amp;rdquo; could be an interesting experiment to try.&lt;/p&gt;</description></item><item><title>Symlinks, syncs, and app configuration</title><status>evergreen</status><link>https://james-s-w-clark.github.io/garden/config-symlink-fast-setup/</link><pubDate>Wed, 18 Jan 2023 00:00:00 +0000</pubDate><guid>https://james-s-w-clark.github.io/garden/config-symlink-fast-setup/</guid><description>&lt;p&gt;When setting up a new Windows device, there are some tools that can help you to install your apps quickly and easily from the command line (WinGet, chocolatey). Whilst these are great (and can actually install most of your apps), one thing they can’t do is transfer your configuration between devices.&lt;/p&gt;
+&lt;p&gt;In this short blog, we’ll be using:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A cloud sync of choice (Google Drive / OneDrive / DropBox etc.)
+&lt;ul&gt;
+&lt;li&gt;So I have my configuration files on any device&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Symbolic links, in a tiny script file
+&lt;ul&gt;
+&lt;li&gt;So apps can easily access the backed-up configuration, and sync changes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;An application we love, which uses simple configuration files&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;For this worked example, we&amp;rsquo;ll use Espanso, and a folder &amp;ldquo;Junction&amp;rdquo; symlink.&lt;/p&gt;
+&lt;p&gt;The folder linking must be done before the source folder (Espanso&amp;rsquo;s config) is created. Either do this before installing the app, or do some file/folder shuffling.
+It doesn&amp;rsquo;t matter if the target exists or not.&lt;/p&gt;
+&lt;p&gt;In your cloud-sync&amp;rsquo;d folder (&lt;code&gt;%HomePath%\OneDrive\Apps\espanso&lt;/code&gt;), create a file &lt;code&gt;symlink.bat&lt;/code&gt; and add:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;mklink /J %APPDATA%\espanso %HomePath%\OneDrive\Apps\espanso
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In Windows, the &lt;code&gt;%APPDATA%&lt;/code&gt; folder will look like this if the command succeed; note the little arrow on our symlinked folder:&lt;/p&gt;
+&lt;p&gt;&lt;img src="symlink_folder_icon.png" alt="Untitled"&gt;&lt;/p&gt;
+&lt;p&gt;In &lt;code&gt;......./OneDrive/apps/espanso/match/base.yml&lt;/code&gt;, add this to the main &lt;code&gt;matches&lt;/code&gt; body:&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;- trigger: &amp;#34;:synctest&amp;#34;
+replace: &amp;#34;your espanso config was sync&amp;#39;d sucessfully!&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Install espanso with default settings&lt;/p&gt;
+&lt;p&gt;Espanso startup logs show our symlink folder being loaded in. It does this anyway (nothing special is happening to the file loading&amp;hellip; other than it actually loading from our cloud sync&amp;rsquo;d folder!):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-scala" data-lang="scala"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;...&lt;/span&gt; &lt;span style="color:#111"&gt;reading&lt;/span&gt; &lt;span style="color:#111"&gt;configs&lt;/span&gt; &lt;span style="color:#111"&gt;from&lt;/span&gt;&lt;span style="color:#00a8c8"&gt;:&lt;/span&gt; &lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#00a8c8"&gt;C:\\Users\\james\\AppData\\Roaming\\espanso&lt;/span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#00a8c8"&gt;...&lt;/span&gt; &lt;span style="color:#00a8c8"&gt;reading&lt;/span&gt; &lt;span style="color:#00a8c8"&gt;packages&lt;/span&gt; &lt;span style="color:#00a8c8"&gt;from:&lt;/span&gt; &lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#00a8c8"&gt;C:\\Users\\james\\AppData\\Roaming\\espanso\\match\\packages&lt;/span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So if we enter our special phrase, &lt;code&gt;:synctest&lt;/code&gt;, we should see it expanded to:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;your espanso config was sync’d sucessfully!&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;On another computer (or a fresh installation of Windows), all you have to do is double-click the .bat file.
+In just a few minutes, we&amp;rsquo;ve made a system that will always take care of our favourite Espanso packages &amp;amp; personalised keywords.
+Also note that any changes we make will be backed up to the cloud too!&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;What we’ve done here can be applied to more applications which have simple configuration.
+The scripts to create junctions/symbolic links could be per-app, or you could put them all in one script (to be run before a big WinGet/Brew install).&lt;/p&gt;
+&lt;p&gt;Here’s a few configurations ones I may set up this synchronisation for:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Headphone EQ - Peace/EqualizerAPO - .txt files represent frequencies/decibels etc.&lt;/li&gt;
+&lt;li&gt;GPU Overclock/Undervolt - MSI Afterburner - Custom curve is a bit tricky to make (I have to search for my notes on instructions every time I set up)&lt;/li&gt;
+&lt;li&gt;Calibre, for digital book management&lt;/li&gt;
+&lt;li&gt;&amp;hellip; I can&amp;rsquo;t think of more, but I&amp;rsquo;m happy even with just Espanso having this :-)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The same principles apply to Ubuntu and MacOS - but implementation of your symlink script files might look more like &lt;a href="https://apple.stackexchange.com/a/115647"&gt;this StackExchange answer&lt;/a&gt;.&lt;/p&gt;</description></item></channel></rss>
