@@ -70,14 +70,9 @@ layout: about
 - 🔊 Noisy environments, like pubs. I can't hear people well, so it's very tiring to talk
 
 # You (also) may not know
-- I studied Mandarin Chines for a while, but became more interested in Second Language Acquisition (and tooling for learning languages)
+- I studied Mandarin Chinese for a while, but became more interested in Second Language Acquisition (and tooling for learning languages)
   - This was my pivotal path to becoming a software engineer
   - ["Graded Reader" builder](https://github.com/james-s-w-clark/gradedReaderBuilderServer)
   - ["Hanzi To Anki" - generate flashcards from any text](https://github.com/danielt998/HanziToAnki)
-
-# Other topics/questions to expand on
-- What motivates me?
-- What qualities do I value in people?
-- What makes me laugh?
 
 [//]: # (This site was made with [Paul's Digital Garden Hugo theme]&#40;https://themes.gohugo.io/themes/hugo-digital-garden-theme&#41;. Crafting this website from an initial idea into a functioning webpage was super simple - here's a blog on how it is done)
