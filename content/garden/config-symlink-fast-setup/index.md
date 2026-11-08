@@ -10,8 +10,6 @@ status: "evergreen"
 
 When setting up a new Windows device, there are some tools that can help you to install your apps quickly and easily from the command line (WinGet, chocolatey). Whilst these are great (and can actually install most of your apps), one thing they can’t do is transfer your configuration between devices.
 
-[//]: #  (TODO link to a blog on what I found about export/import apps WinGet, chocolatey, etc.)
-[//]: # ([Essential Windows setup]&#40;https://www.notion.so/Essential-Windows-setup-06c52a2fb84141dd8ab7bf89f7bb2083&#41;)
 
 In this short blog, we’ll be using:
 
